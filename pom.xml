@@ -52,19 +52,17 @@
             <artifactId>jstl</artifactId>
             <version>1.2</version>
         </dependency>
+
+        <dependency>
+            <groupId>taglibs</groupId>
+            <artifactId>standard</artifactId>
+            <version>1.1.2</version>
+        </dependency>
+
         <dependency>
             <groupId>org.jetbrains</groupId>
             <artifactId>annotations</artifactId>
             <version>RELEASE</version>
         </dependency>
-
-
-        <!--&lt;!&ndash; https://mvnrepository.com/artifact/javax/javaee-web-api &ndash;&gt;-->
-        <!--<dependency>-->
-            <!--<groupId>javax</groupId>-->
-            <!--<artifactId>javaee-web-api</artifactId>-->
-            <!--<version>7.0</version>-->
-        <!--</dependency>-->
-
     </dependencies>
 </project>
