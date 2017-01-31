@@ -1,6 +1,7 @@
-package dbservice.dao;
+package database.dao;
 
-import dbservice.model.User;
+import com.sun.istack.internal.Nullable;
+import database.dataset.User;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -65,6 +66,7 @@ public class MySQLUserDAO extends UserDAO {
      * @return найденный пользователь или {@code null}, если пользователя найти не удалось
      */
     @Override
+    @Nullable
     public User get(long id) throws SQLException {
         String sql = "SELECT * FROM `user` WHERE `id` = " + id;
         return executor.executeQuery(sql, resultSet -> {
