@@ -8,8 +8,14 @@ import java.sql.Connection;
 
 public class MySQLDAOFactory extends DAOFactory {
 
+    private Connection connection;
+
+    public MySQLDAOFactory(Connection connection) {
+        this.connection = connection;
+    }
+
     @Override
-    public UserDAO getUserDAO(Connection connection) {
+    public UserDAO getUserDAO() {
         return new MySQLUserDAO(connection);
     }
 
