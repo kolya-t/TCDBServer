@@ -19,7 +19,7 @@ public abstract class DAOFactory {
         return (T) constructor.newInstance(connection);
     }
 
-    public abstract UserDAO getUserDAO(Connection connection);
+    public abstract UserDAO getUserDAO();
 
 //    public abstract AutomobileDAO getAutomobileDAO(Connection connection);
 }
