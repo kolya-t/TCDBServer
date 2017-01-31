@@ -20,7 +20,7 @@ import java.util.Properties;
 public class DBUserService {
     private static final String DB_CONFIG = "db.properties";
 
-    private final Properties properties; // todo: проверить, мб не нужно закрывать поток из файла
+    private final Properties properties;
     private final Connection connection;
     private final DAOFactory daoFactory;
     private static DBUserService instance;
@@ -110,7 +110,7 @@ public class DBUserService {
     public long addUser(User user) throws DBException {
         try {
             connection.setAutoCommit(false);
-            UserDAO dao = daoFactory.getUserDAO(connection);
+            UserDAO dao = daoFactory.getUserDAO();
             dao.createTable(); // создание таблицы если она не создана
             long id = dao.insert(user);
             connection.commit();
@@ -137,7 +137,7 @@ public class DBUserService {
     public boolean deleteUser(long id) throws DBException {
         try {
             connection.setAutoCommit(false);
-            UserDAO dao = daoFactory.getUserDAO(connection);
+            UserDAO dao = daoFactory.getUserDAO();
             boolean isDeleted = dao.delete(id);
             connection.commit();
             return isDeleted;
@@ -165,7 +165,7 @@ public class DBUserService {
     public boolean updateLogin(long id, String login) throws DBException {
         try {
             connection.setAutoCommit(false);
-            UserDAO dao = daoFactory.getUserDAO(connection);
+            UserDAO dao = daoFactory.getUserDAO();
             boolean result = dao.updateLogin(id, login);
             connection.commit();
             return result;
@@ -193,7 +193,7 @@ public class DBUserService {
     public boolean updateName(long id, String name) throws DBException {
         try {
             connection.setAutoCommit(false);
-            UserDAO dao = daoFactory.getUserDAO(connection);
+            UserDAO dao = daoFactory.getUserDAO();
             boolean result = dao.updateName(id, name);
             connection.commit();
             return result;
@@ -221,7 +221,7 @@ public class DBUserService {
     public boolean updatePassword(long id, String password) throws DBException {
         try {
             connection.setAutoCommit(false);
-            UserDAO dao = daoFactory.getUserDAO(connection);
+            UserDAO dao = daoFactory.getUserDAO();
             boolean result = dao.updatePassword(id, password);
             connection.commit();
             return result;
@@ -249,7 +249,7 @@ public class DBUserService {
     public boolean updateEmail(long id, String email) throws DBException {
         try {
             connection.setAutoCommit(false);
-            UserDAO dao = daoFactory.getUserDAO(connection);
+            UserDAO dao = daoFactory.getUserDAO();
             boolean result = dao.updateEmail(id, email);
             connection.commit();
             return result;
@@ -276,7 +276,7 @@ public class DBUserService {
     @Nullable
     public User getUser(long id) throws DBException {
         try {
-            UserDAO dao = daoFactory.getUserDAO(connection);
+            UserDAO dao = daoFactory.getUserDAO();
             return dao.get(id);
         } catch (SQLException e) {
             throw new DBException(e);
@@ -290,7 +290,7 @@ public class DBUserService {
      */
     public List<User> getAllUsers() throws DBException {
         try {
-            UserDAO dao = daoFactory.getUserDAO(connection);
+            UserDAO dao = daoFactory.getUserDAO();
             return (List<User>) dao.getAll();
         } catch (SQLException e) {
             throw new DBException(e);
