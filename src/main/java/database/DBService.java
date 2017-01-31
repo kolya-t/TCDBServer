@@ -1,7 +1,10 @@
-package dbservice;
+package database;
 
-import dbservice.dao.UsersDao;
-import dbservice.datasets.User;
+import database.dao.MySQLUserDAO;
+import database.dao.UserDAO;
+import database.dao.factory.DAOFactory;
+import database.dataset.User;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.*;
 import java.sql.Connection;
@@ -11,20 +14,20 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Properties;
 
-
+/**
+ * Singleton класс серивиса работы с базой данных
+ */
 public class DBService {
-    private static final String CFG_FILENAME = "db\\db.properties";
+    private static final String DB_CONFIG = "db.properties";
 
     private final Connection connection;
+    private final DAOFactory daoFactory;
     private static DBService instance;
 
     private DBService() throws DBException {
-        try {
-            registerMySQLDriver();
-        } catch (SQLException e) {
-            throw new DBException(e);
-        }
-        this.connection = getMySQLConnection();
+        registerDriver();
+        connection = getConnection();
+        daoFactory = createDAOFactory();
     }
 
     public static DBService instance() throws DBException {
@@ -35,33 +38,56 @@ public class DBService {
     }
 
     /**
-     * Регистрация MySQL JDBC драйвера
+     * Регистрация JDBC драйвера
      */
-    private static void registerMySQLDriver() throws SQLException {
-        try {
-            Driver driver = (Driver) Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
+    private static void registerDriver() throws DBException {
+        try (InputStream input = DBService.class.getClassLoader().getResourceAsStream(DB_CONFIG)) {
+            Properties properties = new Properties();
+            properties.load(input);
+            String dbDriverClassName = properties.getProperty("DBDriverClassName");
+
+            Driver driver = (Driver) Class.forName(dbDriverClassName).newInstance();
             DriverManager.registerDriver(driver);
         } catch (SQLException | InstantiationException | ClassNotFoundException | IllegalAccessException e) {
-            System.err.println("Не удалось зарегистрировать MySQL-драйвер");
-            throw new SQLException(e);
+            System.err.println("Не удалось зарегистрировать драйвер");
+            throw new DBException(e);
+        } catch (IOException e) {
+            System.err.println("Ошибка чтения файла конфигурации " + DB_CONFIG);
+            throw new DBException(e);
+        }
+    }
+
+
+    @Nullable
+    private DAOFactory createDAOFactory() {
+        try (InputStream input = DBService.class.getClassLoader().getResourceAsStream(DB_CONFIG)) {
+            Properties properties = new Properties();
+            properties.load(input);
+            String daoFactoryClassName = properties.getProperty("DAOFactoryClassName");
+
+            return DAOFactory.getDAOFactory(daoFactoryClassName, connection);
+        } catch (Exception e) {
+            System.err.println("Ошибка при создании DAOFactory");
+            e.printStackTrace();
+            return null;
         }
     }
 
     /**
-     * Создание соединения с базой данных MySQL на основе параметров из файла конфигурации db.properties
+     * Создание соединения с базой данных на основе параметров из файла конфигурации db.properties
      *
      * @return соединение с бд
      */
-    private static Connection getMySQLConnection() throws DBException {
-        try (InputStream input = DBService.class.getClassLoader().getResourceAsStream(CFG_FILENAME)) {
+    private static Connection getConnection() throws DBException {
+        try (InputStream input = DBService.class.getClassLoader().getResourceAsStream(DB_CONFIG)) {
             Properties properties = new Properties();
             properties.load(input);
             String url = properties.getProperty("url");
             return DriverManager.getConnection(url, properties);
         } catch (IOException e) {
-            System.err.println("Ошибка чтения файла конфигурации " + CFG_FILENAME);
+            System.err.println("Ошибка чтения файла конфигурации " + DB_CONFIG);
         } catch (SQLException e) {
-            System.err.println("Не удалось создать MySQL-соединение");
+            System.err.println("Не удалось создать соединение сбазой данных");
             throw new DBException(e);
         }
         return null;
@@ -73,14 +99,14 @@ public class DBService {
      * @param user пользователь, которого вставляем в таблицу
      * @return id вставленного пользователя
      */
-    public int addUser(User user) throws DBException {
+    public long addUser(User user) throws DBException {
         try {
             connection.setAutoCommit(false);
-            UsersDao dao = new UsersDao(connection);
+            UserDAO dao = new MySQLUserDAO(connection);
             dao.createTable(); // создание таблицы если она не создана
-            dao.insertUser(user);
+            long id = dao.insert(user);
             connection.commit();
-            return dao.getIdByLogin(user.getLogin());
+            return id;
         } catch (SQLException e) {
             try {
                 connection.rollback();
@@ -101,12 +127,13 @@ public class DBService {
      * @param id id пользователя, которого нужно удалить
      * @throws DBException
      */
-    public void deleteUser(int id) throws DBException {
+    public boolean deleteUser(int id) throws DBException {
         try {
             connection.setAutoCommit(false);
-            UsersDao dao = new UsersDao(connection);
-            dao.deleteUser(id);
+            UserDAO dao = new MySQLUserDAO(connection);
+            boolean isDeleted = dao.delete(id);
             connection.commit();
+            return isDeleted;
         } catch (SQLException e) {
             try {
                 connection.rollback();
@@ -129,11 +156,12 @@ public class DBService {
      * @param user новые поля пользователя
      * @throws DBException
      */
+    // TODO: заменить
     public void updateUser(int id, User user) throws DBException {
         try {
             connection.setAutoCommit(false);
-            UsersDao dao = new UsersDao(connection);
-            dao.updateUser(id, user);
+            lalala dao = new lalala(connection);
+            dao.updateU(id, user);
             connection.commit();
         } catch (SQLException e) {
             try {
@@ -158,7 +186,7 @@ public class DBService {
      */
     public User getUser(int id) throws DBException {
         try {
-            UsersDao dao = new UsersDao(connection);
+            lalala dao = new lalala(connection);
             return dao.getUser(id);
         } catch (SQLException e) {
             throw new DBException(e);
@@ -173,7 +201,7 @@ public class DBService {
      */
     public List<User> getAllUsers() throws DBException {
         try {
-            UsersDao dao = new UsersDao(connection);
+            lalala dao = new lalala(connection);
             return dao.getAllUsers();
         } catch (SQLException e) {
             throw new DBException(e);

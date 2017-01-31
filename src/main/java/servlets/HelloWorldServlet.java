@@ -1,10 +1,9 @@
 package servlets;
 
-import dbservice.DBException;
-import dbservice.DBService;
-import dbservice.datasets.User;
+import database.DBException;
+import database.DBService;
+import database.dataset.User;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
