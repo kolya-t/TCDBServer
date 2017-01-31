@@ -1,6 +1,8 @@
 package dbservice.model;
 
-public class User {
+import java.io.Serializable;
+
+public class User implements Serializable {
     private long id;
     private String login;
     private String name;
