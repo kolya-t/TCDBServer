@@ -1,7 +1,7 @@
-package dbservice.datasets;
+package dbservice.model;
 
 public class User {
-    private int id;
+    private long id;
     private String login;
     private String name;
     private String password;
@@ -15,7 +15,7 @@ public class User {
         this.email = "";
     }
 
-    public User(int id, String login, String name, String password, String email) {
+    public User(long id, String login, String name, String password, String email) {
         this.id = id;
         this.login = login;
         this.name = name;
