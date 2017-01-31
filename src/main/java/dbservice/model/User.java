@@ -2,6 +2,9 @@ package dbservice.model;
 
 import java.io.Serializable;
 
+/**
+ * User Transfer Object
+ */
 public class User implements Serializable {
     private long id;
     private String login;
