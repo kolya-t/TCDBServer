@@ -14,18 +14,20 @@ public class Executor {
     }
 
     public int executeUpdate(String sql) throws SQLException {
-        Statement statement = connection.createStatement();
-        int updated = statement.executeUpdate(sql);
-        statement.close();
+        int updated;
+        try (Statement statement = connection.createStatement()) {
+            updated = statement.executeUpdate(sql);
+        }
         return updated;
     }
 
     public <T> T executeQuery(String sql, ResultHandler<T> handler) throws SQLException {
-        Statement statement = connection.createStatement();
-        ResultSet resultSet = statement.executeQuery(sql);
-        T handled = handler.handle(resultSet);
-        resultSet.close();
-        statement.close();
-        return handled;
+        T value;
+        try (Statement statement = connection.createStatement();
+             ResultSet resultSet = statement.executeQuery(sql))
+        {
+            value = handler.handle(resultSet);
+        }
+        return value;
     }
 }
