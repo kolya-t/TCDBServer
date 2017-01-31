@@ -26,6 +26,13 @@ public interface DAO<T> {
     boolean delete(long id) throws SQLException;
 
     /**
+     * Операция удаления всех объектов из базы
+     *
+     * @return {@code true} если удаление прошло успешно и {@code false} если удалить объекты не удалось
+     */
+    boolean deleteAll() throws SQLException;
+
+    /**
      * Ищет в базе объект с указанным id и возвращает его
      *
      * @param id идентификатор объекта, который нужно найти
@@ -39,4 +46,14 @@ public interface DAO<T> {
      * @return коллекцию всех объектов из таблицы
      */
     Collection<T> getAll() throws SQLException;
+
+    /**
+     * Создает таблицу если она не была создана
+     */
+    void createTable() throws SQLException;
+
+    /**
+     * Полностью удаляет таблицу
+     */
+    void dropTable() throws SQLException;
 }
