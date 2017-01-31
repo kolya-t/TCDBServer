@@ -2,6 +2,7 @@ package database.dao;
 
 import database.executor.Executor;
 import database.dataset.User;
+import org.jetbrains.annotations.Nullable;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -48,6 +49,7 @@ public abstract class UserDAO implements DAO<User> {
      * @return найденный пользователь или {@code null}, если пользователя найти не удалось
      */
     @Override
+    @Nullable
     public abstract User get(long id) throws SQLException;
 
     /**
