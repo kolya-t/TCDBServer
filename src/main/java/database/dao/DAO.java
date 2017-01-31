@@ -1,5 +1,7 @@
 package database.dao;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.sql.SQLException;
 import java.util.Collection;
 
@@ -39,6 +41,7 @@ public interface DAO<T> {
      * @param id идентификатор объекта, который нужно найти
      * @return найденный объект или {@code null}, если объект найти не удалось
      */
+    @Nullable
     T get(long id) throws SQLException;
 
     /**
