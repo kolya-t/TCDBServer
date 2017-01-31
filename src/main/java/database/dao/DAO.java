@@ -1,4 +1,4 @@
-package dbservice.dao;
+package database.dao;
 
 import java.sql.SQLException;
 import java.util.Collection;
@@ -8,6 +8,7 @@ import java.util.Collection;
  *
  * @param <T> тип объекта, с котороым работает DAO
  */
+@SuppressWarnings("UnusedDeclaration")
 public interface DAO<T> {
     /**
      * Операция добавления объекта в БД
