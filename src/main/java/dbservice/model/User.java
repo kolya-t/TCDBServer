@@ -5,6 +5,7 @@ import java.io.Serializable;
 /**
  * User Transfer Object
  */
+@SuppressWarnings("UnusedDeclaration")
 public class User implements Serializable {
     private long id;
     private String login;
