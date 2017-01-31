@@ -15,7 +15,7 @@ public interface DAO<T> {
      * @param object объект, который добавляем
      * @return номер объекта в таблице (id) или -1 если добавить не удалось
      */
-    int insert(T object) throws SQLException;
+    long insert(T object) throws SQLException;
 
     /**
      * Операция удаления объекта с указанным идентификатором из базы
