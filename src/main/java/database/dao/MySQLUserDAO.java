@@ -1,7 +1,7 @@
 package database.dao;
 
-import com.sun.istack.internal.Nullable;
 import database.dataset.User;
+import org.jetbrains.annotations.Nullable;
 
 import java.sql.Connection;
 import java.sql.SQLException;
