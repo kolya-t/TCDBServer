@@ -14,10 +14,50 @@ import java.util.List;
 
 @WebServlet("/database")
 public class UserDBServlet extends HttpServlet {
-    private static final String contentType = "text/html;charset=UTF-8";
+    public static final String contentType = "text/html;charset=UTF-8";
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        try {
+            String action = req.getParameter("action");
+            if (action == null) {
+                forwardToUsersTable(req, resp);
+                return;
+            }
+            int id = Integer.parseInt(req.getParameter("id"));
+
+            switch (action) {
+                case "delete":
+                    DBUserService.instance().deleteUser(id);
+                    forwardToUsersTable(req, resp);
+                    break;
+                case "edit":
+                    DBUserService.instance().updateLogin(id, req.getParameter("login"));
+                    DBUserService.instance().updateName(id, req.getParameter("name"));
+                    DBUserService.instance().updatePassword(id, req.getParameter("password"));
+                    DBUserService.instance().updateEmail(id, req.getParameter("email"));
+                    forwardToUsersTable(req, resp);
+                    break;
+                case "add":
+                    DBUserService.instance().addUser(new User(
+                            id,
+                            req.getParameter("login"),
+                            req.getParameter("name"),
+                            req.getParameter("password"),
+                            req.getParameter("email")
+                    ));
+                    forwardToUsersTable(req, resp);
+                    break;
+                default:
+                    forwardToUsersTable(req, resp);
+            }
+        } catch (NumberFormatException | DBException e) {
+            e.printStackTrace();
+            forwardToUsersTable(req, resp);
+        }
+    }
+
+    public static void forwardToUsersTable(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType(contentType);
         try {
             List<User> allUsers = DBUserService.instance().getAllUsers();
