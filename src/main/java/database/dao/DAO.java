@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import java.util.Collection;
 
 /**
- * Интерфейс абстрактного DAO. Определены CRD операции
+ * Интерфейс абстрактного DAO. Определены CRUD операции
  *
  * @param <T> тип объекта, с котороым работает DAO
  */
@@ -29,11 +29,12 @@ public interface DAO<T> {
     boolean delete(long id) throws SQLException;
 
     /**
-     * Операция удаления всех объектов из базы
+     * Операция обновления объекта в базе
      *
-     * @return {@code true} если удаление прошло успешно и {@code false} если удалить объекты не удалось
+     * @param object новый объект
+     * @return {@code true} если обновление прошло успешно и {@code false} если обновить объект не удалось
      */
-    boolean deleteAll() throws SQLException;
+    boolean update(T object) throws SQLException;
 
     /**
      * Ищет в базе объект с указанным id и возвращает его
@@ -54,10 +55,10 @@ public interface DAO<T> {
     /**
      * Создает таблицу если она не была создана
      */
-    void createTable() throws SQLException;
+    void createTableIfNotExists() throws SQLException;
 
     /**
      * Полностью удаляет таблицу
      */
-    void dropTable() throws SQLException;
+    void dropTableIfExists() throws SQLException;
 }
