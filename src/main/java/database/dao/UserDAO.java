@@ -1,6 +1,5 @@
 package database.dao;
 
-import database.executor.Executor;
 import database.dataset.User;
 import org.jetbrains.annotations.Nullable;
 
@@ -8,11 +7,13 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Collection;
 
+
+@SuppressWarnings("UnusedDeclaration")
 public abstract class UserDAO implements DAO<User> {
-    protected Executor executor;
+    protected Connection connection;
 
     public UserDAO(Connection connection) {
-        this.executor = new Executor(connection);
+        this.connection = connection;
     }
 
     /**
@@ -35,12 +36,13 @@ public abstract class UserDAO implements DAO<User> {
     public abstract boolean delete(long id) throws SQLException;
 
     /**
-     * Операция удаления всех пользователей из базы
+     * Операция обновления пользователя в базе
      *
-     * @return {@code true} если удаление прошло успешно и {@code false} если удалить пользователей не удалось
+     * @param object новый пользователь
+     * @return {@code true} если обновление прошло успешно и {@code false} если обновить пользователя не удалось
      */
     @Override
-    public abstract boolean deleteAll() throws SQLException;
+    public abstract boolean update(User object) throws SQLException;
 
     /**
      * Ищет в базе пользователя с указанным id и возвращает его
@@ -116,11 +118,11 @@ public abstract class UserDAO implements DAO<User> {
      * Создает таблицу если она не была создана
      */
     @Override
-    public abstract void createTable() throws SQLException;
+    public abstract void createTableIfNotExists() throws SQLException;
 
     /**
      * Полностью удаляет таблицу
      */
     @Override
-    public abstract void dropTable() throws SQLException;
+    public abstract void dropTableIfExists() throws SQLException;
 }
