@@ -8,52 +8,72 @@ import java.util.Properties;
  * Класс для загрузки файла конфигурации и извлечения из него различных данных
  */
 @SuppressWarnings("UnusedDeclaration")
-public class PropertyService {
+public final class PropertyService {
 
     /**
      * Путь к файлу конфигурации
      */
     private static final String CONFIG_FILE_PATH = "db.properties";
+
     /**
      * Параметры, загруженные из файла
      */
-    private static Properties properties;
+    private String daoFactoryClassName;
+    private String jdbcDriverClassName;
+    private String connectionURL;
 
     /**
-     * Метод загружает конфигурацию из файла, и возвращает эту конфигурацию. Загрузка происходит однажды,
-     * при последующих вызовах метод возвращает уже загруженную ранее конфигурацию.
-     *
-     * @return возвращает параметры, загруженные из файла конфигурации
+     * Экзмепляр Singleton-класса {@link PropertyService}
      */
-    private static Properties getProperties() throws IOException {
-        if (properties == null) {
-            properties = new Properties();
-            try (InputStream stream = PropertyService.class.getClassLoader().getResourceAsStream(CONFIG_FILE_PATH)) {
-                properties.load(stream);
-            }
-        }
+    private static PropertyService instance;
 
-        return properties;
+    /**
+     * Создает, если не был создан ранее, и возвращает экзмепляр {@link PropertyService}
+     *
+     * @return экземпляр {@link PropertyService}
+     */
+    public static PropertyService getInstance() throws IOException {
+        if (instance == null) {
+            instance = new PropertyService();
+        }
+        return instance;
+    }
+
+    /**
+     * Конструктор загружает конфигурацию из файла, считывает из нее параметры и записывает в соответсвующие поля.
+     */
+    private PropertyService() throws IOException {
+        Properties properties = new Properties();
+        try (InputStream stream = PropertyService.class.getClassLoader().getResourceAsStream(CONFIG_FILE_PATH)) {
+            properties.load(stream);
+
+            daoFactoryClassName = properties.getProperty("DAOFactoryClassName");
+            jdbcDriverClassName = properties.getProperty("JDBCDriverClassName");
+            connectionURL = properties.getProperty("ConnectionURL");
+        } catch (IOException e) {
+            System.err.printf("Ошибка загрузки файла конфигурации '%s'%n", CONFIG_FILE_PATH);
+            throw new IOException(e);
+        }
     }
 
     /**
      * @return полное имя класса реализации DAOFactory
      */
-    public String getDAOFactoryClassName() throws IOException {
-        return getProperties().getProperty("DAOFactoryClassName");
+    public String getDAOFactoryClassName() {
+        return daoFactoryClassName;
     }
 
     /**
      * @return полное имя класса используемого JDBC драйвера
      */
-    public String getJDBCDriverClassName() throws IOException {
-        return getProperties().getProperty("JDBCDriverClassName");
+    public String getJDBCDriverClassName() {
+        return jdbcDriverClassName;
     }
 
     /**
      * @return URL базы данных в формате jdbc:subprotocol:subname
      */
-    public String getConnectionURL() throws IOException {
-        return getProperties().getProperty("ConnectionURL");
+    public String getConnectionURL() {
+        return connectionURL;
     }
 }
