@@ -1,19 +1,16 @@
 package database.dao;
 
 import database.dataset.User;
+import database.helper.Connector;
+import database.helper.executor.Executor;
 import org.jetbrains.annotations.Nullable;
 
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
 
 
 public class MySQLUserDAO extends UserDAO {
-
-    public MySQLUserDAO(Connection connection) {
-        super(connection);
-    }
 
     /**
      * Добавляет нового пользователя в таблицу users.
@@ -30,7 +27,7 @@ public class MySQLUserDAO extends UserDAO {
                 user.getName(),
                 user.getPassword(),
                 user.getEmail());
-        executor.executeUpdate(sql);
+        Executor.executeUpdate(sql, Connector.getConnection());
         return getIdByLogin(user.getLogin());
     }
 
@@ -43,19 +40,22 @@ public class MySQLUserDAO extends UserDAO {
     @Override
     public boolean delete(long id) throws SQLException {
         String sql = "DELETE FROM `user` WHERE `id` = " + id;
-        int result = executor.executeUpdate(sql);
+        int result = Executor.executeUpdate(sql, Connector.getConnection());
         return result != 0;
     }
 
     /**
-     * Операция удаления всех пользователей из базы
+     * Операция обновления пользователя в базе
      *
-     * @return {@code true} если удаление прошло успешно и {@code false} если удалить пользователей не удалось
+     * @param user новый пользователь
+     * @return {@code true} если обновление прошло успешно и {@code false} если обновить пользователя не удалось
      */
     @Override
-    public boolean deleteAll() throws SQLException {
-        String sql = "DELETE FROM `user`";
-        int result = executor.executeUpdate(sql);
+    public boolean update(User user) throws SQLException {
+        String sql = String.format("UPDATE `user` " +
+                        "SET `login` = '%s', `name` = '%s', `password` = '%s', `email` = '%s' WHERE `id` = %d",
+                user.getLogin(), user.getName(), user.getPassword(), user.getEmail(), user.getId());
+        int result = Executor.executeUpdate(sql, Connector.getConnection());
         return result != 0;
     }
 
@@ -69,7 +69,7 @@ public class MySQLUserDAO extends UserDAO {
     @Nullable
     public User get(long id) throws SQLException {
         String sql = "SELECT * FROM `user` WHERE `id` = " + id;
-        return executor.executeQuery(sql, resultSet -> {
+        return Executor.executeQuery(sql, Connector.getConnection(), resultSet -> {
             if (resultSet.next()) {
                 return new User(
                         resultSet.getLong("id"),
@@ -92,7 +92,7 @@ public class MySQLUserDAO extends UserDAO {
     @Override
     public List<User> getAll() throws SQLException {
         String sql = "SELECT * FROM `user`";
-        return executor.executeQuery(sql, resultSet -> {
+        return Executor.executeQuery(sql, Connector.getConnection(), resultSet -> {
             List<User> userList = new LinkedList<>();
 
             while (resultSet.next()) {
@@ -119,7 +119,7 @@ public class MySQLUserDAO extends UserDAO {
     @Override
     public boolean updateLogin(long id, String login) throws SQLException {
         String sql = String.format("UPDATE `user` SET `login` = '%s' WHERE `id` = %d", login, id);
-        int result = executor.executeUpdate(sql);
+        int result = Executor.executeUpdate(sql, Connector.getConnection());
         return result != 0;
     }
 
@@ -133,7 +133,7 @@ public class MySQLUserDAO extends UserDAO {
     @Override
     public boolean updateName(long id, String name) throws SQLException {
         String sql = String.format("UPDATE `user` SET `name` = '%s' WHERE `id` = %d", name, id);
-        int result = executor.executeUpdate(sql);
+        int result = Executor.executeUpdate(sql, Connector.getConnection());
         return result != 0;
     }
 
@@ -147,7 +147,7 @@ public class MySQLUserDAO extends UserDAO {
     @Override
     public boolean updatePassword(long id, String password) throws SQLException {
         String sql = String.format("UPDATE `user` SET `password` = '%s' WHERE `id` = %d", password, id);
-        int result = executor.executeUpdate(sql);
+        int result = Executor.executeUpdate(sql, Connector.getConnection());
         return result != 0;
     }
 
@@ -161,7 +161,7 @@ public class MySQLUserDAO extends UserDAO {
     @Override
     public boolean updateEmail(long id, String email) throws SQLException {
         String sql = String.format("UPDATE `user` SET `email` = '%s' WHERE `id` = %d", email, id);
-        int result = executor.executeUpdate(sql);
+        int result = Executor.executeUpdate(sql, Connector.getConnection());
         return result != 0;
     }
 
@@ -174,7 +174,7 @@ public class MySQLUserDAO extends UserDAO {
     @Override
     public long getIdByLogin(String login) throws SQLException {
         String sql = String.format("SELECT `id` FROM `user` WHERE `login` = '%s'", login);
-        long result = executor.executeQuery(sql, resultSet -> {
+        long result = Executor.executeQuery(sql, Connector.getConnection(), resultSet -> {
             resultSet.next();
             long id = resultSet.getLong("id");
             resultSet.close();
@@ -192,7 +192,7 @@ public class MySQLUserDAO extends UserDAO {
     @Override
     public long getIdByEmail(String email) throws SQLException {
         String sql = String.format("SELECT `id` FROM `user` WHERE `email` = '%s'", email);
-        long result = executor.executeQuery(sql, resultSet -> {
+        long result = Executor.executeQuery(sql, Connector.getConnection(), resultSet -> {
             resultSet.next();
             long id = resultSet.getInt("id");
             resultSet.close();
@@ -205,28 +205,28 @@ public class MySQLUserDAO extends UserDAO {
      * Создает таблицу если она не была создана
      */
     @Override
-    public void createTable() throws SQLException {
+    public void createTableIfNotExists() throws SQLException {
         String sql =
                 "CREATE TABLE IF NOT EXISTS `user` (\n" +
-                "  `id` BIGINT NOT NULL AUTO_INCREMENT,\n" +
-                "  `login` VARCHAR(45) NOT NULL,\n" +
-                "  `name` VARCHAR(45) NOT NULL,\n" +
-                "  `password` VARCHAR(45) NOT NULL,\n" +
-                "  `email` VARCHAR(45) NOT NULL,\n" +
-                "  PRIMARY KEY (`id`),\n" +
-                "  UNIQUE INDEX `login_UNIQUE` (`login` ASC),\n" +
-                "  UNIQUE INDEX `email_UNIQUE` (`email` ASC))\n" +
-                "ENGINE = InnoDB\n" +
-                "DEFAULT CHARACTER SET = utf8;\n";
-        executor.executeUpdate(sql);
+                        "  `id` BIGINT NOT NULL AUTO_INCREMENT,\n" +
+                        "  `login` VARCHAR(45) NOT NULL,\n" +
+                        "  `name` VARCHAR(45) NOT NULL,\n" +
+                        "  `password` VARCHAR(45) NOT NULL,\n" +
+                        "  `email` VARCHAR(45) NOT NULL,\n" +
+                        "  PRIMARY KEY (`id`),\n" +
+                        "  UNIQUE INDEX `login_UNIQUE` (`login` ASC),\n" +
+                        "  UNIQUE INDEX `email_UNIQUE` (`email` ASC))\n" +
+                        "ENGINE = InnoDB\n" +
+                        "DEFAULT CHARACTER SET = utf8;\n";
+        Executor.executeUpdate(sql, Connector.getConnection());
     }
 
     /**
      * Полностью удаляет таблицу
      */
     @Override
-    public void dropTable() throws SQLException {
-        String sql = "DROP TABLE `user`";
-        executor.executeUpdate(sql);
+    public void dropTableIfExists() throws SQLException {
+        String sql = "DROP TABLE IF EXISTS `user`";
+        Executor.executeUpdate(sql, Connector.getConnection());
     }
 }
