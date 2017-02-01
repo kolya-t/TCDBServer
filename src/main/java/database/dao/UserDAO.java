@@ -3,18 +3,12 @@ package database.dao;
 import database.dataset.User;
 import org.jetbrains.annotations.Nullable;
 
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Collection;
 
 
 @SuppressWarnings("UnusedDeclaration")
 public abstract class UserDAO implements DAO<User> {
-    protected Connection connection;
-
-    public UserDAO(Connection connection) {
-        this.connection = connection;
-    }
 
     /**
      * Добавляет нового пользователя в таблицу users.
