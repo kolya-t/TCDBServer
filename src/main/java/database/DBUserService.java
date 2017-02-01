@@ -59,7 +59,7 @@ public class DBUserService {
      * Регистрация JDBC драйвера
      */
     private void registerDriver() throws DBException {
-        String dbDriverClassName = properties.getProperty("DBDriverClassName", "null");
+        String dbDriverClassName = properties.getProperty("JDBCDriverClassName", "null");
         try {
             Driver driver = (Driver) Class.forName(dbDriverClassName).newInstance();
             DriverManager.registerDriver(driver);
@@ -92,7 +92,7 @@ public class DBUserService {
      */
     @Nullable
     private Connection getConnection() throws DBException {
-        String url = properties.getProperty("url");
+        String url = properties.getProperty("ConnectionURL");
         try {
             return DriverManager.getConnection(url, properties);
         } catch (SQLException e) {
@@ -292,6 +292,26 @@ public class DBUserService {
         try {
             UserDAO dao = daoFactory.getUserDAO();
             return (List<User>) dao.getAll();
+        } catch (SQLException e) {
+            throw new DBException(e);
+        }
+    }
+
+    /**
+     * Закрывает соединение с базой данных и обнуляет ссылку на instance. При вызове instance()
+     * после закрытия соединения конструктор будет вызван заново.
+     * @return {@code true} если соединение закрыто после выполнения метода и {@code false} в ином случае
+     */
+    public boolean closeConnection() throws DBException {
+        try {
+            boolean closed = true;
+            if (connection != null) {
+                connection.close();
+                closed = connection.isClosed();
+                instance = null;
+            }
+            System.err.println("Connection " + (closed ? "closed" : "not closed"));
+            return closed;
         } catch (SQLException e) {
             throw new DBException(e);
         }
