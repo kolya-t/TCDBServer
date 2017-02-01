@@ -85,9 +85,7 @@ public class MySQLUserDAO extends UserDAO {
     }
 
     /**
-     * Возвращает список всех пользователей из таблицы
-     *
-     * @return список всех пользователей из таблицы или пустой список, если таблица пуста
+     * @return список всех пользователей из таблицы
      */
     @Override
     public List<User> getAll() throws SQLException {

@@ -3,7 +3,7 @@ package database.dao;
 import org.jetbrains.annotations.Nullable;
 
 import java.sql.SQLException;
-import java.util.Collection;
+import java.util.List;
 
 /**
  * Интерфейс абстрактного DAO. Определены CRUD операции
@@ -46,11 +46,9 @@ public interface DAO<T> {
     T get(long id) throws SQLException;
 
     /**
-     * Возвращает коллекцию всех объектов из таблицы
-     *
-     * @return коллекцию всех объектов из таблицы
+     * @return список всех объектов из таблицы
      */
-    Collection<T> getAll() throws SQLException;
+    List<T> getAll() throws SQLException;
 
     /**
      * Создает таблицу если она не была создана

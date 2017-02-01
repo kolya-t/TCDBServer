@@ -5,7 +5,7 @@ import database.dataset.User;
 import org.jetbrains.annotations.Nullable;
 
 import java.sql.SQLException;
-import java.util.Collection;
+import java.util.List;
 
 
 @SuppressWarnings("UnusedDeclaration")
@@ -50,12 +50,10 @@ public abstract class UserDAO implements DAO<User> {
     public abstract User get(long id) throws SQLException;
 
     /**
-     * Возвращает коллекцию всех пользователей из таблицы
-     *
-     * @return коллекцию всех пользователей из таблицы
+     * @return список всех пользователей из таблицы
      */
     @Override
-    public abstract Collection<User> getAll() throws SQLException;
+    public abstract List<User> getAll() throws SQLException;
 
     /**
      * Заменяет login пользователя с указанным id
