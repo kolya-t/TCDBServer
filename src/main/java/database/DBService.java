@@ -28,7 +28,7 @@ public class DBService {
      */
     private static DBService instance;
 
-    public static DBService instance() throws DBException {
+    public static DBService getInstance() throws DBException {
         if (instance == null) {
             instance = new DBService();
         }
