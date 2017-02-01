@@ -18,9 +18,7 @@ public final class PropertyService {
     /**
      * Параметры, загруженные из файла
      */
-    private String daoFactoryClassName;
-    private String jdbcDriverClassName;
-    private String connectionURL;
+    private final Properties properties;
 
     /**
      * Экзмепляр Singleton-класса {@link PropertyService}
@@ -43,13 +41,9 @@ public final class PropertyService {
      * Конструктор загружает конфигурацию из файла, считывает из нее параметры и записывает в соответсвующие поля.
      */
     private PropertyService() throws IOException {
-        Properties properties = new Properties();
+        properties = new Properties();
         try (InputStream stream = PropertyService.class.getClassLoader().getResourceAsStream(CONFIG_FILE_PATH)) {
             properties.load(stream);
-
-            daoFactoryClassName = properties.getProperty("DAOFactoryClassName");
-            jdbcDriverClassName = properties.getProperty("JDBCDriverClassName");
-            connectionURL = properties.getProperty("ConnectionURL");
         } catch (IOException e) {
             System.err.printf("Ошибка загрузки файла конфигурации '%s'%n", CONFIG_FILE_PATH);
             throw e;
@@ -57,23 +51,24 @@ public final class PropertyService {
     }
 
     /**
-     * @return полное имя класса реализации DAOFactory
-     */
-    public String getDAOFactoryClassName() {
-        return daoFactoryClassName;
-    }
-
-    /**
      * @return полное имя класса используемого JDBC драйвера
      */
     public String getJDBCDriverClassName() {
-        return jdbcDriverClassName;
+        return properties.getProperty("JDBCDriverClassName");
     }
 
     /**
      * @return URL базы данных в формате jdbc:subprotocol:subname
      */
     public String getConnectionURL() {
-        return connectionURL;
+        return properties.getProperty("ConnectionURL");
+    }
+
+    /**
+     * @param key ключ параметра
+     * @return значение параметра по заданному ключу
+     */
+    public String getCustomProperty(String key) {
+        return properties.getProperty(key);
     }
 }
