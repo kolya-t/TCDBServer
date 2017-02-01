@@ -86,6 +86,16 @@ public class DBService {
     }
 
     /**
+     * Обновление пользователя в базе данных
+     *
+     * @param user новый пользователь
+     * @return {@code true} если обновление прошло успешно и {@code false} если обновить пользователя не удалось
+     */
+    public boolean updateUser(User user) throws DBException {
+        return executeTransaction(() -> userDAO.update(user));
+    }
+
+    /**
      * Удаление пользователя с указанным id
      *
      * @param id идентификатор пользователя, которого нужно удалить
