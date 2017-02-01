@@ -52,7 +52,7 @@ public final class PropertyService {
             connectionURL = properties.getProperty("ConnectionURL");
         } catch (IOException e) {
             System.err.printf("Ошибка загрузки файла конфигурации '%s'%n", CONFIG_FILE_PATH);
-            throw new IOException(e);
+            throw e;
         }
     }
 
