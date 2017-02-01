@@ -1,5 +1,6 @@
-package database.dao;
+package database.dao.user;
 
+import database.dao.DAO;
 import database.dataset.User;
 import org.jetbrains.annotations.Nullable;
 
@@ -32,11 +33,11 @@ public abstract class UserDAO implements DAO<User> {
     /**
      * Операция обновления пользователя в базе
      *
-     * @param object новый пользователь
+     * @param user новый пользователь
      * @return {@code true} если обновление прошло успешно и {@code false} если обновить пользователя не удалось
      */
     @Override
-    public abstract boolean update(User object) throws SQLException;
+    public abstract boolean update(User user) throws SQLException;
 
     /**
      * Ищет в базе пользователя с указанным id и возвращает его
