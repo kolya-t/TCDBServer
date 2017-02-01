@@ -1,4 +1,4 @@
-package database.dao;
+package database.dao.user;
 
 import database.dataset.User;
 import database.helper.Connector;
