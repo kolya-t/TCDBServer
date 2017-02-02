@@ -1,6 +1,5 @@
 package database.dao.factory;
 
-import database.dao.DAO;
 import database.dao.user.UserDAO;
 
 /**
@@ -16,7 +15,7 @@ public abstract class DAOFactory {
      * @param <T>                 класс реализации DAO
      * @return новый объект типа T, созданный конструктором по-умолчанию
      */
-    public static <T extends DAO> T getDAOFactory(String daoFactoryClassName)
+    public static <T extends DAOFactory> T getDAOFactory(String daoFactoryClassName)
             throws Exception {
         return (T) Class.forName(daoFactoryClassName).newInstance();
     }
