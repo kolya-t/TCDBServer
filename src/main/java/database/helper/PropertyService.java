@@ -65,10 +65,9 @@ public final class PropertyService {
     }
 
     /**
-     * @param key ключ параметра
-     * @return значение параметра по заданному ключу
+     * @return полное имя класса класса реализации DAOFactory
      */
-    public String getCustomProperty(String key) {
-        return properties.getProperty(key);
+    public String getDAOFactoryImplementationClassName() {
+        return properties.getProperty("DAOFactoryImplementationClassName");
     }
 }

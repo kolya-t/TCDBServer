@@ -1,7 +1,7 @@
 package database;
 
 import database.dao.user.UserDAO;
-import database.dao.DAOFactory;
+import database.dao.factory.DAOFactory;
 import database.dataset.User;
 import database.helper.Connector;
 import database.helper.PropertyService;
@@ -19,7 +19,7 @@ import java.util.concurrent.Callable;
 public class DBService {
 
     /**
-     * DAO для работы с таблицей пользователей
+     * DAO для работы с пользователями
      */
     private final UserDAO userDAO;
 
@@ -40,9 +40,10 @@ public class DBService {
      */
     private DBService() throws DBException {
         try {
-            userDAO = DAOFactory.getDAO(
-                    PropertyService.getInstance().getCustomProperty("UserDAOImplementationClassName")
+            DAOFactory daoFactory = DAOFactory.getDAOFactory(
+                    PropertyService.getInstance().getDAOFactoryImplementationClassName()
             );
+            userDAO = daoFactory.getUserDAO();
         } catch (Exception e) {
             throw new DBException(e);
         }
