@@ -1,26 +1,19 @@
 package database.dao.factory;
 
-import database.dao.MySQLUserDAO;
-import database.dao.UserDAO;
+import database.dao.user.MySQLUserDAO;
+import database.dao.user.UserDAO;
 
-import java.sql.Connection;
-
-
+/**
+ *  Реализации DAOFactory по СУБД MySQL
+ */
+@SuppressWarnings("UnusedDeclaration")
 public class MySQLDAOFactory extends DAOFactory {
 
-    private Connection connection;
-
-    public MySQLDAOFactory(Connection connection) {
-        this.connection = connection;
-    }
-
+    /**
+     * @return созданный объект реализации UserDAO под конкретно используемую базу данных
+     */
     @Override
     public UserDAO getUserDAO() {
-        return new MySQLUserDAO(connection);
+        return new MySQLUserDAO();
     }
-
-//    @Override
-//    public abstract AutomobileDAO getAutomobileDAO(Connection connection) {
-//        return new MySQLAutomobileDAO(connection);
-//    }
 }
