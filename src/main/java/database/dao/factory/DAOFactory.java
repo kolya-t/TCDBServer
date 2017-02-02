@@ -1,25 +1,32 @@
 package database.dao.factory;
 
-import database.dao.UserDAO;
-import org.jetbrains.annotations.Nullable;
+import database.dao.DAO;
+import database.dao.user.UserDAO;
 
-import java.lang.reflect.Constructor;
-import java.sql.Connection;
-
-
+/**
+ * Класс содержит единственный метод, который создает экземпляр класса реализации DAO.
+ */
 @SuppressWarnings("UnusedDeclaration")
 public abstract class DAOFactory {
-    @Nullable
-    public static <T extends DAOFactory> T getDAOFactory(String daoImplementationClassName, Connection connection)
+
+    /**
+     * Создает объект класса реализации DAO, имя которого передано в качестве параметра
+     *
+     * @param daoFactoryClassName имя класса реализации DAO
+     * @param <T>                 класс реализации DAO
+     * @return новый объект типа T, созданный конструктором по-умолчанию
+     */
+    public static <T extends DAO> T getDAOFactory(String daoFactoryClassName)
             throws Exception {
-
-        Class clazz = Class.forName(daoImplementationClassName);
-        Constructor constructor = clazz.getConstructor(Connection.class);
-
-        return (T) constructor.newInstance(connection);
+        return (T) Class.forName(daoFactoryClassName).newInstance();
     }
 
     public abstract UserDAO getUserDAO();
 
-//    public abstract AutomobileDAO getAutomobileDAO(Connection connection);
+//    /**
+//     * Пустой приватный конструктор. Нужен, чтобызапретить пользователям
+//     * создавать экземпляр {@link DAOFactory}, так как в этом нет смысла.
+//     */
+//    private DAOFactory() {
+//    }
 }
