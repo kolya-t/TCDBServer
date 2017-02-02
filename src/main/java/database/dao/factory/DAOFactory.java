@@ -21,12 +21,8 @@ public abstract class DAOFactory {
         return (T) Class.forName(daoFactoryClassName).newInstance();
     }
 
+    /**
+     * @return созданный объект реализации UserDAO под конкретно используемую базу данных
+     */
     public abstract UserDAO getUserDAO();
-
-//    /**
-//     * Пустой приватный конструктор. Нужен, чтобызапретить пользователям
-//     * создавать экземпляр {@link DAOFactory}, так как в этом нет смысла.
-//     */
-//    private DAOFactory() {
-//    }
 }
