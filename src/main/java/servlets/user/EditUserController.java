@@ -15,7 +15,7 @@ import java.io.IOException;
 @WebServlet("/user/edit")
 public class EditUserController extends HttpServlet {
 
-    private static final String SUCCESS_PAGE = "/views/user/editUserView.jsp";
+    private static final String SUCCESS_PAGE = "/views/user/edit.jsp";
     private static final String ERROR_PAGE = "/user/list";
 
     @Override
