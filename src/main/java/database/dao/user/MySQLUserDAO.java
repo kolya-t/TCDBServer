@@ -1,6 +1,6 @@
 package database.dao.user;
 
-import database.dataset.User;
+import database.pojo.User;
 import database.helper.Connector;
 import database.helper.executor.Executor;
 import org.jetbrains.annotations.Nullable;

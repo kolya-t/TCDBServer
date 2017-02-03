@@ -1,7 +1,7 @@
 package database.dao.user;
 
 import database.dao.DAO;
-import database.dataset.User;
+import database.pojo.User;
 import org.jetbrains.annotations.Nullable;
 
 import java.sql.SQLException;
