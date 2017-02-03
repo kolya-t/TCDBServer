@@ -12,7 +12,7 @@ import java.io.IOException;
 
 
 @WebServlet("/user/list")
-public class UserListController extends HttpServlet {
+public class ListController extends HttpServlet {
 
     private static final String SUCCESS_PAGE = "/views/user/list.jsp";
 
