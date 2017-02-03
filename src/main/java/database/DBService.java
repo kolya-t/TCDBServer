@@ -2,7 +2,7 @@ package database;
 
 import database.dao.user.UserDAO;
 import database.dao.factory.DAOFactory;
-import database.dataset.User;
+import database.pojo.User;
 import database.helper.Connector;
 import database.helper.PropertyService;
 import org.jetbrains.annotations.Nullable;
