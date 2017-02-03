@@ -13,7 +13,7 @@ import java.io.IOException;
 
 
 @WebServlet("/user/doEdit")
-public class DoEditUserController extends HttpServlet {
+public class DoEditController extends HttpServlet {
 
     private static final String SUCCESS_PAGE = "/user/list";
     private static final String ERROR_PAGE = "/user/edit";
