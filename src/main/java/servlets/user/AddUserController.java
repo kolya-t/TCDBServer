@@ -15,6 +15,6 @@ public class AddUserController extends HttpServlet {
         resp.setContentType("text/html;charset=utf-8");
         req.setCharacterEncoding("UTF-8");
 
-        req.getRequestDispatcher("/views/user/addUserView.jsp").forward(req, resp);
+        req.getRequestDispatcher("/views/user/add.jsp").forward(req, resp);
     }
 }
