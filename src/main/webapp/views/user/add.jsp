@@ -5,51 +5,34 @@
 <head>
     <title>Создание нового пользователя</title>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="../../css/styles.css" type="text/css">
-    <link rel="stylesheet" href="../../css/user.css" type="text/css">
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+    <!-- Bootstrap -->
+    <link href="../../css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-<form action="${pageContext.request.contextPath}/user/doAdd" method="POST">
-    <table>
-        <tr>
-            <td>
-                <label for="login">login</label>
-            </td>
-            <td>
-                <input type="text" id="login" name="login">
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <label for="name">name</label>
-            </td>
-            <td>
-                <input type="text" id="name" name="name">
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <label for="password">password</label>
-            </td>
-            <td>
-                <input type="text" id="password" name="password">
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <label for="email">e-mail</label>
-            </td>
-            <td>
-                <input type="text" id="email" name="email">
-            </td>
-        </tr>
-        <tr>
-            <td colspan="2" align="right">
-                <input type="submit" name="action" value="Добавить">
-            </td>
-        </tr>
-    </table>
-</form>
+<div class="container">
+    <form role="form" action="${pageContext.request.contextPath}/user/doAdd" method="POST">
+        <div class="form-group">
+            <label for="login" class="control-label">Логин</label>
+            <input type="text" class="form-control" id="login" name="login" placeholder="Введите логин">
+        </div>
+        <div class="form-group">
+            <label for="name" class="control-label">Имя</label>
+            <input type="text" class="form-control" id="name" name="name" placeholder="Введите имя">
+        </div>
+        <div class="form-group">
+            <label for="password" class="control-label">Пароль</label>
+            <input type="text" class="form-control" id="password" name="password" placeholder="Пароль">
+        </div>
+        <div class="form-group">
+            <label for="email" class="control-label">Email</label>
+            <input type="email" class="form-control" id="email" name="email" placeholder="Введите e-mail">
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-success">Добавить</button>
+        </div>
+    </form>
+</div>
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+<script src="../../js/bootstrap.min.js"></script>
 </body>
 </html>

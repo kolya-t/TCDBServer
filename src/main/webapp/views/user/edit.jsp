@@ -5,59 +5,42 @@
 <head>
     <title>Редактирование пользователя</title>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="../../css/styles.css" type="text/css">
-    <link rel="stylesheet" href="../../css/user.css" type="text/css">
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+    <!-- Bootstrap -->
+    <link href="../../css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-<form action="${pageContext.request.contextPath}/user/doEdit" method="POST">
-    <table>
-        <tr>
-            <td>
-                <label for="id">id</label>
-            </td>
-            <td>
-                <input type="text" id="id" name="id" value="<c:out value="${user.id}"/>" readonly>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <label for="login">login</label>
-            </td>
-            <td>
-                <input type="text" id="login" name="login" value="<c:out value="${user.login}"/>">
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <label for="name">name</label>
-            </td>
-            <td>
-                <input type="text" id="name" name="name" value="<c:out value="${user.name}"/>">
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <label for="password">password</label>
-            </td>
-            <td>
-                <input type="text" id="password" name="password" value="<c:out value="${user.password}"/>">
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <label for="email">e-mail</label>
-            </td>
-            <td>
-                <input type="text" id="email" name="email" value="<c:out value="${user.email}"/>">
-            </td>
-        </tr>
-        <tr>
-            <td colspan="2" align="right">
-                <input type="submit" name="action" value="Редактировать">
-            </td>
-        </tr>
-    </table>
-</form>
+<div class="container">
+    <form role="form" action="${pageContext.request.contextPath}/user/doEdit" method="POST">
+        <div class="form-group">
+            <label for="id" class="control-label">Логин</label>
+            <input type="number" class="form-control" id="id" name="id" value="${user.id}" readonly>
+        </div>
+        <div class="form-group">
+            <label for="login" class="control-label">Логин</label>
+            <input type="text" class="form-control" id="login" name="login" placeholder="Введите логин"
+                   value="${user.login}">
+        </div>
+        <div class="form-group">
+            <label for="name" class="control-label">Имя</label>
+            <input type="text" class="form-control" id="name" name="name" placeholder="Введите имя"
+                   value="${user.name}">
+        </div>
+        <div class="form-group">
+            <label for="password" class="control-label">Пароль</label>
+            <input type="text" class="form-control" id="password" name="password" placeholder="Пароль"
+                   value="${user.password}">
+        </div>
+        <div class="form-group">
+            <label for="email" class="control-label">Email</label>
+            <input type="email" class="form-control" id="email" name="email" placeholder="Введите e-mail"
+                   value="${user.email}">
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">Изменить</button>
+        </div>
+    </form>
+</div>
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+<script src="../../js/bootstrap.min.js"></script>
 </body>
 </html>
