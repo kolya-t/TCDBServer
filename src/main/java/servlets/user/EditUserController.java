@@ -12,11 +12,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 
-@WebServlet("/editUser")
+@WebServlet("/user/edit")
 public class EditUserController extends HttpServlet {
 
-    private static final String SUCCESS_PAGE = "/views/editUserView.jsp";
-    private static final String ERROR_PAGE = "/userList";
+    private static final String SUCCESS_PAGE = "/views/user/editUserView.jsp";
+    private static final String ERROR_PAGE = "/user/list";
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -36,6 +36,6 @@ public class EditUserController extends HttpServlet {
             e.printStackTrace();
             forward = ERROR_PAGE;
         }
-        req.getRequestDispatcher(forward).forward(req, resp);
+        req.getServletContext().getRequestDispatcher(forward).forward(req, resp);
     }
 }

@@ -10,10 +10,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet("/doDeleteUser")
+@WebServlet("/user/doDelete")
 public class DoDeleteController extends HttpServlet {
 
-    private static final String FORWARD_PAGE = "/userList";
+    private static final String FORWARD_PAGE = "/user/list";
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

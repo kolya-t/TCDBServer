@@ -12,11 +12,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 
-@WebServlet("/doEditUser")
+@WebServlet("/user/doEdit")
 public class DoEditUserController extends HttpServlet {
 
-    private static final String SUCCESS_PAGE = "/userList";
-    private static final String ERROR_PAGE = "/editUser";
+    private static final String SUCCESS_PAGE = "/user/list";
+    private static final String ERROR_PAGE = "/user/edit";
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

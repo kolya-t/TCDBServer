@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet("/addUser")
+@WebServlet("/user/add")
 public class AddUserController extends HttpServlet {
 
     @Override
@@ -15,6 +15,6 @@ public class AddUserController extends HttpServlet {
         resp.setContentType("text/html;charset=utf-8");
         req.setCharacterEncoding("UTF-8");
 
-        req.getRequestDispatcher("/views/addUserView.jsp").forward(req, resp);
+        req.getRequestDispatcher("/views/user/addUserView.jsp").forward(req, resp);
     }
 }

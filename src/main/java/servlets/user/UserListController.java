@@ -11,10 +11,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 
-@WebServlet("/userList")
+@WebServlet("/user/list")
 public class UserListController extends HttpServlet {
 
-    private static final String SUCCESS_PAGE = "/views/userListView.jsp";
+    private static final String SUCCESS_PAGE = "/views/user/userListView.jsp";
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -23,7 +23,7 @@ public class UserListController extends HttpServlet {
 
         try {
             req.setAttribute("userList", DBService.getInstance().getAllUsers());
-            req.getRequestDispatcher(SUCCESS_PAGE).forward(req, resp);
+            req.getServletContext().getRequestDispatcher(SUCCESS_PAGE).forward(req, resp);
         } catch (DBException e) {
             e.printStackTrace();
         }
