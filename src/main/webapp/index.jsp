@@ -1,1 +1,1 @@
-<jsp:forward page="/database"/>
+<jsp:forward page="/userList"/>
