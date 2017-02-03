@@ -14,7 +14,7 @@ import java.io.IOException;
 @WebServlet("/user/list")
 public class UserListController extends HttpServlet {
 
-    private static final String SUCCESS_PAGE = "/views/user/userListView.jsp";
+    private static final String SUCCESS_PAGE = "/views/user/list.jsp";
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
