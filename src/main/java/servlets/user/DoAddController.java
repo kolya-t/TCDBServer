@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @WebServlet("/user/doAdd")
-public class DoAddUserController extends HttpServlet {
+public class DoAddController extends HttpServlet {
 
     private static final String SUCCESS_PAGE = "/user/list";
     private static final String ERROR_PAGE = "/user/add";
