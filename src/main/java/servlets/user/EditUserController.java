@@ -1,4 +1,4 @@
-package database.servlets.user;
+package servlets.user;
 
 import database.DBException;
 import database.DBService;

@@ -1,4 +1,4 @@
-package database.servlets.user;
+package servlets.user;
 
 import database.DBException;
 import database.DBService;
@@ -10,11 +10,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+@WebServlet("/doDeleteUser")
+public class DoDeleteController extends HttpServlet {
 
-@WebServlet("/userList")
-public class UserListController extends HttpServlet {
-
-    private static final String SUCCESS_PAGE = "/views/userListView.jsp";
+    private static final String FORWARD_PAGE = "/userList";
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -22,9 +21,10 @@ public class UserListController extends HttpServlet {
         req.setCharacterEncoding("UTF-8");
 
         try {
-            req.setAttribute("userList", DBService.getInstance().getAllUsers());
-            req.getRequestDispatcher(SUCCESS_PAGE).forward(req, resp);
-        } catch (DBException e) {
+            long id = Long.parseLong(req.getParameter("id"));
+            DBService.getInstance().deleteUser(id);
+            resp.sendRedirect(FORWARD_PAGE);
+        } catch (NumberFormatException | DBException e) {
             e.printStackTrace();
         }
     }
