@@ -10,40 +10,48 @@
 </head>
 <body>
 <div class="container">
-    <table class="table table-condensed table-bordered table-striped">
-        <thead>
-        <tr>
-            <th class="text-right">id</th>
-            <th>login</th>
-            <th>name</th>
-            <th>password</th>
-            <th>e-mail</th>
-            <th colspan="2">Действие</th>
-        </tr>
-        </thead>
-        <tbody>
-        <c:forEach items="${userList}" var="user">
+    <div class="table-responsive">
+        <table class="table table-condensed table-bordered table-striped">
+            <thead>
             <tr>
-                <td class="text-right">${user.id}</td>
-                <td>${user.login}</td>
-                <td>${user.name}</td>
-                <td>${user.password}</td>
-                <td>${user.email}</td>
-                <td><a href="${pageContext.request.contextPath}/user/edit?id=${user.id}">
-                    <span class="glyphicon glyphicon-pencil"></span> Изменить
-                </a></td>
-                <td><a href="${pageContext.request.contextPath}/user/doDelete?id=${user.id}">
-                    <span class="glyphicon glyphicon-remove"></span> Удалить
-                </a></td>
+                <th class="text-right">id</th>
+                <th>login</th>
+                <th>name</th>
+                <th>password</th>
+                <th>e-mail</th>
+                <th colspan="2">Действие</th>
             </tr>
-        </c:forEach>
-        <tr>
-            <td colspan="7"><a href="${pageContext.request.contextPath}/user/add">
-                <span class="glyphicon glyphicon-plus"></span> Добавить нового пользователя
-            </a></td>
-        </tr>
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+            <c:forEach items="${userList}" var="user">
+                <tr>
+                    <td class="text-right">${user.id}</td>
+                    <td>${user.login}</td>
+                    <td>${user.name}</td>
+                    <td>${user.password}</td>
+                    <td>${user.email}</td>
+                    <td>
+                        <a href="${pageContext.request.contextPath}/user/edit?id=${user.id}">
+                            <i class="glyphicon glyphicon-pencil"></i> Изменить
+                        </a>
+                    </td>
+                    <td>
+                        <a href="${pageContext.request.contextPath}/user/doDelete?id=${user.id}">
+                            <i class="glyphicon glyphicon-remove"></i> Удалить
+                        </a>
+                    </td>
+                </tr>
+            </c:forEach>
+            <tr>
+                <td colspan="7">
+                    <a href="${pageContext.request.contextPath}/user/add">
+                        <i class="glyphicon glyphicon-plus"></i> Добавить нового пользователя
+                    </a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
 <script src="http://code.jquery.com/jquery-latest.js"></script>
 <script src="../../js/bootstrap.min.js"></script>

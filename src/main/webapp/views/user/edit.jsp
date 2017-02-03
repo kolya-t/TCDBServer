@@ -36,7 +36,7 @@
                    value="${user.email}">
         </div>
         <div class="form-group">
-            <button type="submit" class="btn btn-primary">Изменить</button>
+            <button type="submit" class="btn btn-success">Изменить</button>
         </div>
     </form>
 </div>

@@ -28,7 +28,7 @@
             <input type="email" class="form-control" id="email" name="email" placeholder="Введите e-mail">
         </div>
         <div class="form-group">
-            <button type="submit" class="btn btn-success">Добавить</button>
+            <button type="submit" class="btn btn-primary">Добавить</button>
         </div>
     </form>
 </div>
