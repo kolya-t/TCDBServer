@@ -13,7 +13,7 @@
     <table class="table table-condensed table-bordered table-striped">
         <thead>
         <tr>
-            <th>id</th>
+            <th class="text-right">id</th>
             <th>login</th>
             <th>name</th>
             <th>password</th>
@@ -24,17 +24,23 @@
         <tbody>
         <c:forEach items="${userList}" var="user">
             <tr>
-                <td><c:out value="${user.id}"/></td>
-                <td><c:out value="${user.login}"/></td>
-                <td><c:out value="${user.name}"/></td>
-                <td><c:out value="${user.password}"/></td>
-                <td><c:out value="${user.email}"/></td>
-                <td><a href="${pageContext.request.contextPath}/user/edit?id=<c:out value="${user.id}"/>">Изменить</a></td>
-                <td><a href="${pageContext.request.contextPath}/user/doDelete?id=<c:out value="${user.id}"/>">Удалить</a></td>
+                <td class="text-right">${user.id}</td>
+                <td>${user.login}</td>
+                <td>${user.name}</td>
+                <td>${user.password}</td>
+                <td>${user.email}</td>
+                <td><a href="${pageContext.request.contextPath}/user/edit?id=${user.id}">
+                    <span class="glyphicon glyphicon-pencil"></span> Изменить
+                </a></td>
+                <td><a href="${pageContext.request.contextPath}/user/doDelete?id=${user.id}">
+                    <span class="glyphicon glyphicon-remove"></span> Удалить
+                </a></td>
             </tr>
         </c:forEach>
         <tr>
-            <td colspan="7"><a href="${pageContext.request.contextPath}/user/add">Добавить нового пользователя</a></td>
+            <td colspan="7"><a href="${pageContext.request.contextPath}/user/add">
+                <span class="glyphicon glyphicon-plus"></span> Добавить нового пользователя
+            </a></td>
         </tr>
         </tbody>
     </table>
