@@ -1,0 +1,11 @@
+table {
+    margin: auto;
+}
+
+td * {
+    padding: 5px 10px;
+}
+
+input[type="text"] {
+    border: 1px solid lightgray;
+}
