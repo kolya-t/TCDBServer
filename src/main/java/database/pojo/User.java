@@ -1,4 +1,4 @@
-package database.dataset;
+package database.pojo;
 
 import java.io.Serializable;
 
@@ -23,14 +23,6 @@ public class User implements Serializable {
 
     public User(long id, String login, String name, String password, String email) {
         this.id = id;
-        this.login = login;
-        this.name = name;
-        this.password = password;
-        this.email = email;
-    }
-
-    public User(String login, String name, String password, String email) {
-        this.id = 0;
         this.login = login;
         this.name = name;
         this.password = password;
