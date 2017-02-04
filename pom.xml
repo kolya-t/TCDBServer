@@ -8,6 +8,10 @@
     <artifactId>tcdbserver</artifactId>
     <version>1.0-SNAPSHOT</version>
 
+    <properties>
+        <hibernate-version>5.2.5.Final</hibernate-version>
+    </properties>
+
     <packaging>war</packaging>
     <build>
         <plugins>
@@ -32,6 +36,14 @@
     </build>
 
     <dependencies>
+        <!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-core -->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-core</artifactId>
+            <version>${hibernate-version}</version>
+        </dependency>
+
+
         <!-- https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api -->
         <dependency>
             <groupId>javax</groupId>
