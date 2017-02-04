@@ -106,16 +106,4 @@ public abstract class UserDAO implements DAO<User> {
      * @return идентификатор (id) пользователя с указанным email или -1, если пользователь не найден
      */
     public abstract long getIdByEmail(String email) throws SQLException;
-
-    /**
-     * Создает таблицу если она не была создана
-     */
-    @Override
-    public abstract void createTableIfNotExists() throws SQLException;
-
-    /**
-     * Полностью удаляет таблицу
-     */
-    @Override
-    public abstract void dropTableIfExists() throws SQLException;
 }
