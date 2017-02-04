@@ -1,6 +1,5 @@
 <%@ page contentType="text/html; UTF-8" pageEncoding="UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%--@elvariable id="userList" type="java.util.List<database.pojo.User>"--%>
 <html>
 <head>
     <meta charset="UTF-8">
@@ -23,25 +22,28 @@
             </tr>
             </thead>
             <tbody>
-            <c:forEach items="${userList}" var="user">
-                <tr>
-                    <td class="text-right">${user.id}</td>
-                    <td>${user.login}</td>
-                    <td>${user.name}</td>
-                    <td>${user.password}</td>
-                    <td>${user.email}</td>
-                    <td>
-                        <a href="${pageContext.request.contextPath}/user/edit?id=${user.id}">
-                            <i class="glyphicon glyphicon-pencil"></i> Изменить
-                        </a>
-                    </td>
-                    <td>
-                        <a href="${pageContext.request.contextPath}/user/doDelete?id=${user.id}">
-                            <i class="glyphicon glyphicon-remove"></i> Удалить
-                        </a>
-                    </td>
-                </tr>
-            </c:forEach>
+            <%--@elvariable id="userList" type="java.util.List<database.pojo.User>"--%>
+            <c:if test="${userList != null}">
+                <c:forEach items="${userList}" var="user">
+                    <tr>
+                        <td class="text-right">${user.id}</td>
+                        <td>${user.login}</td>
+                        <td>${user.name}</td>
+                        <td>${user.password}</td>
+                        <td>${user.email}</td>
+                        <td>
+                            <a href="${pageContext.request.contextPath}/user/edit?id=${user.id}">
+                                <i class="glyphicon glyphicon-pencil"></i> Изменить
+                            </a>
+                        </td>
+                        <td>
+                            <a href="${pageContext.request.contextPath}/user/doDelete?id=${user.id}">
+                                <i class="glyphicon glyphicon-remove"></i> Удалить
+                            </a>
+                        </td>
+                    </tr>
+                </c:forEach>
+            </c:if>
             <tr>
                 <td colspan="7">
                     <a href="${pageContext.request.contextPath}/user/add">

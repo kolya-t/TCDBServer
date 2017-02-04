@@ -10,35 +10,37 @@
 </head>
 <body>
 <div class="container">
-    <form role="form" action="${pageContext.request.contextPath}/user/doEdit" method="POST">
-        <div class="form-group">
-            <label for="id" class="control-label">Логин</label>
-            <input type="number" class="form-control" id="id" name="id" value="${user.id}" readonly>
-        </div>
-        <div class="form-group">
-            <label for="login" class="control-label">Логин</label>
-            <input type="text" class="form-control" id="login" name="login" placeholder="Введите логин"
-                   value="${user.login}" required>
-        </div>
-        <div class="form-group">
-            <label for="name" class="control-label">Имя</label>
-            <input type="text" class="form-control" id="name" name="name" placeholder="Введите имя"
-                   value="${user.name}" required>
-        </div>
-        <div class="form-group">
-            <label for="password" class="control-label">Пароль</label>
-            <input type="text" class="form-control" id="password" name="password" placeholder="Пароль"
-                   value="${user.password}" required>
-        </div>
-        <div class="form-group">
-            <label for="email" class="control-label">Email</label>
-            <input type="email" class="form-control" id="email" name="email" placeholder="Введите e-mail"
-                   value="${user.email}" required>
-        </div>
-        <div class="form-group">
-            <button type="submit" class="btn btn-success">Изменить</button>
-        </div>
-    </form>
+    <div class="well">
+        <form role="form" action="${pageContext.request.contextPath}/user/doEdit" method="POST">
+            <div class="form-group">
+                <label for="id" class="control-label">ID</label>
+                <input type="number" class="form-control" id="id" name="id" value="${user.id}" readonly>
+            </div>
+            <div class="form-group">
+                <label for="login" class="control-label">Логин</label>
+                <input type="text" class="form-control" id="login" name="login" placeholder="Введите логин"
+                       value="${user.login}" required>
+            </div>
+            <div class="form-group">
+                <label for="name" class="control-label">Имя</label>
+                <input type="text" class="form-control" id="name" name="name" placeholder="Введите имя"
+                       value="${user.name}" required>
+            </div>
+            <div class="form-group">
+                <label for="password" class="control-label">Пароль</label>
+                <input type="text" class="form-control" id="password" name="password" placeholder="Пароль"
+                       value="${user.password}" required>
+            </div>
+            <div class="form-group">
+                <label for="email" class="control-label">Email</label>
+                <input type="email" class="form-control" id="email" name="email" placeholder="Введите e-mail"
+                       value="${user.email}" required>
+            </div>
+            <div class="form-group text-right">
+                <button type="submit" class="btn btn-primary">Изменить</button>
+            </div>
+        </form>
+    </div>
 </div>
 <script src="http://code.jquery.com/jquery-latest.js"></script>
 <script src="../../js/bootstrap.min.js"></script>
