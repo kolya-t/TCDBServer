@@ -71,13 +71,13 @@ public class MySQLUserDAO extends UserDAO {
         String sql = "SELECT * FROM `user` WHERE `id` = " + id;
         return Executor.executeQuery(sql, Connector.getConnection(), resultSet -> {
             if (resultSet.next()) {
-                return new User(
-                        resultSet.getLong("id"),
-                        resultSet.getString("login"),
-                        resultSet.getString("password"),
-                        resultSet.getString("email"),
-                        resultSet.getString("role")
-                );
+                User user = new User();
+                user.setId(resultSet.getLong("id"));
+                user.setLogin(resultSet.getString("login"));
+                user.setPassword(resultSet.getString("password"));
+                user.setEmail(resultSet.getString("email"));
+                user.setRole(resultSet.getString("role"));
+                return user;
             }
             return null;
         });
@@ -94,13 +94,13 @@ public class MySQLUserDAO extends UserDAO {
             List<User> userList = new LinkedList<>();
 
             while (resultSet.next()) {
-                userList.add(new User(
-                        resultSet.getLong("id"),
-                        resultSet.getString("login"),
-                        resultSet.getString("password"),
-                        resultSet.getString("email"),
-                        resultSet.getString("role")
-                ));
+                User user = new User();
+                user.setId(resultSet.getLong("id"));
+                user.setLogin(resultSet.getString("login"));
+                user.setPassword(resultSet.getString("password"));
+                user.setEmail(resultSet.getString("email"));
+                user.setRole(resultSet.getString("role"));
+                userList.add(user);
             }
 
             return userList;
