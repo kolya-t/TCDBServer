@@ -16,26 +16,14 @@ public final class PropertyService {
     private static final String CONFIG_FILE_PATH = "db.properties";
 
     /**
-     * Параметры, загруженные из файла
-     */
-    private final Properties properties;
-
-    /**
      * Экзмепляр Singleton-класса {@link PropertyService}
      */
     private static PropertyService instance;
 
     /**
-     * Создает, если не был создан ранее, и возвращает экзмепляр {@link PropertyService}
-     *
-     * @return экземпляр {@link PropertyService}
+     * Параметры, загруженные из файла
      */
-    public static PropertyService getInstance() throws IOException {
-        if (instance == null) {
-            instance = new PropertyService();
-        }
-        return instance;
-    }
+    private final Properties properties;
 
     /**
      * Конструктор загружает конфигурацию из файла, считывает из нее параметры и записывает в соответсвующие поля.
@@ -48,6 +36,18 @@ public final class PropertyService {
             System.err.printf("Ошибка загрузки файла конфигурации '%s'%n", CONFIG_FILE_PATH);
             throw e;
         }
+    }
+
+    /**
+     * Создает, если не был создан ранее, и возвращает экзмепляр {@link PropertyService}
+     *
+     * @return экземпляр {@link PropertyService}
+     */
+    public static PropertyService getInstance() throws IOException {
+        if (instance == null) {
+            instance = new PropertyService();
+        }
+        return instance;
     }
 
     /**

@@ -1,8 +1,8 @@
 package database.dao.user;
 
-import database.pojo.User;
 import database.helper.Connector;
 import database.helper.executor.SQLExecutor;
+import database.pojo.User;
 import org.jetbrains.annotations.Nullable;
 
 import java.sql.SQLException;

@@ -4,7 +4,7 @@ import database.dao.user.MySQLUserDAO;
 import database.dao.user.UserDAO;
 
 /**
- *  Реализации DAOFactory под СУБД MySQL
+ * Реализации DAOFactory под СУБД MySQL
  */
 @SuppressWarnings("UnusedDeclaration")
 public class MySQLDAOFactory extends DAOFactory {

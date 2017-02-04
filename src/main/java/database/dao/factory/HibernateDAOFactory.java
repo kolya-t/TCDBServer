@@ -4,7 +4,7 @@ import database.dao.user.HibernateUserDAO;
 import database.dao.user.UserDAO;
 
 /**
- *  Реализации DAOFactory под Hibernate
+ * Реализации DAOFactory под Hibernate
  */
 @SuppressWarnings("UnusedDeclaration")
 public class HibernateDAOFactory extends DAOFactory {

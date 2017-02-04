@@ -1,9 +1,9 @@
 package database;
 
-import database.dao.user.UserDAO;
 import database.dao.factory.DAOFactory;
-import database.pojo.User;
+import database.dao.user.UserDAO;
 import database.helper.PropertyService;
+import database.pojo.User;
 import org.jetbrains.annotations.Nullable;
 
 import java.sql.SQLException;
@@ -16,21 +16,14 @@ import java.util.List;
 public class DBService {
 
     /**
-     * DAO для работы с пользователями
-     */
-    private final UserDAO userDAO;
-
-    /**
      * Экземпляр Singleton-класса {@link DBService}
      */
     private static DBService instance;
 
-    public static DBService getInstance() throws DBException {
-        if (instance == null) {
-            instance = new DBService();
-        }
-        return instance;
-    }
+    /**
+     * DAO для работы с пользователями
+     */
+    private final UserDAO userDAO;
 
     /**
      * Конструктор создает объекты реализаций всех необходимых DAO
@@ -44,6 +37,13 @@ public class DBService {
         } catch (Exception e) {
             throw new DBException(e);
         }
+    }
+
+    public static DBService getInstance() throws DBException {
+        if (instance == null) {
+            instance = new DBService();
+        }
+        return instance;
     }
 
     /**
