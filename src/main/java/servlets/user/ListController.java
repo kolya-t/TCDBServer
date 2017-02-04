@@ -2,6 +2,7 @@ package servlets.user;
 
 import database.DBException;
 import database.DBService;
+import database.helper.HibernateSessionFactory;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -25,5 +26,10 @@ public class ListController extends HttpServlet {
         } catch (DBException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void destroy() {
+        HibernateSessionFactory.shutdown();
     }
 }
