@@ -8,51 +8,55 @@
     <link href="../../css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-<div class="container">
-    <div class="table-responsive">
-        <table class="table table-condensed table-striped">
-            <thead>
-            <tr>
-                <th class="text-right">id</th>
-                <th>login</th>
-                <th>password</th>
-                <th>e-mail</th>
-                <th>role</th>
-                <th colspan="2" class="text-center">Действие</th>
-            </tr>
-            </thead>
-            <tbody>
-            <%--@elvariable id="userList" type="java.util.List<database.pojo.User>"--%>
-            <c:if test="${userList != null}">
-                <c:forEach items="${userList}" var="user">
-                    <tr>
-                        <td class="text-right">${user.id}</td>
-                        <td>${user.login}</td>
-                        <td>${user.password}</td>
-                        <td>${user.email}</td>
-                        <td>${user.role}</td>
-                        <td>
-                            <a href="${pageContext.request.contextPath}/user/edit?id=${user.id}">
-                                <i class="glyphicon glyphicon-pencil"></i> Изменить
-                            </a>
-                        </td>
-                        <td>
-                            <a href="${pageContext.request.contextPath}/user/doDelete?id=${user.id}">
-                                <i class="glyphicon glyphicon-remove"></i> Удалить
-                            </a>
-                        </td>
-                    </tr>
-                </c:forEach>
-            </c:if>
-            <tr>
-                <td colspan="7">
-                    <a href="${pageContext.request.contextPath}/user/add">
-                        <i class="glyphicon glyphicon-plus"></i> Добавить нового пользователя
-                    </a>
-                </td>
-            </tr>
-            </tbody>
-        </table>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-1 col-lg-2"></div>
+        <div class="col-xs-12 col-sm-12 col-md-10 col-lg-8">
+            <table class="table table-condensed table-striped">
+                <thead>
+                <tr>
+                    <th class="text-right">id</th>
+                    <th>login</th>
+                    <th>password</th>
+                    <th>e-mail</th>
+                    <th>role</th>
+                    <th class="text-center">Действие</th>
+                </tr>
+                </thead>
+                <tbody>
+                <%--@elvariable id="userList" type="java.util.List<database.pojo.User>"--%>
+                <c:if test="${userList != null}">
+                    <c:forEach items="${userList}" var="user">
+                        <tr>
+                            <td class="text-right">${user.id}</td>
+                            <td>${user.login}</td>
+                            <td>${user.password}</td>
+                            <td>${user.email}</td>
+                            <td>${user.role}</td>
+                            <td class="text-center">
+                                <a href="${pageContext.request.contextPath}/user/edit?id=${user.id}" role="button"
+                                   class="btn btn-warning btn-sm">
+                                    <span class="glyphicon glyphicon-pencil"></span> Изменить
+                                </a>
+                                <a href="${pageContext.request.contextPath}/user/doDelete?id=${user.id}" role="button"
+                                   class="btn btn-danger btn-sm">
+                                    <span class="glyphicon glyphicon-remove"></span> Удалить
+                                </a>
+                            </td>
+                        </tr>
+                    </c:forEach>
+                </c:if>
+                <tr>
+                    <td colspan="7">
+                        <a href="${pageContext.request.contextPath}/user/add">
+                            <i class="glyphicon glyphicon-plus"></i> Добавить нового пользователя
+                        </a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-1 col-lg-2"></div>
     </div>
 </div>
 <script src="http://code.jquery.com/jquery-latest.js"></script>
