@@ -15,10 +15,10 @@
             <tr>
                 <th class="text-right">id</th>
                 <th>login</th>
-                <th>name</th>
                 <th>password</th>
                 <th>e-mail</th>
-                <th colspan="2">Действие</th>
+                <th>role</th>
+                <th colspan="2" class="text-center">Действие</th>
             </tr>
             </thead>
             <tbody>
@@ -28,9 +28,9 @@
                     <tr>
                         <td class="text-right">${user.id}</td>
                         <td>${user.login}</td>
-                        <td>${user.name}</td>
                         <td>${user.password}</td>
                         <td>${user.email}</td>
+                        <td>${user.role}</td>
                         <td>
                             <a href="${pageContext.request.contextPath}/user/edit?id=${user.id}">
                                 <i class="glyphicon glyphicon-pencil"></i> Изменить

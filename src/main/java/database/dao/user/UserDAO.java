@@ -65,13 +65,13 @@ public abstract class UserDAO implements DAO<User> {
     public abstract boolean updateLogin(long id, String login) throws SQLException;
 
     /**
-     * Заменяет name пользователя с указанным id
+     * Заменяет role пользователя с указанным id
      *
-     * @param id   идентификатор пользователя, name которого нужно заменить
-     * @param name новое имя
-     * @return {@code true} если обновление прошло успешно и {@code false} если обновить name не удалось
+     * @param id   идентификатор пользователя, role которого нужно заменить
+     * @param role новая role
+     * @return {@code true} если обновление прошло успешно и {@code false} если обновить role не удалось
      */
-    public abstract boolean updateName(long id, String name) throws SQLException;
+    public abstract boolean updateRole(long id, String role) throws SQLException;
 
     /**
      * Заменяет password пользователя с указанным id

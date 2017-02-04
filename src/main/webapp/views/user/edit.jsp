@@ -22,11 +22,6 @@
                        value="${user.login}" required>
             </div>
             <div class="form-group">
-                <label for="name" class="control-label">Имя</label>
-                <input type="text" class="form-control" id="name" name="name" placeholder="Введите имя"
-                       value="${user.name}" required>
-            </div>
-            <div class="form-group">
                 <label for="password" class="control-label">Пароль</label>
                 <input type="text" class="form-control" id="password" name="password" placeholder="Пароль"
                        value="${user.password}" required>
@@ -35,6 +30,12 @@
                 <label for="email" class="control-label">Email</label>
                 <input type="email" class="form-control" id="email" name="email" placeholder="Введите e-mail"
                        value="${user.email}" required>
+            </div>
+            <div class="form-group">
+                <label for="role" class="control-label">Роль</label>
+                <input type="text" class="form-control" id="role" name="role" placeholder="Введите роль"
+                       value="${user.role}" required>
+                <p class="help-block">Например <strong>admin</strong> или <strong>user</strong></p>
             </div>
             <div class="form-group text-right">
                 <button type="submit" class="btn btn-primary">Изменить</button>

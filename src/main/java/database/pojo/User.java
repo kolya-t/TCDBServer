@@ -1,5 +1,7 @@
 package database.pojo;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.Serializable;
 
 /**
@@ -9,24 +11,32 @@ import java.io.Serializable;
 public class User implements Serializable {
     private long id;
     private String login;
-    private String name;
     private String password;
     private String email;
+    private String role;
 
     public User() {
-        this.id = 0;
+        this.id = -1;
         this.login = "";
-        this.name = "";
         this.password = "";
         this.email = "";
+        this.role = "";
     }
 
-    public User(long id, String login, String name, String password, String email) {
-        this.id = id;
+    public User(@NotNull String login, @NotNull String password, @NotNull String email, @NotNull String role) {
+        this.id = -1;
         this.login = login;
-        this.name = name;
         this.password = password;
         this.email = email;
+        this.role = role;
+    }
+
+    public User(long id, @NotNull String login, @NotNull String password, @NotNull String email, @NotNull String role) {
+        this.id = id;
+        this.login = login;
+        this.password = password;
+        this.email = email;
+        this.role = role;
     }
 
     public long getId() {
@@ -37,10 +47,6 @@ public class User implements Serializable {
         return login;
     }
 
-    public String getName() {
-        return name;
-    }
-
     public String getPassword() {
         return password;
     }
@@ -49,14 +55,18 @@ public class User implements Serializable {
         return email;
     }
 
+    public String getRole() {
+        return role;
+    }
+
     @Override
     public String toString() {
         return "User{" +
                 "id=" + id +
                 ", login='" + login + '\'' +
-                ", name='" + name + '\'' +
                 ", password='" + password + '\'' +
                 ", email='" + email + '\'' +
+                ", role='" + role + '\'' +
                 '}';
     }
 }

@@ -2,7 +2,7 @@ package servlets.user;
 
 import database.DBException;
 import database.DBService;
-import database.pojo.UserBuilder;
+import database.pojo.User;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -24,13 +24,14 @@ public class DoAddController extends HttpServlet {
 
         String forward = SUCCESS_PAGE;
         try {
-            UserBuilder userBuilder = new UserBuilder()
-                    .setLogin(req.getParameter("login"))
-                    .setName(req.getParameter("name"))
-                    .setPassword(req.getParameter("password"))
-                    .setEmail(req.getParameter("email"));
+            User user = new User(
+                    req.getParameter("login"),
+                    req.getParameter("password"),
+                    req.getParameter("email"),
+                    req.getParameter("role")
+            );
 
-            DBService.getInstance().addUser(userBuilder.build());
+            DBService.getInstance().addUser(user);
         } catch (DBException e) {
             e.printStackTrace();
             forward = ERROR_PAGE;

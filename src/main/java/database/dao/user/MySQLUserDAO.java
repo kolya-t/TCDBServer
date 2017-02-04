@@ -21,12 +21,12 @@ public class MySQLUserDAO extends UserDAO {
      */
     @Override
     public long insert(User user) throws SQLException {
-        String sql = String.format("INSERT INTO `user` (`login`, `name`, `password`, `email`) " +
+        String sql = String.format("INSERT INTO `user` (`login`, `password`, `email`, `role`) " +
                         "VALUES ('%s', '%s', '%s', '%s')",
                 user.getLogin(),
-                user.getName(),
                 user.getPassword(),
-                user.getEmail());
+                user.getEmail(),
+                user.getRole());
         Executor.executeUpdate(sql, Connector.getConnection());
         return getIdByLogin(user.getLogin());
     }
@@ -53,8 +53,8 @@ public class MySQLUserDAO extends UserDAO {
     @Override
     public boolean update(User user) throws SQLException {
         String sql = String.format("UPDATE `user` " +
-                        "SET `login` = '%s', `name` = '%s', `password` = '%s', `email` = '%s' WHERE `id` = %d",
-                user.getLogin(), user.getName(), user.getPassword(), user.getEmail(), user.getId());
+                        "SET `login` = '%s', `password` = '%s', `email` = '%s', `role` = '%s' WHERE `id` = %d",
+                user.getLogin(), user.getPassword(), user.getEmail(), user.getRole(), user.getId());
         int result = Executor.executeUpdate(sql, Connector.getConnection());
         return result != 0;
     }
@@ -74,9 +74,9 @@ public class MySQLUserDAO extends UserDAO {
                 return new User(
                         resultSet.getLong("id"),
                         resultSet.getString("login"),
-                        resultSet.getString("name"),
                         resultSet.getString("password"),
-                        resultSet.getString("email")
+                        resultSet.getString("email"),
+                        resultSet.getString("role")
                 );
             }
             return null;
@@ -97,9 +97,9 @@ public class MySQLUserDAO extends UserDAO {
                 userList.add(new User(
                         resultSet.getLong("id"),
                         resultSet.getString("login"),
-                        resultSet.getString("name"),
                         resultSet.getString("password"),
-                        resultSet.getString("email")
+                        resultSet.getString("email"),
+                        resultSet.getString("role")
                 ));
             }
 
@@ -122,15 +122,15 @@ public class MySQLUserDAO extends UserDAO {
     }
 
     /**
-     * Заменяет name пользователя с указанным id
+     * Заменяет role пользователя с указанным id
      *
-     * @param id   идентификатор пользователя, name которого нужно заменить
-     * @param name новое имя
-     * @return {@code true} если обновление прошло успешно и {@code false} если обновить name не удалось
+     * @param id   идентификатор пользователя, role которого нужно заменить
+     * @param role новая role
+     * @return {@code true} если обновление прошло успешно и {@code false} если обновить role не удалось
      */
     @Override
-    public boolean updateName(long id, String name) throws SQLException {
-        String sql = String.format("UPDATE `user` SET `name` = '%s' WHERE `id` = %d", name, id);
+    public boolean updateRole(long id, String role) throws SQLException {
+        String sql = String.format("UPDATE `user` SET `role` = '%s' WHERE `id` = %d", role, id);
         int result = Executor.executeUpdate(sql, Connector.getConnection());
         return result != 0;
     }
@@ -208,9 +208,9 @@ public class MySQLUserDAO extends UserDAO {
                 "CREATE TABLE IF NOT EXISTS `user` (\n" +
                         "  `id` BIGINT NOT NULL AUTO_INCREMENT,\n" +
                         "  `login` VARCHAR(45) NOT NULL,\n" +
-                        "  `name` VARCHAR(45) NOT NULL,\n" +
                         "  `password` VARCHAR(45) NOT NULL,\n" +
                         "  `email` VARCHAR(45) NOT NULL,\n" +
+                        "  `role` VARCHAR(45) NOT NULL," +
                         "  PRIMARY KEY (`id`),\n" +
                         "  UNIQUE INDEX `login_UNIQUE` (`login` ASC),\n" +
                         "  UNIQUE INDEX `email_UNIQUE` (`email` ASC))\n" +
