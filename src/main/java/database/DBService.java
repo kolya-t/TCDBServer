@@ -3,14 +3,11 @@ package database;
 import database.dao.user.UserDAO;
 import database.dao.factory.DAOFactory;
 import database.pojo.User;
-import database.helper.Connector;
 import database.helper.PropertyService;
 import org.jetbrains.annotations.Nullable;
 
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.concurrent.Callable;
 
 /**
  * Singleton класс сервиса работы с базой данных
@@ -50,40 +47,21 @@ public class DBService {
     }
 
     /**
-     * Метод выполняющий транзакцию с соблюдением всех свойств транзакций.
-     *
-     * @param transaction транзакция
-     * @param <T>         тип результата выполнения транзакции
-     * @return результат выполнения команд в транзакции
-     */
-    private <T> T executeTransaction(Callable<T> transaction) throws DBException {
-        Connection connection = Connector.getConnection();
-        try {
-            connection.setAutoCommit(false);
-            T result = transaction.call();
-            connection.commit();
-            return result;
-        } catch (Exception e) {
-            throw new DBException(e);
-        } finally {
-            try {
-                connection.setAutoCommit(true);
-            } catch (SQLException ignored) {
-            }
-        }
-    }
-
-    /**
      * Вставка в таблицу нового пользователя. id в user может быть произвольным, он не учитывается
      *
      * @param user пользователь, которого вставляем в таблицу
      * @return id вставленного пользователя
      */
     public long addUser(User user) throws DBException {
-        return executeTransaction(() -> {
-            userDAO.createTableIfNotExists();
+//        return executeTransaction(() -> {
+//            userDAO.createTableIfNotExists();
+//            return userDAO.insert(user);
+//        });
+        try {
             return userDAO.insert(user);
-        });
+        } catch (SQLException e) {
+            throw new DBException(e);
+        }
     }
 
     /**
@@ -93,7 +71,12 @@ public class DBService {
      * @return {@code true} если обновление прошло успешно и {@code false} если обновить пользователя не удалось
      */
     public boolean updateUser(User user) throws DBException {
-        return executeTransaction(() -> userDAO.update(user));
+//        return executeTransaction(() -> userDAO.update(user));
+        try {
+            return userDAO.update(user);
+        } catch (SQLException e) {
+            throw new DBException(e);
+        }
     }
 
     /**
@@ -102,7 +85,12 @@ public class DBService {
      * @param id идентификатор пользователя, которого нужно удалить
      */
     public boolean deleteUser(long id) throws DBException {
-        return executeTransaction(() -> userDAO.delete(id));
+//        return executeTransaction(() -> userDAO.delete(id));
+        try {
+            return userDAO.delete(id);
+        } catch (SQLException e) {
+            throw new DBException(e);
+        }
     }
 
     /**
@@ -113,7 +101,12 @@ public class DBService {
      * @return {@code true} если обновление прошло успешно и {@code false} если обновить login не удалось
      */
     public boolean updateLogin(long id, String login) throws DBException {
-        return executeTransaction(() -> userDAO.updateLogin(id, login));
+//        return executeTransaction(() -> userDAO.updateLogin(id, login));
+        try {
+            return userDAO.updateLogin(id, login);
+        } catch (SQLException e) {
+            throw new DBException(e);
+        }
     }
 
     /**
@@ -124,7 +117,12 @@ public class DBService {
      * @return {@code true} если обновление прошло успешно и {@code false} если обновить role не удалось
      */
     public boolean updateRole(long id, String role) throws DBException {
-        return executeTransaction(() -> userDAO.updateRole(id, role));
+//        return executeTransaction(() -> userDAO.updateRole(id, role));
+        try {
+            return userDAO.updateRole(id, role);
+        } catch (SQLException e) {
+            throw new DBException(e);
+        }
     }
 
     /**
@@ -135,7 +133,12 @@ public class DBService {
      * @return {@code true} если обновление прошло успешно и {@code false} если обновить пароль не удалось
      */
     public boolean updatePassword(long id, String password) throws DBException {
-        return executeTransaction(() -> userDAO.updatePassword(id, password));
+//        return executeTransaction(() -> userDAO.updatePassword(id, password));
+        try {
+            return userDAO.updatePassword(id, password);
+        } catch (SQLException e) {
+            throw new DBException(e);
+        }
     }
 
     /**
@@ -146,7 +149,12 @@ public class DBService {
      * @return {@code true} если обновление прошло успешно и {@code false} если обновить email не удалось
      */
     public boolean updateEmail(long id, String email) throws DBException {
-        return executeTransaction(() -> userDAO.updateEmail(id, email));
+//        return executeTransaction(() -> userDAO.updateEmail(id, email));
+        try {
+            return userDAO.updateEmail(id, email);
+        } catch (SQLException e) {
+            throw new DBException(e);
+        }
     }
 
     /**
