@@ -2,7 +2,7 @@ package database.dao.user;
 
 import database.pojo.User;
 import database.helper.Connector;
-import database.helper.executor.Executor;
+import database.helper.executor.SQLExecutor;
 import org.jetbrains.annotations.Nullable;
 
 import java.sql.SQLException;
@@ -27,7 +27,7 @@ public class MySQLUserDAO extends UserDAO {
                 user.getPassword(),
                 user.getEmail(),
                 user.getRole());
-        Executor.executeUpdate(sql, Connector.getConnection());
+        SQLExecutor.executeUpdate(sql, Connector.getConnection());
         return getIdByLogin(user.getLogin());
     }
 
@@ -40,7 +40,7 @@ public class MySQLUserDAO extends UserDAO {
     @Override
     public boolean delete(long id) throws SQLException {
         String sql = "DELETE FROM `user` WHERE `id` = " + id;
-        int result = Executor.executeUpdate(sql, Connector.getConnection());
+        int result = SQLExecutor.executeUpdate(sql, Connector.getConnection());
         return result != 0;
     }
 
@@ -55,7 +55,7 @@ public class MySQLUserDAO extends UserDAO {
         String sql = String.format("UPDATE `user` " +
                         "SET `login` = '%s', `password` = '%s', `email` = '%s', `role` = '%s' WHERE `id` = %d",
                 user.getLogin(), user.getPassword(), user.getEmail(), user.getRole(), user.getId());
-        int result = Executor.executeUpdate(sql, Connector.getConnection());
+        int result = SQLExecutor.executeUpdate(sql, Connector.getConnection());
         return result != 0;
     }
 
@@ -69,7 +69,7 @@ public class MySQLUserDAO extends UserDAO {
     @Nullable
     public User get(long id) throws SQLException {
         String sql = "SELECT * FROM `user` WHERE `id` = " + id;
-        return Executor.executeQuery(sql, Connector.getConnection(), resultSet -> {
+        return SQLExecutor.executeQuery(sql, Connector.getConnection(), resultSet -> {
             if (resultSet.next()) {
                 User user = new User();
                 user.setId(resultSet.getLong("id"));
@@ -90,7 +90,7 @@ public class MySQLUserDAO extends UserDAO {
     @Override
     public List<User> getAll() throws SQLException {
         String sql = "SELECT * FROM `user`";
-        return Executor.executeQuery(sql, Connector.getConnection(), resultSet -> {
+        return SQLExecutor.executeQuery(sql, Connector.getConnection(), resultSet -> {
             List<User> userList = new LinkedList<>();
 
             while (resultSet.next()) {
@@ -117,7 +117,7 @@ public class MySQLUserDAO extends UserDAO {
     @Override
     public boolean updateLogin(long id, String login) throws SQLException {
         String sql = String.format("UPDATE `user` SET `login` = '%s' WHERE `id` = %d", login, id);
-        int result = Executor.executeUpdate(sql, Connector.getConnection());
+        int result = SQLExecutor.executeUpdate(sql, Connector.getConnection());
         return result != 0;
     }
 
@@ -131,7 +131,7 @@ public class MySQLUserDAO extends UserDAO {
     @Override
     public boolean updateRole(long id, String role) throws SQLException {
         String sql = String.format("UPDATE `user` SET `role` = '%s' WHERE `id` = %d", role, id);
-        int result = Executor.executeUpdate(sql, Connector.getConnection());
+        int result = SQLExecutor.executeUpdate(sql, Connector.getConnection());
         return result != 0;
     }
 
@@ -145,7 +145,7 @@ public class MySQLUserDAO extends UserDAO {
     @Override
     public boolean updatePassword(long id, String password) throws SQLException {
         String sql = String.format("UPDATE `user` SET `password` = '%s' WHERE `id` = %d", password, id);
-        int result = Executor.executeUpdate(sql, Connector.getConnection());
+        int result = SQLExecutor.executeUpdate(sql, Connector.getConnection());
         return result != 0;
     }
 
@@ -159,7 +159,7 @@ public class MySQLUserDAO extends UserDAO {
     @Override
     public boolean updateEmail(long id, String email) throws SQLException {
         String sql = String.format("UPDATE `user` SET `email` = '%s' WHERE `id` = %d", email, id);
-        int result = Executor.executeUpdate(sql, Connector.getConnection());
+        int result = SQLExecutor.executeUpdate(sql, Connector.getConnection());
         return result != 0;
     }
 
@@ -172,7 +172,7 @@ public class MySQLUserDAO extends UserDAO {
     @Override
     public long getIdByLogin(String login) throws SQLException {
         String sql = String.format("SELECT `id` FROM `user` WHERE `login` = '%s'", login);
-        long result = Executor.executeQuery(sql, Connector.getConnection(), resultSet -> {
+        long result = SQLExecutor.executeQuery(sql, Connector.getConnection(), resultSet -> {
             resultSet.next();
             long id = resultSet.getLong("id");
             resultSet.close();
@@ -190,7 +190,7 @@ public class MySQLUserDAO extends UserDAO {
     @Override
     public long getIdByEmail(String email) throws SQLException {
         String sql = String.format("SELECT `id` FROM `user` WHERE `email` = '%s'", email);
-        long result = Executor.executeQuery(sql, Connector.getConnection(), resultSet -> {
+        long result = SQLExecutor.executeQuery(sql, Connector.getConnection(), resultSet -> {
             resultSet.next();
             long id = resultSet.getInt("id");
             resultSet.close();
@@ -216,7 +216,7 @@ public class MySQLUserDAO extends UserDAO {
                         "  UNIQUE INDEX `email_UNIQUE` (`email` ASC))\n" +
                         "ENGINE = InnoDB\n" +
                         "DEFAULT CHARACTER SET = utf8;\n";
-        Executor.executeUpdate(sql, Connector.getConnection());
+        SQLExecutor.executeUpdate(sql, Connector.getConnection());
     }
 
     /**
@@ -225,6 +225,6 @@ public class MySQLUserDAO extends UserDAO {
     @Override
     public void dropTableIfExists() throws SQLException {
         String sql = "DROP TABLE IF EXISTS `user`";
-        Executor.executeUpdate(sql, Connector.getConnection());
+        SQLExecutor.executeUpdate(sql, Connector.getConnection());
     }
 }
