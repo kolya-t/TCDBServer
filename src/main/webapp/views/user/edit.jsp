@@ -45,6 +45,8 @@
                     </div>
                 </form>
             </div>
+            <jsp:include page="../alerts/success.jsp"/>
+            <jsp:include page="../alerts/error.jsp"/>
         </div>
         <div class="col-xs-1 col-sm-2 col-md-3 col-lg-4"></div>
     </div>

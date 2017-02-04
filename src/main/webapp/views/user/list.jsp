@@ -55,6 +55,8 @@
                 </tr>
                 </tbody>
             </table>
+            <jsp:include page="../alerts/success.jsp"/>
+            <jsp:include page="../alerts/error.jsp"/>
         </div>
         <div class="col-md-1 col-lg-2"></div>
     </div>
