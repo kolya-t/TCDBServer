@@ -20,12 +20,12 @@ public class HibernateUserDAO extends UserDAO {
         try {
             session.beginTransaction();
             id = (long) session.save(user);
+            session.flush();
             session.getTransaction().commit();
         } catch (RuntimeException e) {
             e.printStackTrace();
             session.getTransaction().rollback();
         } finally {
-            session.flush();
             session.close();
         }
         return id;
@@ -39,13 +39,13 @@ public class HibernateUserDAO extends UserDAO {
             session.beginTransaction();
             User user = session.load(User.class, id);
             session.delete(user);
+            session.flush();
             session.getTransaction().commit();
             result = true;
         } catch (RuntimeException e) {
             e.printStackTrace();
             session.getTransaction().rollback();
         } finally {
-            session.flush();
             session.close();
         }
         return result;
@@ -58,13 +58,13 @@ public class HibernateUserDAO extends UserDAO {
         try {
             session.beginTransaction();
             session.update(user);
+            session.flush();
             session.getTransaction().commit();
             result = true;
         } catch (RuntimeException e) {
             e.printStackTrace();
             session.getTransaction().rollback();
         } finally {
-            session.flush();
             session.close();
         }
         return result;
@@ -114,12 +114,12 @@ public class HibernateUserDAO extends UserDAO {
                     .setParameter(fieldName, fieldValue)
                     .executeUpdate();
             result = updatedEntities != 0;
+            session.flush();
             session.getTransaction().commit();
         } catch (RuntimeException e) {
             e.printStackTrace();
             session.getTransaction().rollback();
         } finally {
-            session.flush();
             session.close();
         }
         return result;
