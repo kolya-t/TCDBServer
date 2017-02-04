@@ -25,13 +25,12 @@ public class DoEditController extends HttpServlet {
 
         String forward = SUCCESS_PAGE;
         try {
-            User user = new User(
-                    Long.parseLong(req.getParameter("id")),
-                    req.getParameter("login"),
-                    req.getParameter("password"),
-                    req.getParameter("email"),
-                    req.getParameter("role")
-            );
+            User user = new User();
+            user.setId(Long.valueOf(req.getParameter("id")));
+            user.setLogin(req.getParameter("login"));
+            user.setPassword(req.getParameter("password"));
+            user.setEmail(req.getParameter("email"));
+            user.setRole(req.getParameter("role"));
 
             DBService.getInstance().updateUser(user);
         } catch (NumberFormatException | DBException e) {

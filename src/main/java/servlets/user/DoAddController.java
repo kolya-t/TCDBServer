@@ -24,12 +24,11 @@ public class DoAddController extends HttpServlet {
 
         String forward = SUCCESS_PAGE;
         try {
-            User user = new User(
-                    req.getParameter("login"),
-                    req.getParameter("password"),
-                    req.getParameter("email"),
-                    req.getParameter("role")
-            );
+            User user = new User();
+            user.setLogin(req.getParameter("login"));
+            user.setPassword(req.getParameter("password"));
+            user.setEmail(req.getParameter("email"));
+            user.setRole(req.getParameter("role"));
 
             DBService.getInstance().addUser(user);
         } catch (DBException e) {
