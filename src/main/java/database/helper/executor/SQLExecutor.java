@@ -1,5 +1,8 @@
 package database.helper.executor;
 
+import database.DBException;
+import database.helper.Connector;
+
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -10,7 +13,7 @@ import java.util.concurrent.Callable;
  * Класс, выполняющий переданные в параметрах методов SQL команды к базе данных,
  * соединение к которой также передано в параметрах.
  */
-public final class Executor {
+public final class SQLExecutor {
 
     /**
      * Метод выполняет SQL команду обновления базы (не возвращает результат в виде множеста).
@@ -44,5 +47,29 @@ public final class Executor {
             value = handler.handle(resultSet);
         }
         return value;
+    }
+
+    /**
+     * Метод выполняющий транзакцию с соблюдением всех свойств транзакций.
+     *
+     * @param transaction транзакция
+     * @param <T>         тип результата выполнения транзакции
+     * @return результат выполнения команд в транзакции
+     */
+    private <T> T executeTransaction(Callable<T> transaction) throws DBException {
+        Connection connection = Connector.getConnection();
+        try {
+            connection.setAutoCommit(false);
+            T result = transaction.call();
+            connection.commit();
+            return result;
+        } catch (Exception e) {
+            throw new DBException(e);
+        } finally {
+            try {
+                connection.setAutoCommit(true);
+            } catch (SQLException ignored) {
+            }
+        }
     }
 }
