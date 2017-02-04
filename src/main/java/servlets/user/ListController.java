@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 
-@WebServlet(urlPatterns = {"/user/list"})
+@WebServlet("/user/list")
 public class ListController extends HttpServlet {
 
     @Override
