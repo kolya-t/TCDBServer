@@ -1,62 +1,71 @@
 package database.pojo;
 
-import org.jetbrains.annotations.NotNull;
-
+import javax.persistence.*;
 import java.io.Serializable;
+
 
 /**
  * User Transfer Object
  */
-@SuppressWarnings("UnusedDeclaration")
+@Entity
+@Table(name = "user")
 public class User implements Serializable {
-    private long id;
+
+    @Id
+    @Column(name = "id", unique = true, nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name = "login", unique = true, nullable = false, length = 45)
     private String login;
+
+    @Column(name = "password", nullable = false, length = 45)
     private String password;
+
+    @Column(name = "email", unique = true, nullable = false, length = 45)
     private String email;
+
+    @Column(name = "role", nullable = false, length = 45)
     private String role;
 
-    public User() {
-        this.id = -1;
-        this.login = "";
-        this.password = "";
-        this.email = "";
-        this.role = "";
-    }
-
-    public User(@NotNull String login, @NotNull String password, @NotNull String email, @NotNull String role) {
-        this.id = -1;
-        this.login = login;
-        this.password = password;
-        this.email = email;
-        this.role = role;
-    }
-
-    public User(long id, @NotNull String login, @NotNull String password, @NotNull String email, @NotNull String role) {
-        this.id = id;
-        this.login = login;
-        this.password = password;
-        this.email = email;
-        this.role = role;
-    }
-
-    public long getId() {
+    public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getLogin() {
         return login;
     }
 
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
     public String getPassword() {
         return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getEmail() {
         return email;
     }
 
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public String getRole() {
         return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 
     @Override
