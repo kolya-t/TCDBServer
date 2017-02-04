@@ -13,19 +13,19 @@
     <form role="form" action="${pageContext.request.contextPath}/user/doAdd" method="POST">
         <div class="form-group">
             <label for="login" class="control-label">Логин</label>
-            <input type="text" class="form-control" id="login" name="login" placeholder="Введите логин">
+            <input type="text" class="form-control" id="login" name="login" placeholder="Введите логин" required>
         </div>
         <div class="form-group">
             <label for="name" class="control-label">Имя</label>
-            <input type="text" class="form-control" id="name" name="name" placeholder="Введите имя">
+            <input type="text" class="form-control" id="name" name="name" placeholder="Введите имя" required>
         </div>
         <div class="form-group">
             <label for="password" class="control-label">Пароль</label>
-            <input type="text" class="form-control" id="password" name="password" placeholder="Пароль">
+            <input type="text" class="form-control" id="password" name="password" placeholder="Пароль" required>
         </div>
         <div class="form-group">
             <label for="email" class="control-label">Email</label>
-            <input type="email" class="form-control" id="email" name="email" placeholder="Введите e-mail">
+            <input type="email" class="form-control" id="email" name="email" placeholder="Введите e-mail" required>
         </div>
         <div class="form-group">
             <button type="submit" class="btn btn-primary">Добавить</button>

@@ -11,7 +11,7 @@
 <body>
 <div class="container">
     <div class="table-responsive">
-        <table class="table table-condensed table-bordered table-striped">
+        <table class="table table-condensed table-striped">
             <thead>
             <tr>
                 <th class="text-right">id</th>
