@@ -14,6 +14,7 @@ import java.io.IOException;
 
 @WebServlet("/user/list")
 public class ListController extends HttpServlet {
+    public static final String VIEW_JSP = "/views/user/list.jsp";
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -22,7 +23,7 @@ public class ListController extends HttpServlet {
 
         try {
             req.setAttribute("userList", DBService.getInstance().getAllUsers());
-            req.getServletContext().getRequestDispatcher("/views/user/list.jsp").forward(req, resp);
+            req.getServletContext().getRequestDispatcher(VIEW_JSP).forward(req, resp);
         } catch (DBException e) {
             e.printStackTrace();
         }

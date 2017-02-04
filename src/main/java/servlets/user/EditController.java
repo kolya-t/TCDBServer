@@ -14,16 +14,16 @@ import java.io.IOException;
 
 @WebServlet("/user/edit")
 public class EditController extends HttpServlet {
+    public static final String VIEW_JSP = "/views/user/add.jsp";
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        final String SUCCESS_PAGE = "/views/user/edit.jsp";
         final String ERROR_PAGE = "/user/list";
 
         resp.setContentType("text/html;charset=utf-8");
         req.setCharacterEncoding("UTF-8");
 
-        String forward = SUCCESS_PAGE;
+        String forward = VIEW_JSP;
         try {
             long id = Long.parseLong(req.getParameter("id"));
             User user = DBService.getInstance().getUser(id);

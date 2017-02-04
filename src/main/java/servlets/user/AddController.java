@@ -13,13 +13,14 @@ import java.io.IOException;
 
 @WebServlet("/user/add")
 public class AddController extends HttpServlet {
+    public static final String VIEW_JSP = "/views/user/add.jsp";
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/html;charset=utf-8");
         req.setCharacterEncoding("UTF-8");
 
-        req.getRequestDispatcher("/views/user/add.jsp").forward(req, resp);
+        req.getRequestDispatcher(VIEW_JSP).forward(req, resp);
     }
 
     @Override
