@@ -1,11 +1,10 @@
 package database.dao.user;
 
-import database.HibernateSessionFactory;
+import database.helper.HibernateSessionFactory;
 import database.pojo.User;
 import org.hibernate.Session;
 import org.jetbrains.annotations.Nullable;
 
-import java.io.Serializable;
 import java.sql.SQLException;
 import java.text.MessageFormat;
 import java.util.LinkedList;
