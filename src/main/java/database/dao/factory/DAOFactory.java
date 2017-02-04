@@ -8,6 +8,8 @@ import database.dao.user.UserDAO;
 @SuppressWarnings("UnusedDeclaration")
 public abstract class DAOFactory {
 
+    protected UserDAO userDAO;
+
     /**
      * Создает объект класса реализации DAO, имя которого передано в качестве параметра
      *
@@ -21,6 +23,8 @@ public abstract class DAOFactory {
     }
 
     /**
+     * Создает реализацию UserDAO в кдинственном экземпляре и возвращает ее
+     *
      * @return созданный объект реализации UserDAO под конкретно используемую базу данных
      */
     public abstract UserDAO getUserDAO();
