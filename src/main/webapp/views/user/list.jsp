@@ -38,7 +38,7 @@
                                    class="btn btn-warning btn-sm">
                                     <span class="glyphicon glyphicon-pencil"></span> Изменить
                                 </a>
-                                <a href="${pageContext.request.contextPath}/user/doDelete?id=${user.id}" role="button"
+                                <a href="${pageContext.request.contextPath}/user/delete?id=${user.id}" role="button"
                                    class="btn btn-danger btn-sm">
                                     <span class="glyphicon glyphicon-remove"></span> Удалить
                                 </a>

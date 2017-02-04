@@ -10,11 +10,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet("/user/doDelete")
-public class DoDeleteController extends HttpServlet {
+@WebServlet("/user/delete")
+public class DeleteController extends HttpServlet {
 
     private static final String FORWARD_PAGE = "/user/list";
 
+    // TODO: make it in doPost
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/html;charset=utf-8");

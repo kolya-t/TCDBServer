@@ -14,7 +14,7 @@
         <div class="col-xs-1 col-sm-2 col-md-3 col-lg-4"></div>
         <div class="col-xs-10 col-sm-8 col-md-6 col-lg-4">
             <div class="well">
-                <form role="form" action="${pageContext.request.contextPath}/user/doEdit" method="POST">
+                <form role="form" action="${pageContext.request.contextPath}/user/edit" method="POST">
                     <div class="form-group">
                         <label for="id" class="control-label">ID</label>
                         <input type="number" class="form-control" id="id" name="id" value="${user.id}" readonly>
