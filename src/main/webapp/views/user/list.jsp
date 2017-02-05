@@ -61,6 +61,7 @@
         <div class="col-md-1 col-lg-2"></div>
     </div>
 </div>
+${user = null}
 <script src="http://code.jquery.com/jquery-latest.js"></script>
 <script src="../../js/bootstrap.min.js"></script>
 </body>
