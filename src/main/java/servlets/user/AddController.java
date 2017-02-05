@@ -28,19 +28,35 @@ public class AddController extends HttpServlet {
         resp.setContentType("text/html;charset=utf-8");
         req.setCharacterEncoding("UTF-8");
 
-        String forward = "/user/list";
-        try {
-            User user = new User();
-            user.setLogin(req.getParameter("login"));
-            user.setPassword(req.getParameter("password"));
-            user.setEmail(req.getParameter("email"));
-            user.setRole(req.getParameter("role"));
+        String login = req.getParameter("login");
+        String password = req.getParameter("password");
+        String email = req.getParameter("email");
+        String role = req.getParameter("role");
 
-            DBService.getInstance().addUser(user);
-        } catch (DBException e) {
-            e.printStackTrace();
-            forward = "/user/add";
+        boolean done = false;
+        User user = new User();
+        if ((login != null) && (password != null) && (email != null) && (role != null)) {
+            user.setLogin(login);
+            user.setPassword(password);
+            user.setEmail(email);
+            user.setRole(role);
+
+            try {
+                long id = DBService.getInstance().addUser(user); // TODO: test -1 in error case
+                done = id != -1;
+            } catch (DBException e) {
+                e.printStackTrace();
+            }
         }
-        resp.sendRedirect(forward);
+
+        if (done) {
+            // TODO: test attribute setting in redirect case
+            req.setAttribute("successMessage", "Пользователь успешно добавлен");
+            resp.sendRedirect("/user/list");
+        } else {
+            req.setAttribute("user", user);
+            req.setAttribute("errorMessage", "Не удалось добавить пользователя");
+            resp.sendRedirect("/user/add");
+        }
     }
 }

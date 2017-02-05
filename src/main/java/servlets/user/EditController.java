@@ -42,26 +42,36 @@ public class EditController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        final String SUCCESS_PAGE = "/user/list";
-        final String ERROR_PAGE = "/user/edit";
+        String idStr = req.getParameter("id");
+        String login = req.getParameter("login");
+        String password = req.getParameter("password");
+        String email = req.getParameter("email");
+        String role = req.getParameter("role");
 
-        resp.setContentType("text/html;charset=utf-8");
-        req.setCharacterEncoding("UTF-8");
+        boolean done = false;
+        User user = new User();
+        if ((idStr != null) && (login != null) && (password != null) && (email != null) && (role != null)) {
+            user.setId(Long.valueOf(idStr));
+            user.setLogin(login);
+            user.setPassword(password);
+            user.setEmail(email);
+            user.setRole(role);
 
-        String forward = SUCCESS_PAGE;
-        try {
-            User user = new User();
-            user.setId(Long.valueOf(req.getParameter("id")));
-            user.setLogin(req.getParameter("login"));
-            user.setPassword(req.getParameter("password"));
-            user.setEmail(req.getParameter("email"));
-            user.setRole(req.getParameter("role"));
-
-            DBService.getInstance().updateUser(user);
-        } catch (NumberFormatException | DBException e) {
-            e.printStackTrace();
-            forward = ERROR_PAGE;
+            try {
+                done = DBService.getInstance().updateUser(user);
+            } catch (DBException e) {
+                e.printStackTrace();
+            }
         }
-        resp.sendRedirect(forward);
+
+        if (done) {
+            // TODO: test attribute setting in redirect case
+            req.setAttribute("successMessage", "Пользователь успешно изенен");
+            resp.sendRedirect("/user/list");
+        } else {
+            req.setAttribute("user", user);
+            req.setAttribute("errorMessage", "Не удалось изменить пользователя пользователя");
+            resp.sendRedirect("/user/edit");
+        }
     }
 }
