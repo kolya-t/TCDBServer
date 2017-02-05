@@ -18,22 +18,22 @@
                     <div class="form-group">
                         <label for="login" class="control-label">Логин</label>
                         <input type="text" class="form-control" id="login" name="login" placeholder="Введите логин"
-                               required>
+                               value="${user.login}" required>
                     </div>
                     <div class="form-group">
                         <label for="password" class="control-label">Пароль</label>
                         <input type="text" class="form-control" id="password" name="password" placeholder="Пароль"
-                               required>
+                               value="${user.password}" required>
                     </div>
                     <div class="form-group">
                         <label for="email" class="control-label">Email</label>
                         <input type="email" class="form-control" id="email" name="email" placeholder="Введите e-mail"
-                               required>
+                               value="${user.email}" required>
                     </div>
                     <div class="form-group">
                         <label for="role" class="control-label">Роль</label>
                         <input type="text" class="form-control" id="role" name="role" placeholder="Введите роль"
-                               required>
+                               value="${user.role}" required>
                         <p class="help-block">Например <strong>admin</strong> или <strong>user</strong></p>
                     </div>
                     <div class="form-group text-right">
