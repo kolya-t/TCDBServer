@@ -42,7 +42,7 @@ public class AddController extends HttpServlet {
             user.setRole(role);
 
             try {
-                long id = DBService.getInstance().addUser(user); // TODO: test -1 in error case
+                long id = DBService.getInstance().addUser(user);
                 done = id != -1;
             } catch (DBException e) {
                 e.printStackTrace();
@@ -50,13 +50,12 @@ public class AddController extends HttpServlet {
         }
 
         if (done) {
-            // TODO: test attribute setting in redirect case
-            req.setAttribute("successMessage", "Пользователь успешно добавлен");
+            req.getSession().setAttribute("successMessage", "Пользователь добавлен");
             resp.sendRedirect("/user/list");
         } else {
-            req.setAttribute("user", user);
             req.setAttribute("errorMessage", "Не удалось добавить пользователя");
-            resp.sendRedirect("/user/add");
+            req.setAttribute("user", user);
+            req.getRequestDispatcher(VIEW_JSP).forward(req, resp);
         }
     }
 }

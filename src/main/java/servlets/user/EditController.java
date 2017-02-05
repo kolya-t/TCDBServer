@@ -14,7 +14,7 @@ import java.io.IOException;
 
 @WebServlet("/user/edit")
 public class EditController extends HttpServlet {
-    public static final String VIEW_JSP = "/views/user/add.jsp";
+    public static final String VIEW_JSP = "/views/user/edit.jsp";
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -42,6 +42,9 @@ public class EditController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        resp.setContentType("text/html;charset=utf-8");
+        req.setCharacterEncoding("UTF-8");
+
         String idStr = req.getParameter("id");
         String login = req.getParameter("login");
         String password = req.getParameter("password");
@@ -65,13 +68,12 @@ public class EditController extends HttpServlet {
         }
 
         if (done) {
-            // TODO: test attribute setting in redirect case
-            req.setAttribute("successMessage", "Пользователь успешно изенен");
+            req.getSession().setAttribute("successMessage", "Пользователь успешно изенен");
             resp.sendRedirect("/user/list");
         } else {
             req.setAttribute("user", user);
-            req.setAttribute("errorMessage", "Не удалось изменить пользователя пользователя");
-            resp.sendRedirect("/user/edit");
+            req.setAttribute("errorMessage", "Не удалось изменить пользователя");
+            req.getRequestDispatcher(VIEW_JSP).forward(req, resp);
         }
     }
 }
