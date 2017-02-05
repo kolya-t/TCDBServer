@@ -47,7 +47,7 @@
         <div class="col-xs-1 col-sm-2 col-md-3 col-lg-4"></div>
     </div>
 </div>
-${user = null}
+<c:remove var="user"/>
 <script src="http://code.jquery.com/jquery-latest.js"></script>
 <script src="../../js/bootstrap.min.js"></script>
 </body>

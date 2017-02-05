@@ -6,5 +6,5 @@
         <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
         <strong>Успешно!</strong> ${successMessage}
     </div>
-    ${successMessage = null}
+    <c:remove var="successMessage"/>
 </c:if>
