@@ -10,6 +10,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 
+/**
+ * Реализация UserDAO под СУБД MySQL
+ */
 public class MySQLUserDAO extends UserDAO {
 
     /**
