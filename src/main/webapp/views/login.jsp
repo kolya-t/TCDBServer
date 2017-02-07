@@ -9,7 +9,8 @@
     <title>Вход в систему</title>
 </head>
 <body>
-<div class="container-fluid">
+<jsp:include page="_header.jsp"/>
+<div class="container-fluid" style="margin-top: 50px">
     <div class="row">
         <div class="col-xs-1 col-sm-2 col-md-3 col-lg-4"></div>
         <div class="col-xs-10 col-sm-8 col-md-6 col-lg-4">

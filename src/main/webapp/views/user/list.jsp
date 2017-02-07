@@ -8,7 +8,8 @@
     <link href="../../css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-<div class="container-fluid">
+<jsp:include page="../_header.jsp"/>
+<div class="container-fluid" style="margin-top:50px">
     <div class="row">
         <div class="col-md-1 col-lg-2"></div>
         <div class="col-xs-12 col-sm-12 col-md-10 col-lg-8">
