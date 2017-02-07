@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+
 @WebServlet("/user/delete")
 public class DeleteController extends HttpServlet {
 
@@ -18,12 +19,17 @@ public class DeleteController extends HttpServlet {
         resp.setContentType("text/html;charset=utf-8");
         req.setCharacterEncoding("UTF-8");
 
+        boolean done = false;
         try {
             long id = Long.parseLong(req.getParameter("id"));
-            DBService.getInstance().deleteUser(id);
-            resp.sendRedirect("/user/list");
+            done = DBService.getInstance().deleteUser(id);
         } catch (NumberFormatException | DBException e) {
             e.printStackTrace();
+        }
+
+        if (done) {
+            // TODO: добавить сообщения
+            resp.sendRedirect("/user/list");
         }
     }
 }

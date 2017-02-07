@@ -13,7 +13,7 @@ import java.util.Objects;
 @WebServlet("/login")
 public class LoginController extends HttpServlet {
     public static final String VIEW_JSP = "/views/login.jsp";
-    private static final String USERNAME_IN_COOKIE = "ATTRIBUTE_FOR_STORE_USER_NAME_IN_COOKIE";
+    public static final String USERNAME_IN_COOKIE = "ATTRIBUTE_FOR_STORE_USER_NAME_IN_COOKIE";
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -111,11 +111,5 @@ public class LoginController extends HttpServlet {
             }
         }
         return null;
-    }
-
-    public static void deleteUserCookie(HttpServletResponse resp) {
-        Cookie cookieUserName = new Cookie(USERNAME_IN_COOKIE, null);
-        cookieUserName.setMaxAge(0);
-        resp.addCookie(cookieUserName);
     }
 }

@@ -15,7 +15,7 @@ import java.io.IOException;
 
 @WebFilter("/*")
 public class CookieFilter implements Filter {
-    private static final String COOKIE_CHECKED = "COOKIE_CHECKED";
+    public static final String COOKIE_CHECKED = "COOKIE_CHECKED";
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
