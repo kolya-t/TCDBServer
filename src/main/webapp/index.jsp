@@ -2,6 +2,8 @@
 <%--<jsp:forward page="/user/list"/>--%>
 <%@ page contentType="text/html; UTF-8" pageEncoding="UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%--<jsp:forward page="/user/list"/>--%>
+<%--<c:redirect url="/user/list"/>--%>
 <html>
 <head>
     <meta charset="UTF-8">
@@ -11,34 +13,27 @@
     <link href="http://bootstrap-3.ru/examples/cover/cover.css" rel="stylesheet">
 </head>
 <body>
+<jsp:include page="/views/_header.jsp"/>
 <div class="site-wrapper">
     <div class="site-wrapper-inner">
         <div class="cover-container">
             <div class="masthead clearfix">
                 <div class="inner">
-                    <%--<h3 class="masthead-brand">Test</h3>--%>
-                    <ul class="nav masthead-nav">
-                        <li class="active">
-                            <a href="#">Home</a>
-                        </li>
-                        <li>
-                            <a href="${pageContext.request.contextPath}/login">Вход</a>
-                        </li>
-                        <li>
-                            <a href="#">Регистрация</a>
-                        </li>
-                    </ul>
+                    <jsp:include page="views/_header.jsp"/>
                 </div>
             </div>
             <div class="inner cover">
-                <h1 class="cover-heading">Здраствуйте, ${loggedUser.login}</h1>
-                <p class="lead">
-                    Зарегистрируйтесь или войдите, если уже зарегистрированы, чтобы полноценно пользоваться сервисом
-                </p>
-                <p class="lead">
-                    <a role="button" class="btn btn-default btn-lg" href="${pageContext.request.contextPath}/login">Вход</a>
-                    <a role="button" class="btn btn-default btn-lg" href="#">Регистрация</a>
-                </p>
+                <h1 class="cover-heading">Здраствуйте, <c:out value="${loggedUser.login}" default="аноним"/></h1>
+                <c:if test="${loggedUser == null}">
+                    <p class="lead">
+                        Войдите, чтобы полноценно пользоваться сервисом
+                    </p>
+                    <p class="lead">
+                        <a role="button" class="btn btn-default btn-lg"
+                           href="${pageContext.request.contextPath}/login">Вход</a>
+                        <%--<a role="button" class="btn btn-default btn-lg" href="#">Регистрация</a>--%>
+                    </p>
+                </c:if>
             </div>
             <div class="mastfoot">
                 <div class="inner">
@@ -47,6 +42,8 @@
                 </div>
             </div>
         </div>
+        <jsp:include page="views/alerts/success.jsp"/>
+        <jsp:include page="views/alerts/error.jsp"/>
     </div>
 </div>
 </body>
