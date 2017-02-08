@@ -1,9 +1,6 @@
 <%--@elvariable id="loggedUser" type="database.pojo.User"--%>
-<%--<jsp:forward page="/user/list"/>--%>
 <%@ page contentType="text/html; UTF-8" pageEncoding="UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%--<jsp:forward page="/user/list"/>--%>
-<%--<c:redirect url="/user/list"/>--%>
 <html>
 <head>
     <meta charset="UTF-8">
@@ -17,13 +14,8 @@
 <div class="site-wrapper">
     <div class="site-wrapper-inner">
         <div class="cover-container">
-            <div class="masthead clearfix">
-                <div class="inner">
-                    <jsp:include page="views/_header.jsp"/>
-                </div>
-            </div>
             <div class="inner cover">
-                <h1 class="cover-heading">Здраствуйте, <c:out value="${loggedUser.login}" default="аноним"/></h1>
+                <h1 class="cover-heading">Здравствуйте, <c:out value="${loggedUser.login}" default="аноним"/></h1>
                 <c:if test="${loggedUser == null}">
                     <p class="lead">
                         Войдите, чтобы полноценно пользоваться сервисом
@@ -46,5 +38,7 @@
         <jsp:include page="views/alerts/error.jsp"/>
     </div>
 </div>
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+<script src="js/bootstrap.min.js"></script>
 </body>
 </html>

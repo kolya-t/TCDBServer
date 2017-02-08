@@ -9,11 +9,10 @@
 </head>
 <body>
 <jsp:include page="../_header.jsp"/>
-<div class="container-fluid" style="margin-top:50px">
+<div class="container-fluid" style="margin-top:100px">
     <div class="row">
-        <div class="col-md-1 col-lg-2"></div>
-        <div class="col-xs-12 col-sm-12 col-md-10 col-lg-8">
-            <table class="table table-condensed table-striped">
+        <div class="col-xs-12 col-sm-12 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
+            <table class="table table-condensed table-striped table-bordered">
                 <thead>
                 <tr>
                     <th class="text-right">id</th>
@@ -59,7 +58,6 @@
             <jsp:include page="../alerts/success.jsp"/>
             <jsp:include page="../alerts/error.jsp"/>
         </div>
-        <div class="col-md-1 col-lg-2"></div>
     </div>
 </div>
 <script src="http://code.jquery.com/jquery-latest.js"></script>

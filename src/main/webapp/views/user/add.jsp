@@ -13,7 +13,7 @@
 <div class="container" style="margin-top: 100px;">
     <div class="row">
         <div class="col-md-4 col-md-offset-4">
-            <div class="panel panel-default">
+            <div class="panel panel-primary">
                 <div class="panel-heading">
                     <h3 class="panel-title">Создание пользователя</h3>
                 </div>
@@ -23,7 +23,7 @@
                             <input class="form-control" placeholder="Login" name="login" type="text" value="${user.login}">
                         </div>
                         <div class="form-group">
-                            <input class="form-control" placeholder="Пароль" name="password" type="password" value="${user.password}">
+                            <input class="form-control" placeholder="Пароль" name="password" type="text" value="${user.password}">
                         </div>
                         <div class="form-group">
                             <input class="form-control" placeholder="E-Mail" name="email" type="email" value="${user.email}">
