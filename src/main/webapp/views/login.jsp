@@ -10,33 +10,34 @@
 </head>
 <body>
 <jsp:include page="_header.jsp"/>
-<div class="container-fluid" style="margin-top: 50px">
+<div class="container" style="margin-top: 100px;">
     <div class="row">
-        <div class="col-xs-1 col-sm-2 col-md-3 col-lg-4"></div>
-        <div class="col-xs-10 col-sm-8 col-md-6 col-lg-4">
-            <div class="well">
-                <form role="form" action="${pageContext.request.contextPath}/login" method="POST">
-                    <h1 class="text-center">Вход</h1>
-                    <div class="form-group">
-                        <label for="login">Login</label>
-                        <input type="text" class="form-control" id="login" placeholder="Введите логин" name="login"
-                               value="${user.login}" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="password">Пароль</label>
-                        <input type="password" class="form-control" id="password" placeholder="Пароль" name="password"
-                               value="${user.password}" required>
-                    </div>
-                    <div class="checkbox">
-                        <label><input type="checkbox" name="remember" value="Y"> Запомнить меня</label>
-                    </div>
-                    <button type="submit" class="btn btn-success">Войти</button>
-                </form>
+        <div class="col-md-4 col-md-offset-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Вход в систему</h3>
+                </div>
+                <div class="panel-body">
+                    <form role="form" action="${pageContext.request.contextPath}/login" method="post">
+                            <div class="form-group">
+                                <input class="form-control" placeholder="Login" name="login" type="text" value="${user.login}">
+                            </div>
+                            <div class="form-group">
+                                <input class="form-control" placeholder="Пароль" name="password" type="password" value="${user.password}">
+                            </div>
+                            <div class="checkbox">
+                                <label><input name="remember" type="checkbox" value="Y"> Запомнить меня</label>
+                            </div>
+                        <button class="btn btn-lg btn-success btn-block" type="submit">Войти</button>
+                    </form>
+                </div>
+                <div class="panel-footer">
+                    <a href="${pageContext.request.contextPath}/signup">Еще не зарегистрированы?</a>
+                </div>
             </div>
             <jsp:include page="alerts/success.jsp"/>
             <jsp:include page="alerts/error.jsp"/>
         </div>
-        <div class="col-xs-1 col-sm-2 col-md-3 col-lg-4"></div>
     </div>
 </div>
 </body>
