@@ -46,8 +46,7 @@ public abstract class UserDAO implements DAO<User> {
      * @return найденный пользователь или {@code null}, если пользователя найти не удалось
      */
     @Override
-    @Nullable
-    public abstract User get(long id) throws SQLException;
+    public abstract @Nullable User get(long id) throws SQLException;
 
     /**
      * @return список всех пользователей из таблицы
@@ -92,18 +91,10 @@ public abstract class UserDAO implements DAO<User> {
     public abstract boolean updateEmail(long id, String email) throws SQLException;
 
     /**
-     * Ищет в таблице пользователя с указанным логином и возвращает его id
+     * Ищет в таблице пользователя с указанным login и возвращает его
      *
-     * @param login уникальный логин пользователя, которого ищем
-     * @return идентификатор (id) пользователя с логином login или -1, если пользователь не найден
+     * @param login логин пользователя
+     * @return найденного пользователя или {@code null}, найти пользователя не удалось
      */
-    public abstract long getIdByLogin(String login) throws SQLException;
-
-    /**
-     * Ищет в таблице пользователя с указанным email и возвращает его id
-     *
-     * @param email уникальный email пользователя, которого ищем
-     * @return идентификатор (id) пользователя с указанным email или -1, если пользователь не найден
-     */
-    public abstract long getIdByEmail(String email) throws SQLException;
+    public abstract @Nullable User getByLogin(String login) throws SQLException;
 }

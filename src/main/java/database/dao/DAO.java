@@ -48,8 +48,7 @@ public interface DAO<T> {
      * @param id идентификатор объекта, который нужно найти
      * @return найденный объект или {@code null}, если объект найти не удалось
      */
-    @Nullable
-    default T get(long id) throws SQLException {
+    default @Nullable T get(long id) throws SQLException {
         throw new UnsupportedOperationException();
     }
 

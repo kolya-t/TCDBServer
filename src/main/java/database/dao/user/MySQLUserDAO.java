@@ -31,7 +31,8 @@ public class MySQLUserDAO extends UserDAO {
                 user.getEmail(),
                 user.getRole());
         SQLExecutor.executeUpdate(sql, Connector.getConnection());
-        return getIdByLogin(user.getLogin());
+        User addedUser = getByLogin(user.getLogin());
+        return addedUser != null ? addedUser.getId() : -1;
     }
 
     /**
@@ -69,8 +70,7 @@ public class MySQLUserDAO extends UserDAO {
      * @return найденный пользователь или {@code null}, если пользователя найти не удалось
      */
     @Override
-    @Nullable
-    public User get(long id) throws SQLException {
+    public @Nullable User get(long id) throws SQLException {
         String sql = "SELECT * FROM `user` WHERE `id` = " + id;
         return SQLExecutor.executeQuery(sql, Connector.getConnection(), resultSet -> {
             if (resultSet.next()) {
@@ -167,39 +167,26 @@ public class MySQLUserDAO extends UserDAO {
     }
 
     /**
-     * Ищет в таблице пользователя с указанным логином и возвращает его id
+     * Ищет в таблице пользователя с указанным login и возвращает его
      *
-     * @param login уникальный логин пользователя, которого ищем
-     * @return идентификатор (id) пользователя с логином login или -1, если пользователь не найден
+     * @param login логин пользователя
+     * @return найденного пользователя или {@code null}, найти пользователя не удалось
      */
     @Override
-    public long getIdByLogin(String login) throws SQLException {
+    public @Nullable User getByLogin(String login) throws SQLException {
         String sql = String.format("SELECT `id` FROM `user` WHERE `login` = '%s'", login);
-        long result = SQLExecutor.executeQuery(sql, Connector.getConnection(), resultSet -> {
-            resultSet.next();
-            long id = resultSet.getLong("id");
-            resultSet.close();
-            return id;
+        return SQLExecutor.executeQuery(sql, Connector.getConnection(), resultSet -> {
+            User user = null;
+            if (resultSet.next()) {
+                user = new User();
+                user.setId(resultSet.getLong("id"));
+                user.setLogin(resultSet.getString("login"));
+                user.setPassword(resultSet.getString("password"));
+                user.setEmail(resultSet.getString("email"));
+                user.setRole(resultSet.getString("role"));
+            }
+            return user;
         });
-        return result != 0 ? result : -1;
-    }
-
-    /**
-     * Ищет в таблице пользователя с указанным email и возвращает его id
-     *
-     * @param email уникальный email пользователя, которого ищем
-     * @return идентификатор (id) пользователя с указанным email или -1, если пользователь не найден
-     */
-    @Override
-    public long getIdByEmail(String email) throws SQLException {
-        String sql = String.format("SELECT `id` FROM `user` WHERE `email` = '%s'", email);
-        long result = SQLExecutor.executeQuery(sql, Connector.getConnection(), resultSet -> {
-            resultSet.next();
-            long id = resultSet.getInt("id");
-            resultSet.close();
-            return id;
-        });
-        return result != 0 ? result : -1;
     }
 
     /**
