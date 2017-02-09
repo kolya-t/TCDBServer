@@ -194,7 +194,7 @@ public class DBService {
     /**
      * @return количество записей в таблице
      */
-    public long getUserCount() throws DBException {
+    public int getUserCount() throws DBException {
         try {
             return userDAO.getCount();
         } catch (SQLException e) {
