@@ -17,24 +17,25 @@
 <div class="site-wrapper">
     <div class="site-wrapper-inner">
         <div class="cover-container">
-            <div class="inner cover">
-                <h1 class="cover-heading">Здравствуйте, <c:out value="${loggedUser.login}" default="аноним"/></h1>
-                <c:if test="${loggedUser == null}">
-                    <p class="lead">
-                        Войдите, чтобы полноценно пользоваться сервисом
-                    </p>
-                    <p class="lead">
-                        <a role="button" class="btn btn-default btn-lg"
-                           href="${pageContext.request.contextPath}/login">Вход</a>
-                        <%--<a role="button" class="btn btn-default btn-lg" href="#">Регистрация</a>--%>
-                    </p>
-                </c:if>
-            </div>
             <div class="mastfoot">
                 <div class="inner">
                     <p>Site by <a href="https://github.com/kolya-t">kolya-t</a> and <a href="http://getbootstrap.com">Bootstrap</a>
                     </p>
                 </div>
+            </div>
+            <div class="inner cover">
+                <h1 class="cover-heading">Здравствуйте, <c:out value="${loggedUser.login}" default="аноним"/></h1>
+                <c:if test="${loggedUser == null}">
+                    <p class="lead">
+                        Войдите или зарегистрируйтесь, чтобы полноценно пользоваться сервисом
+                    </p>
+                    <p class="lead">
+                        <a role="button" class="btn btn-success btn-lg"
+                           href="${pageContext.request.contextPath}/login">Вход</a>
+                        <a role="button" class="btn btn-primary btn-lg"
+                           href="${pageContext.request.contextPath}/signup">Регистрация</a>
+                    </p>
+                </c:if>
             </div>
         </div>
         <jsp:include page="views/alerts/success.jsp"/>
