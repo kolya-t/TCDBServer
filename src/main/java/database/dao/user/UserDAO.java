@@ -55,6 +55,23 @@ public abstract class UserDAO implements DAO<User> {
     public abstract List<User> getList() throws SQLException;
 
     /**
+     * Выборка limit (или меньше) пользователей из таблицы начиная с offset
+     *
+     * @param offset смещение от начала таблицы (считается с 0)
+     * @param limit  максимальное количество пользователей, которое будет выбрано
+     * @return полученный список пользователей или пустой список,
+     * если в указанном диапазоне не найдено ни одного объекта
+     */
+    @Override
+    public abstract List<User> getList(int offset, int limit) throws SQLException;
+
+    /**
+     * @return количество записей в таблице
+     */
+    @Override
+    public abstract long getCount() throws SQLException;
+
+    /**
      * Заменяет login пользователя с указанным id
      *
      * @param id    идентификатор пользователя, login которого нужно заменить

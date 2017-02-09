@@ -53,10 +53,6 @@ public class DBService {
      * @return id вставленного пользователя
      */
     public long addUser(User user) throws DBException {
-//        return executeTransaction(() -> {
-//            userDAO.createTableIfNotExists();
-//            return userDAO.insert(user);
-//        });
         try {
             return userDAO.insert(user);
         } catch (SQLException e) {
@@ -71,7 +67,6 @@ public class DBService {
      * @return {@code true} если обновление прошло успешно и {@code false} если обновить пользователя не удалось
      */
     public boolean updateUser(User user) throws DBException {
-//        return executeTransaction(() -> userDAO.update(user));
         try {
             return userDAO.update(user);
         } catch (SQLException e) {
@@ -85,7 +80,6 @@ public class DBService {
      * @param id идентификатор пользователя, которого нужно удалить
      */
     public boolean deleteUser(long id) throws DBException {
-//        return executeTransaction(() -> userDAO.delete(id));
         try {
             return userDAO.delete(id);
         } catch (SQLException e) {
@@ -101,7 +95,6 @@ public class DBService {
      * @return {@code true} если обновление прошло успешно и {@code false} если обновить login не удалось
      */
     public boolean updateLogin(long id, String login) throws DBException {
-//        return executeTransaction(() -> userDAO.updateLogin(id, login));
         try {
             return userDAO.updateLogin(id, login);
         } catch (SQLException e) {
@@ -117,7 +110,6 @@ public class DBService {
      * @return {@code true} если обновление прошло успешно и {@code false} если обновить role не удалось
      */
     public boolean updateRole(long id, String role) throws DBException {
-//        return executeTransaction(() -> userDAO.updateRole(id, role));
         try {
             return userDAO.updateRole(id, role);
         } catch (SQLException e) {
@@ -133,7 +125,6 @@ public class DBService {
      * @return {@code true} если обновление прошло успешно и {@code false} если обновить пароль не удалось
      */
     public boolean updatePassword(long id, String password) throws DBException {
-//        return executeTransaction(() -> userDAO.updatePassword(id, password));
         try {
             return userDAO.updatePassword(id, password);
         } catch (SQLException e) {
@@ -149,7 +140,6 @@ public class DBService {
      * @return {@code true} если обновление прошло успешно и {@code false} если обновить email не удалось
      */
     public boolean updateEmail(long id, String email) throws DBException {
-//        return executeTransaction(() -> userDAO.updateEmail(id, email));
         try {
             return userDAO.updateEmail(id, email);
         } catch (SQLException e) {
@@ -177,9 +167,36 @@ public class DBService {
      *
      * @return список всех пользователей в таблице users
      */
-    public List<User> getAllUsers() throws DBException {
+    public List<User> getUserList() throws DBException {
         try {
             return userDAO.getList();
+        } catch (SQLException e) {
+            throw new DBException(e);
+        }
+    }
+
+    /**
+     * Выборка limit (или меньше) пользователей из таблицы начиная с offset
+     *
+     * @param offset смещение от начала таблицы (считается с 0)
+     * @param limit  максимальное количество пользователей, которое будет выбрано
+     * @return полученный список пользователей или пустой список,
+     * если в указанном диапазоне не найдено ни одного объекта
+     */
+    public List<User> getUserList(int offset, int limit) throws DBException {
+        try {
+            return userDAO.getList(offset, limit);
+        } catch (SQLException e) {
+            throw new DBException(e);
+        }
+    }
+
+    /**
+     * @return количество записей в таблице
+     */
+    public long getUserCount() throws DBException {
+        try {
+            return userDAO.getCount();
         } catch (SQLException e) {
             throw new DBException(e);
         }

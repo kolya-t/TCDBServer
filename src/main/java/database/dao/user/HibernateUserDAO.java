@@ -134,6 +134,54 @@ public class HibernateUserDAO extends UserDAO {
     }
 
     /**
+     * Выборка limit (или меньше) пользователей из таблицы начиная с offset
+     *
+     * @param offset смещение от начала таблицы (считается с 0)
+     * @param limit  максимальное количество пользователей, которое будет выбрано
+     * @return полученный список пользователей или пустой список,
+     * если в указанном диапазоне не найдено ни одного объекта
+     */
+    @Override
+    public List<User> getList(int offset, int limit) throws SQLException {
+        List<User> users = new LinkedList<>();
+        Session session = HibernateSessionFactory.getSessionFactory().openSession();
+        try {
+            session.beginTransaction();
+            users = session.createQuery("FROM User", User.class)
+                    .setFirstResult(offset)
+                    .setMaxResults(limit)
+                    .list();
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+        } finally {
+            session.flush();
+            session.close();
+        }
+        return users;
+    }
+
+    /**
+     * @return количество записей в таблице
+     */
+    @Override
+    public long getCount() throws SQLException {
+        long count = 0;
+        Session session = HibernateSessionFactory.getSessionFactory().openSession();
+        try {
+            session.beginTransaction();
+            count = session.createQuery("SELECT COUNT(id) FROM User", Number.class)
+                    .uniqueResult()
+                    .longValue();
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+        } finally {
+            session.flush();
+            session.close();
+        }
+        return count;
+    }
+
+    /**
      * Обновляет любое поле пользователя
      *
      * @param id         идентификатор пользователь

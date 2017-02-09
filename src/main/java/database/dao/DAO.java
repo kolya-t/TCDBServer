@@ -60,6 +60,25 @@ public interface DAO<T> {
     }
 
     /**
+     * Выборка limit (или меньше) объектов из таблицы начиная с offset
+     *
+     * @param offset смещение от начала таблицы (считается с 0)
+     * @param limit  максимальное количество объектов, которое будет выбрано
+     * @return полученный список объектов или пустой список,
+     * если в указанном диапазоне не найдено ни одного объекта
+     */
+    default List<T> getList(int offset, int limit) throws SQLException {
+        throw new UnsupportedOperationException();
+    }
+
+    /**
+     * @return количество записей в таблице
+     */
+    default long getCount() throws SQLException {
+        throw new UnsupportedOperationException();
+    }
+
+    /**
      * Создает таблицу если она не была создана
      */
     default void createTableIfNotExists() throws SQLException {

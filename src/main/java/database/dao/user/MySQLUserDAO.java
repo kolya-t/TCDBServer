@@ -1,8 +1,10 @@
 package database.dao.user;
 
 import database.helper.Connector;
+import database.helper.HibernateSessionFactory;
 import database.helper.executor.SQLExecutor;
 import database.pojo.User;
+import org.hibernate.Session;
 import org.jetbrains.annotations.Nullable;
 
 import java.sql.SQLException;
@@ -107,6 +109,49 @@ public class MySQLUserDAO extends UserDAO {
             }
 
             return userList;
+        });
+    }
+
+    /**
+     * Выборка limit (или меньше) пользователей из таблицы начиная с offset
+     *
+     * @param offset смещение от начала таблицы (считается с 0)
+     * @param limit  максимальное количество пользователей, которое будет выбрано
+     * @return полученный список пользователей или пустой список,
+     * если в указанном диапазоне не найдено ни одного объекта
+     */
+    @Override
+    public List<User> getList(int offset, int limit) throws SQLException {
+        String sql = String.format("SELECT * FROM `user` LIMIT %d, %d", offset, limit);
+        return SQLExecutor.executeQuery(sql, Connector.getConnection(), resultSet -> {
+            List<User> userList = new LinkedList<>();
+
+            while (resultSet.next()) {
+                User user = new User();
+                user.setId(resultSet.getLong("id"));
+                user.setLogin(resultSet.getString("login"));
+                user.setPassword(resultSet.getString("password"));
+                user.setEmail(resultSet.getString("email"));
+                user.setRole(resultSet.getString("role"));
+                userList.add(user);
+            }
+
+            return userList;
+        });
+    }
+
+    /**
+     * @return количество записей в таблице
+     */
+    @Override
+    public long getCount() throws SQLException {
+        String sql = "SELECT count(*) FROM `user`";
+        return SQLExecutor.executeQuery(sql, Connector.getConnection(), resultSet -> {
+            long count = 0;
+            if (resultSet.next()) {
+                count = resultSet.getLong(1);
+            }
+            return count;
         });
     }
 

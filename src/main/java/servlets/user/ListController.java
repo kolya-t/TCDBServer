@@ -22,7 +22,7 @@ public class ListController extends HttpServlet {
         req.setCharacterEncoding("UTF-8");
 
         try {
-            req.setAttribute("userList", DBService.getInstance().getAllUsers());
+            req.setAttribute("userList", DBService.getInstance().getUserList());
             req.getServletContext().getRequestDispatcher(VIEW_JSP).forward(req, resp);
         } catch (DBException e) {
             e.printStackTrace();
