@@ -21,6 +21,13 @@ public class LoginController extends HttpServlet {
         resp.setContentType("text/html;charset=utf-8");
         req.setCharacterEncoding("UTF-8");
 
+        // уже залогинен
+        if (req.getSession().getAttribute("loggedUser") != null) {
+            req.getSession().setAttribute("errorMessage", "Вы уже залогинены");
+            resp.sendRedirect("/");
+            return;
+        }
+
         req.getRequestDispatcher(VIEW_JSP).forward(req, resp);
     }
 
