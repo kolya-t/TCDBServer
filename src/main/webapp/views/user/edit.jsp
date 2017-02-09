@@ -28,7 +28,7 @@
                         </div>
                         <div class="form-group">
                             <input class="form-control" placeholder="Login" name="login" type="text"
-                                   value="${user.login}">
+                                   value="${user.login}" autofocus>
                         </div>
                         <div class="form-group">
                             <input class="form-control" placeholder="Пароль" name="password" type="text"
