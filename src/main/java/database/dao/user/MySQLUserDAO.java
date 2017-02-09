@@ -144,12 +144,12 @@ public class MySQLUserDAO extends UserDAO {
      * @return количество записей в таблице
      */
     @Override
-    public long getCount() throws SQLException {
+    public int getCount() throws SQLException {
         String sql = "SELECT count(*) FROM `user`";
         return SQLExecutor.executeQuery(sql, Connector.getConnection(), resultSet -> {
-            long count = 0;
+            int count = 0;
             if (resultSet.next()) {
-                count = resultSet.getLong(1);
+                count = resultSet.getInt(1);
             }
             return count;
         });

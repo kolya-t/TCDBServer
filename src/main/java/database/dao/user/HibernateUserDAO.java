@@ -164,14 +164,14 @@ public class HibernateUserDAO extends UserDAO {
      * @return количество записей в таблице
      */
     @Override
-    public long getCount() throws SQLException {
-        long count = 0;
+    public int getCount() throws SQLException {
+        int count = 0;
         Session session = HibernateSessionFactory.getSessionFactory().openSession();
         try {
             session.beginTransaction();
             count = session.createQuery("SELECT COUNT(id) FROM User", Number.class)
                     .uniqueResult()
-                    .longValue();
+                    .intValue();
         } catch (RuntimeException e) {
             e.printStackTrace();
         } finally {

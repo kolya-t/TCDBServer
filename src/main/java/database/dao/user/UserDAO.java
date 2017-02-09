@@ -69,7 +69,7 @@ public abstract class UserDAO implements DAO<User> {
      * @return количество записей в таблице
      */
     @Override
-    public abstract long getCount() throws SQLException;
+    public abstract int getCount() throws SQLException;
 
     /**
      * Заменяет login пользователя с указанным id

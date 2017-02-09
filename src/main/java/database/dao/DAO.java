@@ -74,7 +74,7 @@ public interface DAO<T> {
     /**
      * @return количество записей в таблице
      */
-    default long getCount() throws SQLException {
+    default int getCount() throws SQLException {
         throw new UnsupportedOperationException();
     }
 
