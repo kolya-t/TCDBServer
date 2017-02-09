@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
-                                content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <!-- Bootstrap -->
     <link href="../css/bootstrap.min.css" rel="stylesheet">
@@ -22,15 +22,17 @@
                 </div>
                 <div class="panel-body">
                     <form role="form" action="${pageContext.request.contextPath}/login" method="post">
-                            <div class="form-group">
-                                <input class="form-control" placeholder="Login" name="login" type="text" value="${user.login}">
-                            </div>
-                            <div class="form-group">
-                                <input class="form-control" placeholder="Пароль" name="password" type="password" value="${user.password}">
-                            </div>
-                            <div class="checkbox">
-                                <label><input name="remember" type="checkbox" value="Y"> Запомнить меня</label>
-                            </div>
+                        <div class="form-group">
+                            <input class="form-control" placeholder="Login" name="login" type="text"
+                                   value="${user.login}">
+                        </div>
+                        <div class="form-group">
+                            <input class="form-control" placeholder="Пароль" name="password" type="password"
+                                   value="${user.password}">
+                        </div>
+                        <div class="checkbox">
+                            <label><input name="remember" type="checkbox" value="Y"> Запомнить меня</label>
+                        </div>
                         <button class="btn btn-lg btn-success btn-block" type="submit">Войти</button>
                     </form>
                 </div>

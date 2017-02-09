@@ -23,13 +23,16 @@
                 <div class="panel-body">
                     <form role="form" action="${pageContext.request.contextPath}/user/add" method="post">
                         <div class="form-group">
-                            <input class="form-control" placeholder="Login" name="login" type="text" value="${user.login}">
+                            <input class="form-control" placeholder="Login" name="login" type="text"
+                                   value="${user.login}">
                         </div>
                         <div class="form-group">
-                            <input class="form-control" placeholder="Пароль" name="password" type="text" value="${user.password}">
+                            <input class="form-control" placeholder="Пароль" name="password" type="text"
+                                   value="${user.password}">
                         </div>
                         <div class="form-group">
-                            <input class="form-control" placeholder="E-Mail" name="email" type="email" value="${user.email}">
+                            <input class="form-control" placeholder="E-Mail" name="email" type="email"
+                                   value="${user.email}">
                         </div>
                         <div class="form-group">
                             <input class="form-control" placeholder="Role" name="role" type="text" value="${user.role}">

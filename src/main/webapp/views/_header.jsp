@@ -31,7 +31,7 @@
                 </c:when>
                 <c:otherwise>
                     <ul class="nav navbar-nav navbar-right">
-                        <li><p class="navbar-text">${loggedUser.login} (${loggedUser.role})</p></li>
+                        <li><a>${loggedUser.login} (${loggedUser.role})</a></li>
                         <li><a href="${pageContext.request.contextPath}/logout">
                             <span class="glyphicon glyphicon-log-out"></span> Log out</a>
                         </li>
