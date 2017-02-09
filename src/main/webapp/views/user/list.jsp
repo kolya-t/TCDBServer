@@ -50,6 +50,8 @@
                             </tr>
                         </c:forEach>
                     </c:if>
+                    </tbody>
+                    <tfoot>
                     <tr>
                         <td colspan="7">
                             <a href="${pageContext.request.contextPath}/user/add">
@@ -57,7 +59,7 @@
                             </a>
                         </td>
                     </tr>
-                    </tbody>
+                    </tfoot>
                 </table>
             </div>
             <jsp:include page="../alerts/success.jsp"/>
