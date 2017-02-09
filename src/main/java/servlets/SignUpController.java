@@ -19,16 +19,15 @@ public class SignUpController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        resp.setContentType("text/html;charset=utf-8");
+        req.setCharacterEncoding("UTF-8");
+
         // уже зарегистрирован и залогинен
         if (req.getSession().getAttribute("loggedUser") != null) {
             req.getSession().setAttribute("errorMessage", "Вы уже зарегистрированы");
             resp.sendRedirect("/");
             return;
         }
-
-        resp.setContentType("text/html;charset=utf-8");
-        req.setCharacterEncoding("UTF-8");
-
         // отрисовка вьюхи
         req.getRequestDispatcher(VIEW_JSP).forward(req, resp);
     }
