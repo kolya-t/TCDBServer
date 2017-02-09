@@ -44,8 +44,7 @@ public class LoginController extends HttpServlet {
 
         } else {
             try {
-                long id = DBService.getInstance().getIdByLogin(login);
-                user = DBService.getInstance().getUser(id);
+                user = DBService.getInstance().getUserByLogin(login);
                 if (user == null || !Objects.equals(password, user.getPassword())) {
                     hasError = true;
                     errorMessage = "Некорректный логин или пароль";

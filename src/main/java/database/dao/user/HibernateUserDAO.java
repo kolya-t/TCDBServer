@@ -214,58 +214,27 @@ public class HibernateUserDAO extends UserDAO {
     }
 
     /**
-     * Ищет в таблице пользователя с указанным логином и возвращает его id
+     * Ищет в таблице пользователя с указанным login и возвращает его
      *
-     * @param login уникальный логин пользователя, которого ищем
-     * @return идентификатор (id) пользователя с логином login или -1, если пользователь не найден
+     * @param login логин пользователя
+     * @return найденного пользователя или {@code null}, найти пользователя не удалось
      */
     @Override
-    public long getIdByLogin(String login) throws SQLException {
+    public @Nullable User getByLogin(String login) throws SQLException {
         String hql = "FROM User WHERE login = :login";
-        long id = -1;
+        User user = null;
         Session session = HibernateSessionFactory.getSessionFactory().openSession();
         try {
             session.beginTransaction();
-            User user = session.createQuery(hql, User.class)
+            user = session.createQuery(hql, User.class)
                     .setParameter("login", login)
                     .uniqueResult();
-            if (user != null) {
-                id = user.getId();
-            }
         } catch (RuntimeException e) {
             e.printStackTrace();
         } finally {
             session.flush();
             session.close();
         }
-        return id;
-    }
-
-    /**
-     * Ищет в таблице пользователя с указанным email и возвращает его id
-     *
-     * @param email уникальный email пользователя, которого ищем
-     * @return идентификатор (id) пользователя с указанным email или -1, если пользователь не найден
-     */
-    @Override
-    public long getIdByEmail(String email) throws SQLException {
-        String hql = "FROM User WHERE email = :email";
-        long id = -1;
-        Session session = HibernateSessionFactory.getSessionFactory().openSession();
-        try {
-            session.beginTransaction();
-            User user = session.createQuery(hql, User.class)
-                    .setParameter("email", email)
-                    .uniqueResult();
-            if (user != null) {
-                id = user.getId();
-            }
-        } catch (RuntimeException e) {
-            e.printStackTrace();
-        } finally {
-            session.flush();
-            session.close();
-        }
-        return id;
+        return user;
     }
 }

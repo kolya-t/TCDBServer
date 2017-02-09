@@ -186,28 +186,14 @@ public class DBService {
     }
 
     /**
-     * Ищет в таблице пользователя с указанным логином и возвращает его id
+     * Ищет в таблице пользователя с указанным login и возвращает его
      *
-     * @param login уникальный логин пользователя, которого ищем
-     * @return идентификатор (id) пользователя с логином login или -1, если пользователь не найден
+     * @param login логин пользователя
+     * @return найденного пользователя или {@code null}, найти пользователя не удалось
      */
-    public long getIdByLogin(String login) throws DBException {
+    public User getUserByLogin(String login) throws DBException {
         try {
-            return userDAO.getIdByLogin(login);
-        } catch (SQLException e) {
-            throw new DBException(e);
-        }
-    }
-
-    /**
-     * Ищет в таблице пользователя с указанным email и возвращает его id
-     *
-     * @param email уникальный email пользователя, которого ищем
-     * @return идентификатор (id) пользователя с указанным email или -1, если пользователь не найден
-     */
-    public long getIdByEmail(String email) throws DBException {
-        try {
-            return userDAO.getIdByEmail(email);
+            return userDAO.getByLogin(login);
         } catch (SQLException e) {
             throw new DBException(e);
         }

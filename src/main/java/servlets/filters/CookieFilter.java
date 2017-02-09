@@ -40,8 +40,7 @@ public class CookieFilter implements Filter {
         if (session.getAttribute(COOKIE_CHECKED) != null) {
             String login = LoginController.getLoginFromCookie(req);
             try {
-                long id = DBService.getInstance().getIdByLogin(login);
-                User user = DBService.getInstance().getUser(id);
+                User user = DBService.getInstance().getUserByLogin(login);
                 LoginController.storeUserCookie(resp, user);
             } catch (DBException e) {
                 e.printStackTrace();
