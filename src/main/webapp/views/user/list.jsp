@@ -64,6 +64,18 @@
             <jsp:include page="../alerts/error.jsp"/>
         </div>
     </div>
+
+    <div class="container text-center">
+        <ul class="pagination">
+            <%--@elvariable id="offsets" type="java.util.Map<Integer, Integer>"--%>
+            <%--@elvariable id="activePage" type="int"--%>
+            <c:forEach items="${offsets}" var="offset" varStatus="i">
+                <li><a href="${pageContext.request.contextPath}/user/list?offset=${offset.value}"
+                       <c:if test="${activePage == offset.key}">class="active"</c:if>>${offset.key}</a></li>
+            </c:forEach>
+        </ul>
+    </div>
+
 </div>
 <script src="http://code.jquery.com/jquery-latest.js"></script>
 <script src="../../js/bootstrap.min.js"></script>
