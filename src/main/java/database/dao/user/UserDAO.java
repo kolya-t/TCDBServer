@@ -52,7 +52,7 @@ public abstract class UserDAO implements DAO<User> {
      * @return список всех пользователей из таблицы
      */
     @Override
-    public abstract List<User> getAll() throws SQLException;
+    public abstract List<User> getList() throws SQLException;
 
     /**
      * Заменяет login пользователя с указанным id

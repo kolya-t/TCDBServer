@@ -118,7 +118,7 @@ public class HibernateUserDAO extends UserDAO {
      * @return список всех пользователей из таблицы
      */
     @Override
-    public List<User> getAll() throws SQLException {
+    public List<User> getList() throws SQLException {
         List<User> users = new LinkedList<>();
         Session session = HibernateSessionFactory.getSessionFactory().openSession();
         try {

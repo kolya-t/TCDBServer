@@ -179,7 +179,7 @@ public class DBService {
      */
     public List<User> getAllUsers() throws DBException {
         try {
-            return userDAO.getAll();
+            return userDAO.getList();
         } catch (SQLException e) {
             throw new DBException(e);
         }

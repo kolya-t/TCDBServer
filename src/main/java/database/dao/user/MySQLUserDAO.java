@@ -91,7 +91,7 @@ public class MySQLUserDAO extends UserDAO {
      * @return список всех пользователей из таблицы
      */
     @Override
-    public List<User> getAll() throws SQLException {
+    public List<User> getList() throws SQLException {
         String sql = "SELECT * FROM `user`";
         return SQLExecutor.executeQuery(sql, Connector.getConnection(), resultSet -> {
             List<User> userList = new LinkedList<>();

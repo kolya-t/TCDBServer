@@ -55,7 +55,7 @@ public interface DAO<T> {
     /**
      * @return список всех объектов из таблицы
      */
-    default List<T> getAll() throws SQLException {
+    default List<T> getList() throws SQLException {
         throw new UnsupportedOperationException();
     }
 
