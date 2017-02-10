@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * Реализация UserDAO под Hibernate
  */
-public class HibernateUserDAO extends UserDAO {
+public class HibernateUserDAO implements UserDAO {
 
     /**
      * Добавляет нового пользователя в таблицу users.

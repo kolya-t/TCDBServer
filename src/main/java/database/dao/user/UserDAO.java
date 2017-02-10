@@ -9,7 +9,7 @@ import java.util.List;
 
 
 @SuppressWarnings("UnusedDeclaration")
-public abstract class UserDAO implements DAO<User> {
+public interface UserDAO extends DAO<User> {
 
     /**
      * Добавляет нового пользователя в таблицу users.
@@ -19,7 +19,7 @@ public abstract class UserDAO implements DAO<User> {
      * @return номер пользователя в таблице (id) или -1 если добавить не удалось
      */
     @Override
-    public abstract long insert(User user) throws SQLException;
+    long insert(User user) throws SQLException;
 
     /**
      * Операция удаления пользователя с указанным идентификатором из базы
@@ -28,7 +28,7 @@ public abstract class UserDAO implements DAO<User> {
      * @return {@code true} если удаление прошло успешно и {@code false} если удалить пользователя не удалось
      */
     @Override
-    public abstract boolean delete(long id) throws SQLException;
+    boolean delete(long id) throws SQLException;
 
     /**
      * Операция обновления пользователя в базе
@@ -37,7 +37,7 @@ public abstract class UserDAO implements DAO<User> {
      * @return {@code true} если обновление прошло успешно и {@code false} если обновить пользователя не удалось
      */
     @Override
-    public abstract boolean update(User user) throws SQLException;
+    boolean update(User user) throws SQLException;
 
     /**
      * Ищет в базе пользователя с указанным id и возвращает его
@@ -46,13 +46,13 @@ public abstract class UserDAO implements DAO<User> {
      * @return найденный пользователь или {@code null}, если пользователя найти не удалось
      */
     @Override
-    public abstract @Nullable User get(long id) throws SQLException;
+    @Nullable User get(long id) throws SQLException;
 
     /**
      * @return список всех пользователей из таблицы
      */
     @Override
-    public abstract List<User> getList() throws SQLException;
+    List<User> getList() throws SQLException;
 
     /**
      * Выборка limit (или меньше) пользователей из таблицы начиная с offset
@@ -63,13 +63,13 @@ public abstract class UserDAO implements DAO<User> {
      * если в указанном диапазоне не найдено ни одного объекта
      */
     @Override
-    public abstract List<User> getList(int offset, int limit) throws SQLException;
+    List<User> getList(int offset, int limit) throws SQLException;
 
     /**
      * @return количество записей в таблице
      */
     @Override
-    public abstract int getCount() throws SQLException;
+    int getCount() throws SQLException;
 
     /**
      * Заменяет login пользователя с указанным id
@@ -78,7 +78,7 @@ public abstract class UserDAO implements DAO<User> {
      * @param login новый логин
      * @return {@code true} если обновление прошло успешно и {@code false} если обновить login не удалось
      */
-    public abstract boolean updateLogin(long id, String login) throws SQLException;
+    boolean updateLogin(long id, String login) throws SQLException;
 
     /**
      * Заменяет role пользователя с указанным id
@@ -87,7 +87,7 @@ public abstract class UserDAO implements DAO<User> {
      * @param role новая role
      * @return {@code true} если обновление прошло успешно и {@code false} если обновить role не удалось
      */
-    public abstract boolean updateRole(long id, String role) throws SQLException;
+    boolean updateRole(long id, String role) throws SQLException;
 
     /**
      * Заменяет password пользователя с указанным id
@@ -96,7 +96,7 @@ public abstract class UserDAO implements DAO<User> {
      * @param password новый пароль
      * @return {@code true} если обновление прошло успешно и {@code false} если обновить пароль не удалось
      */
-    public abstract boolean updatePassword(long id, String password) throws SQLException;
+    boolean updatePassword(long id, String password) throws SQLException;
 
     /**
      * Заменяет email пользователя с указанным id
@@ -105,7 +105,7 @@ public abstract class UserDAO implements DAO<User> {
      * @param email новый email
      * @return {@code true} если обновление прошло успешно и {@code false} если обновить email не удалось
      */
-    public abstract boolean updateEmail(long id, String email) throws SQLException;
+    boolean updateEmail(long id, String email) throws SQLException;
 
     /**
      * Ищет в таблице пользователя с указанным login и возвращает его
@@ -113,5 +113,5 @@ public abstract class UserDAO implements DAO<User> {
      * @param login логин пользователя
      * @return найденного пользователя или {@code null}, найти пользователя не удалось
      */
-    public abstract @Nullable User getByLogin(String login) throws SQLException;
+    @Nullable User getByLogin(String login) throws SQLException;
 }

@@ -1,10 +1,8 @@
 package database.dao.user;
 
 import database.helper.Connector;
-import database.helper.HibernateSessionFactory;
 import database.helper.executor.SQLExecutor;
 import database.pojo.User;
-import org.hibernate.Session;
 import org.jetbrains.annotations.Nullable;
 
 import java.sql.SQLException;
@@ -15,7 +13,7 @@ import java.util.List;
 /**
  * Реализация UserDAO под СУБД MySQL
  */
-public class MySQLUserDAO extends UserDAO {
+public class MySQLUserDAO implements UserDAO {
 
     /**
      * Добавляет нового пользователя в таблицу users.
