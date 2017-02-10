@@ -29,6 +29,24 @@ public class User implements Serializable {
     @Column(name = "role", nullable = false, length = 45)
     private String role;
 
+    public User() {
+    }
+
+    public User(Long id, String login, String password, String email, String role) {
+        this.id = id;
+        this.login = login;
+        this.password = password;
+        this.email = email;
+        this.role = role;
+    }
+
+    public User(String login, String password, String email, String role) {
+        this.login = login;
+        this.password = password;
+        this.email = email;
+        this.role = role;
+    }
+
     public Long getId() {
         return id;
     }
