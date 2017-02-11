@@ -1,9 +1,9 @@
-package servlets.filters;
+package filters;
 
 import database.DBException;
 import database.DBService;
 import database.pojo.User;
-import servlets.LoginController;
+import controllers.LoginController;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;

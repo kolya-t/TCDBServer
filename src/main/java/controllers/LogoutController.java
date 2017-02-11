@@ -1,12 +1,12 @@
-package servlets;
+package controllers;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import java.io.IOException;
 
-import static servlets.LoginController.USERNAME_IN_COOKIE;
-import static servlets.filters.CookieFilter.COOKIE_CHECKED;
+import static controllers.LoginController.USERNAME_IN_COOKIE;
+import static filters.CookieFilter.COOKIE_CHECKED;
 
 
 @WebServlet("/logout")

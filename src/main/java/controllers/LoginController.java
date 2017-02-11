@@ -1,4 +1,4 @@
-package servlets;
+package controllers;
 
 import database.DBException;
 import database.DBService;
@@ -8,7 +8,6 @@ import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import java.io.IOException;
-import java.util.Collections;
 import java.util.Objects;
 
 @WebServlet("/login")

@@ -1,4 +1,4 @@
-package servlets.user;
+package controllers;
 
 import database.DBException;
 import database.DBService;
@@ -11,15 +11,24 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet("/user/add")
-public class AddController extends HttpServlet {
-    public static final String VIEW_JSP = "/views/user/add.jsp";
+
+@WebServlet("/signup")
+public class SignUpController extends HttpServlet {
+
+    public static final String VIEW_JSP = "/views/signup.jsp";
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/html;charset=utf-8");
         req.setCharacterEncoding("UTF-8");
 
+        // уже зарегистрирован и залогинен
+        if (req.getSession().getAttribute("loggedUser") != null) {
+            req.getSession().setAttribute("errorMessage", "Вы уже зарегистрированы");
+            resp.sendRedirect("/");
+            return;
+        }
+        // отрисовка вьюхи
         req.getRequestDispatcher(VIEW_JSP).forward(req, resp);
     }
 
@@ -31,15 +40,15 @@ public class AddController extends HttpServlet {
         String login = req.getParameter("login");
         String password = req.getParameter("password");
         String email = req.getParameter("email");
-        String role = req.getParameter("role");
 
         boolean done = false;
         User user = new User();
-        if ((login != null) && (password != null) && (email != null) && (role != null)) {
+        if ((login != null) && (password != null) && (email != null)) {
             user.setLogin(login);
             user.setPassword(password);
             user.setEmail(email);
-            user.setRole(role);
+            // регистрация только как пользователя, доп. права может назначить администратор
+            user.setRole("user");
 
             try {
                 long id = DBService.getInstance().addUser(user);
@@ -50,12 +59,10 @@ public class AddController extends HttpServlet {
         }
 
         if (done) {
-            req.getSession().setAttribute("successMessage", "Пользователь добавлен");
-            resp.sendRedirect("/user/list");
+            req.getRequestDispatcher("/login").forward(req, resp);
         } else {
-            req.setAttribute("errorMessage", "Не удалось добавить пользователя");
-            req.setAttribute("user", user);
-            req.getRequestDispatcher(VIEW_JSP).forward(req, resp);
+            req.getSession().setAttribute("errorMessage", "Не удалось зарегистрироваться");
+            resp.sendRedirect("/");
         }
     }
 }

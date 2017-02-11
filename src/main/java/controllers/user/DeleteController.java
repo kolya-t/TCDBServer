@@ -1,4 +1,4 @@
-package servlets.user;
+package controllers.user;
 
 import database.DBException;
 import database.DBService;
