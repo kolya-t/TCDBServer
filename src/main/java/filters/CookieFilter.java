@@ -1,6 +1,6 @@
 package filters;
 
-import database.DBException;
+import services.UserServiceException;
 import services.UserService;
 import database.pojo.User;
 import controllers.LoginController;
@@ -42,7 +42,7 @@ public class CookieFilter implements Filter {
             try {
                 User user = UserService.getInstance().getUserByLogin(login);
                 LoginController.storeUserCookie(resp, user);
-            } catch (DBException e) {
+            } catch (UserServiceException e) {
                 e.printStackTrace();
             }
 

@@ -1,6 +1,5 @@
 package services;
 
-import database.DBException;
 import database.dao.factory.DAOFactory;
 import database.dao.user.UserDAO;
 import database.helper.PropertyService;
@@ -29,18 +28,18 @@ public class UserService {
     /**
      * Конструктор создает объекты реализаций всех необходимых DAO
      */
-    private UserService() throws DBException {
+    private UserService() throws UserServiceException {
         try {
             DAOFactory daoFactory = DAOFactory.getDAOFactory(
                     PropertyService.getInstance().getDAOFactoryImplementationClassName()
             );
             userDAO = daoFactory.getUserDAO();
         } catch (Exception e) {
-            throw new DBException(e);
+            throw new UserServiceException(e);
         }
     }
 
-    public static UserService getInstance() throws DBException {
+    public static UserService getInstance() throws UserServiceException {
         if (instance == null) {
             instance = new UserService();
         }
@@ -53,11 +52,11 @@ public class UserService {
      * @param user пользователь, которого вставляем в таблицу
      * @return id вставленного пользователя
      */
-    public long addUser(User user) throws DBException {
+    public long addUser(User user) throws UserServiceException {
         try {
             return userDAO.insert(user);
         } catch (SQLException e) {
-            throw new DBException(e);
+            throw new UserServiceException(e);
         }
     }
 
@@ -67,11 +66,11 @@ public class UserService {
      * @param user новый пользователь
      * @return {@code true} если обновление прошло успешно и {@code false} если обновить пользователя не удалось
      */
-    public boolean updateUser(User user) throws DBException {
+    public boolean updateUser(User user) throws UserServiceException {
         try {
             return userDAO.update(user);
         } catch (SQLException e) {
-            throw new DBException(e);
+            throw new UserServiceException(e);
         }
     }
 
@@ -80,11 +79,11 @@ public class UserService {
      *
      * @param id идентификатор пользователя, которого нужно удалить
      */
-    public boolean deleteUser(long id) throws DBException {
+    public boolean deleteUser(long id) throws UserServiceException {
         try {
             return userDAO.delete(id);
         } catch (SQLException e) {
-            throw new DBException(e);
+            throw new UserServiceException(e);
         }
     }
 
@@ -95,11 +94,11 @@ public class UserService {
      * @param login новый логин
      * @return {@code true} если обновление прошло успешно и {@code false} если обновить login не удалось
      */
-    public boolean updateLogin(long id, String login) throws DBException {
+    public boolean updateLogin(long id, String login) throws UserServiceException {
         try {
             return userDAO.updateLogin(id, login);
         } catch (SQLException e) {
-            throw new DBException(e);
+            throw new UserServiceException(e);
         }
     }
 
@@ -110,11 +109,11 @@ public class UserService {
      * @param role новая role
      * @return {@code true} если обновление прошло успешно и {@code false} если обновить role не удалось
      */
-    public boolean updateRole(long id, String role) throws DBException {
+    public boolean updateRole(long id, String role) throws UserServiceException {
         try {
             return userDAO.updateRole(id, role);
         } catch (SQLException e) {
-            throw new DBException(e);
+            throw new UserServiceException(e);
         }
     }
 
@@ -125,11 +124,11 @@ public class UserService {
      * @param password новый пароль
      * @return {@code true} если обновление прошло успешно и {@code false} если обновить пароль не удалось
      */
-    public boolean updatePassword(long id, String password) throws DBException {
+    public boolean updatePassword(long id, String password) throws UserServiceException {
         try {
             return userDAO.updatePassword(id, password);
         } catch (SQLException e) {
-            throw new DBException(e);
+            throw new UserServiceException(e);
         }
     }
 
@@ -140,11 +139,11 @@ public class UserService {
      * @param email новый email
      * @return {@code true} если обновление прошло успешно и {@code false} если обновить email не удалось
      */
-    public boolean updateEmail(long id, String email) throws DBException {
+    public boolean updateEmail(long id, String email) throws UserServiceException {
         try {
             return userDAO.updateEmail(id, email);
         } catch (SQLException e) {
-            throw new DBException(e);
+            throw new UserServiceException(e);
         }
     }
 
@@ -155,11 +154,11 @@ public class UserService {
      * @return найденного пользователя или {@code null} если пользователь с таким id не найден
      */
     @Nullable
-    public User getUser(long id) throws DBException {
+    public User getUser(long id) throws UserServiceException {
         try {
             return userDAO.get(id);
         } catch (SQLException e) {
-            throw new DBException(e);
+            throw new UserServiceException(e);
         }
     }
 
@@ -168,11 +167,11 @@ public class UserService {
      *
      * @return список всех пользователей в таблице users
      */
-    public List<User> getUserList() throws DBException {
+    public List<User> getUserList() throws UserServiceException {
         try {
             return userDAO.getList();
         } catch (SQLException e) {
-            throw new DBException(e);
+            throw new UserServiceException(e);
         }
     }
 
@@ -184,22 +183,22 @@ public class UserService {
      * @return полученный список пользователей или пустой список,
      * если в указанном диапазоне не найдено ни одного объекта
      */
-    public List<User> getUserList(int offset, int limit) throws DBException {
+    public List<User> getUserList(int offset, int limit) throws UserServiceException {
         try {
             return userDAO.getList(offset, limit);
         } catch (SQLException e) {
-            throw new DBException(e);
+            throw new UserServiceException(e);
         }
     }
 
     /**
      * @return количество записей в таблице
      */
-    public int getUserCount() throws DBException {
+    public int getUserCount() throws UserServiceException {
         try {
             return userDAO.getCount();
         } catch (SQLException e) {
-            throw new DBException(e);
+            throw new UserServiceException(e);
         }
     }
 
@@ -209,11 +208,11 @@ public class UserService {
      * @param login логин пользователя
      * @return найденного пользователя или {@code null}, найти пользователя не удалось
      */
-    public User getUserByLogin(String login) throws DBException {
+    public User getUserByLogin(String login) throws UserServiceException {
         try {
             return userDAO.getByLogin(login);
         } catch (SQLException e) {
-            throw new DBException(e);
+            throw new UserServiceException(e);
         }
     }
 }

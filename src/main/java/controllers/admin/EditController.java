@@ -1,6 +1,6 @@
 package controllers.admin;
 
-import database.DBException;
+import services.UserServiceException;
 import services.UserService;
 import database.pojo.User;
 
@@ -32,7 +32,7 @@ public class EditController extends HttpServlet {
             } else {
                 req.setAttribute("user", user);
             }
-        } catch (NumberFormatException | DBException e) {
+        } catch (NumberFormatException | UserServiceException e) {
             e.printStackTrace();
             forward = ERROR_PAGE;
         }
@@ -62,7 +62,7 @@ public class EditController extends HttpServlet {
 
             try {
                 done = UserService.getInstance().updateUser(user);
-            } catch (DBException e) {
+            } catch (UserServiceException e) {
                 e.printStackTrace();
             }
         }

@@ -1,6 +1,6 @@
 package controllers.admin;
 
-import database.DBException;
+import services.UserServiceException;
 import services.UserService;
 
 import javax.servlet.ServletException;
@@ -23,7 +23,7 @@ public class DeleteController extends HttpServlet {
         try {
             long id = Long.parseLong(req.getParameter("id"));
             done = UserService.getInstance().deleteUser(id);
-        } catch (NumberFormatException | DBException e) {
+        } catch (NumberFormatException | UserServiceException e) {
             e.printStackTrace();
         }
 

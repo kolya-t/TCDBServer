@@ -1,6 +1,6 @@
 package controllers.admin;
 
-import database.DBException;
+import services.UserServiceException;
 import services.UserService;
 import database.pojo.User;
 
@@ -45,7 +45,7 @@ public class AddController extends HttpServlet {
             try {
                 long id = UserService.getInstance().addUser(user);
                 done = id != -1;
-            } catch (DBException e) {
+            } catch (UserServiceException e) {
                 e.printStackTrace();
             }
         }

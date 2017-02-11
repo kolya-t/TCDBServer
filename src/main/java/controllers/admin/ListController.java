@@ -1,6 +1,6 @@
 package controllers.admin;
 
-import database.DBException;
+import services.UserServiceException;
 import services.UserService;
 import database.helper.HibernateSessionFactory;
 
@@ -47,7 +47,7 @@ public class ListController extends HttpServlet {
 
             // отрисовка страницы
             req.getServletContext().getRequestDispatcher(VIEW_JSP).forward(req, resp);
-        } catch (DBException e) {
+        } catch (UserServiceException e) {
             e.printStackTrace();
         }
     }
