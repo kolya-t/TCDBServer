@@ -1,7 +1,7 @@
 package controllers;
 
 import database.DBException;
-import database.DBService;
+import services.UserService;
 import database.pojo.User;
 
 import javax.servlet.ServletException;
@@ -51,7 +51,7 @@ public class LoginController extends HttpServlet {
 
         } else {
             try {
-                user = DBService.getInstance().getUserByLogin(login);
+                user = UserService.getInstance().getUserByLogin(login);
                 if (user == null || !Objects.equals(password, user.getPassword())) {
                     hasError = true;
                     errorMessage = "Некорректный логин или пароль";

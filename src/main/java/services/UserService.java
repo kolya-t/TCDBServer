@@ -1,5 +1,6 @@
-package database;
+package services;
 
+import database.DBException;
 import database.dao.factory.DAOFactory;
 import database.dao.user.UserDAO;
 import database.helper.PropertyService;
@@ -13,12 +14,12 @@ import java.util.List;
  * Singleton класс сервиса работы с базой данных
  */
 @SuppressWarnings("UnusedDeclaration")
-public class DBService {
+public class UserService {
 
     /**
-     * Экземпляр Singleton-класса {@link DBService}
+     * Экземпляр Singleton-класса {@link UserService}
      */
-    private static DBService instance;
+    private static UserService instance;
 
     /**
      * DAO для работы с пользователями
@@ -28,7 +29,7 @@ public class DBService {
     /**
      * Конструктор создает объекты реализаций всех необходимых DAO
      */
-    private DBService() throws DBException {
+    private UserService() throws DBException {
         try {
             DAOFactory daoFactory = DAOFactory.getDAOFactory(
                     PropertyService.getInstance().getDAOFactoryImplementationClassName()
@@ -39,9 +40,9 @@ public class DBService {
         }
     }
 
-    public static DBService getInstance() throws DBException {
+    public static UserService getInstance() throws DBException {
         if (instance == null) {
-            instance = new DBService();
+            instance = new UserService();
         }
         return instance;
     }

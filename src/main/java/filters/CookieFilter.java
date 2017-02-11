@@ -1,7 +1,7 @@
 package filters;
 
 import database.DBException;
-import database.DBService;
+import services.UserService;
 import database.pojo.User;
 import controllers.LoginController;
 
@@ -40,7 +40,7 @@ public class CookieFilter implements Filter {
         if (session.getAttribute(COOKIE_CHECKED) != null) {
             String login = LoginController.getLoginFromCookie(req);
             try {
-                User user = DBService.getInstance().getUserByLogin(login);
+                User user = UserService.getInstance().getUserByLogin(login);
                 LoginController.storeUserCookie(resp, user);
             } catch (DBException e) {
                 e.printStackTrace();

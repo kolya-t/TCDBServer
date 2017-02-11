@@ -1,7 +1,7 @@
 package controllers.admin;
 
 import database.DBException;
-import database.DBService;
+import services.UserService;
 import database.helper.HibernateSessionFactory;
 
 import javax.servlet.ServletException;
@@ -31,10 +31,10 @@ public class ListController extends HttpServlet {
             if (offsetStr != null) {
                 offset = Integer.parseInt(offsetStr);
             }
-            req.setAttribute("userList", DBService.getInstance().getUserList(offset, PAGE_ROWS_LIMIT));
+            req.setAttribute("userList", UserService.getInstance().getUserList(offset, PAGE_ROWS_LIMIT));
 
             // создание списка номеров страниц и списка смещений
-            int rowCount = DBService.getInstance().getUserCount();
+            int rowCount = UserService.getInstance().getUserCount();
             int pageCount = (int) Math.ceil((double) rowCount / PAGE_ROWS_LIMIT);
             Map<Integer, Integer> offsets = new LinkedHashMap<>();
             for (int i = 0; i < pageCount; i++) {

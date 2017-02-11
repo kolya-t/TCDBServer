@@ -1,7 +1,7 @@
 package controllers.admin;
 
 import database.DBException;
-import database.DBService;
+import services.UserService;
 import database.pojo.User;
 
 import javax.servlet.ServletException;
@@ -26,7 +26,7 @@ public class EditController extends HttpServlet {
         String forward = VIEW_JSP;
         try {
             long id = Long.parseLong(req.getParameter("id"));
-            User user = DBService.getInstance().getUser(id);
+            User user = UserService.getInstance().getUser(id);
             if (user == null) {
                 forward = ERROR_PAGE;
             } else {
@@ -61,7 +61,7 @@ public class EditController extends HttpServlet {
             user.setRole(role);
 
             try {
-                done = DBService.getInstance().updateUser(user);
+                done = UserService.getInstance().updateUser(user);
             } catch (DBException e) {
                 e.printStackTrace();
             }

@@ -1,7 +1,7 @@
 package controllers.admin;
 
 import database.DBException;
-import database.DBService;
+import services.UserService;
 import database.pojo.User;
 
 import javax.servlet.ServletException;
@@ -43,7 +43,7 @@ public class AddController extends HttpServlet {
             user.setRole(role);
 
             try {
-                long id = DBService.getInstance().addUser(user);
+                long id = UserService.getInstance().addUser(user);
                 done = id != -1;
             } catch (DBException e) {
                 e.printStackTrace();
