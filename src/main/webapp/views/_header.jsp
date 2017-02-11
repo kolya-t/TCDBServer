@@ -16,8 +16,8 @@
                 <li><a href="${pageContext.request.contextPath}/">
                     <span class="glyphicon glyphicon-home"></span> Home
                 </a></li>
-                <li><a href="${pageContext.request.contextPath}/user/list">
-                    <span class="glyphicon glyphicon-user"></span> Users
+                <li><a href="${pageContext.request.contextPath}/admin">
+                    <span class="glyphicon glyphicon-user"></span> Admin panel
                 </a></li>
             </ul>
             <c:choose>

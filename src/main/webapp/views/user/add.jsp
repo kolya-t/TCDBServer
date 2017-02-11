@@ -21,7 +21,7 @@
                     <h3 class="panel-title">Создание пользователя</h3>
                 </div>
                 <div class="panel-body">
-                    <form role="form" action="${pageContext.request.contextPath}/user/add" method="post">
+                    <form role="form" action="${pageContext.request.contextPath}/admin/add" method="post">
                         <div class="form-group">
                             <input class="form-control" placeholder="Login" name="login" type="text"
                                    value="${user.login}" autofocus>

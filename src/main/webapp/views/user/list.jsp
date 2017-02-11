@@ -38,11 +38,11 @@
                                 <td>${user.email}</td>
                                 <td>${user.role}</td>
                                 <td class="text-center">
-                                    <a href="${pageContext.request.contextPath}/user/edit?id=${user.id}" role="button"
+                                    <a href="${pageContext.request.contextPath}/admin/edit?id=${user.id}" role="button"
                                        class="btn btn-warning btn-sm">
                                         <span class="glyphicon glyphicon-pencil"></span> Изменить
                                     </a>
-                                    <a href="${pageContext.request.contextPath}/user/delete?id=${user.id}" role="button"
+                                    <a href="${pageContext.request.contextPath}/admin/delete?id=${user.id}" role="button"
                                        class="btn btn-danger btn-sm">
                                         <span class="glyphicon glyphicon-remove"></span> Удалить
                                     </a>
@@ -54,7 +54,7 @@
                     <tfoot>
                     <tr>
                         <td colspan="7">
-                            <a href="${pageContext.request.contextPath}/user/add">
+                            <a href="${pageContext.request.contextPath}/admin/add">
                                 <i class="glyphicon glyphicon-plus"></i> Добавить нового пользователя
                             </a>
                         </td>

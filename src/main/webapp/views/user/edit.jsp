@@ -21,7 +21,7 @@
                     <h3 class="panel-title">Редактирование пользователя</h3>
                 </div>
                 <div class="panel-body">
-                    <form role="form" action="${pageContext.request.contextPath}/user/edit" method="post">
+                    <form role="form" action="${pageContext.request.contextPath}/admin/edit" method="post">
                         <div class="form-group">
                             <input class="form-control" placeholder="ID" name="id" type="number" value="${user.id}"
                                    readonly>

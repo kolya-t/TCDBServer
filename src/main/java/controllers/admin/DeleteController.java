@@ -1,4 +1,4 @@
-package controllers.user;
+package controllers.admin;
 
 import database.DBException;
 import database.DBService;
@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 
-@WebServlet("/user/delete")
+@WebServlet("/admin/delete")
 public class DeleteController extends HttpServlet {
 
     @Override
@@ -29,7 +29,7 @@ public class DeleteController extends HttpServlet {
 
         if (done) {
             // TODO: добавить сообщения
-            resp.sendRedirect("/user/list");
+            resp.sendRedirect("/admin");
         }
     }
 }

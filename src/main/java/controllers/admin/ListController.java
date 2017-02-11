@@ -1,4 +1,4 @@
-package controllers.user;
+package controllers.admin;
 
 import database.DBException;
 import database.DBService;
@@ -14,9 +14,9 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 
-@WebServlet("/user/list")
+@WebServlet("/admin")
 public class ListController extends HttpServlet {
-    public static final String VIEW_JSP = "/views/user/list.jsp";
+    public static final String VIEW_JSP = "/views/admin/list.jsp";
     public static final int PAGE_ROWS_LIMIT = 10; // макс. кол-во записей на страницу
 
     @Override

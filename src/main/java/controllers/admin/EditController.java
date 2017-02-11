@@ -1,4 +1,4 @@
-package controllers.user;
+package controllers.admin;
 
 import database.DBException;
 import database.DBService;
@@ -12,13 +12,13 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 
-@WebServlet("/user/edit")
+@WebServlet("/admin/edit")
 public class EditController extends HttpServlet {
-    public static final String VIEW_JSP = "/views/user/edit.jsp";
+    public static final String VIEW_JSP = "/views/admin/edit.jsp";
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        final String ERROR_PAGE = "/user/list";
+        final String ERROR_PAGE = "/admin";
 
         resp.setContentType("text/html;charset=utf-8");
         req.setCharacterEncoding("UTF-8");
@@ -69,7 +69,7 @@ public class EditController extends HttpServlet {
 
         if (done) {
             req.getSession().setAttribute("successMessage", "Пользователь успешно изенен");
-            resp.sendRedirect("/user/list");
+            resp.sendRedirect("/admin");
         } else {
             req.setAttribute("user", user);
             req.setAttribute("errorMessage", "Не удалось изменить пользователя");

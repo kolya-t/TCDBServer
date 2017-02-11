@@ -1,4 +1,4 @@
-package controllers.user;
+package controllers.admin;
 
 import database.DBException;
 import database.DBService;
@@ -11,9 +11,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet("/user/add")
+
+@WebServlet("/admin/add")
 public class AddController extends HttpServlet {
-    public static final String VIEW_JSP = "/views/user/add.jsp";
+    public static final String VIEW_JSP = "/views/admin/add.jsp";
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -51,7 +52,7 @@ public class AddController extends HttpServlet {
 
         if (done) {
             req.getSession().setAttribute("successMessage", "Пользователь добавлен");
-            resp.sendRedirect("/user/list");
+            resp.sendRedirect("/admin");
         } else {
             req.setAttribute("errorMessage", "Не удалось добавить пользователя");
             req.setAttribute("user", user);
