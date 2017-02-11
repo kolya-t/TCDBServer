@@ -69,7 +69,7 @@ public class EditController extends HttpServlet {
 
         if (done) {
             req.getSession().setAttribute("successMessage", "Пользователь успешно изенен");
-            resp.sendRedirect("/admin");
+            resp.sendRedirect(req.getContextPath() + "/admin");
         } else {
             req.setAttribute("user", user);
             req.setAttribute("errorMessage", "Не удалось изменить пользователя");

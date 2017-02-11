@@ -29,7 +29,7 @@ public class DeleteController extends HttpServlet {
 
         if (done) {
             // TODO: добавить сообщения
-            resp.sendRedirect("/admin");
+            resp.sendRedirect(req.getContextPath() + "/admin");
         }
     }
 }

@@ -285,4 +285,32 @@ public class HibernateUserDAO implements UserDAO {
         }
         return user;
     }
+
+    /**
+     * Ищет в таблице пользователя с указанным email и возвращает его
+     *
+     * @param email email пользователя
+     * @return найденного пользователя или {@code null}, найти пользователя не удалось
+     */
+    @Override
+    public User getByEmail(String email) throws SQLException {
+        String hql = "FROM User WHERE email = :email";
+        User user = null;
+        Session session = HibernateSessionFactory.getSessionFactory().openSession();
+
+        try {
+            session.beginTransaction();
+
+            user = session.createQuery(hql, User.class)
+                    .setParameter("email", email)
+                    .uniqueResult();
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+        } finally {
+            session.flush();
+            session.close();
+        }
+
+        return user;
+    }
 }

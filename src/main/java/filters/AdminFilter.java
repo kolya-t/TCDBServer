@@ -2,6 +2,7 @@ package filters;
 
 import database.pojo.User;
 import controllers.LoginController;
+import services.AccountService;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
@@ -22,7 +23,7 @@ public class AdminFilter implements Filter {
         HttpServletResponse resp = (HttpServletResponse) response;
         HttpSession session = req.getSession();
 
-        User user = LoginController.getLoggedUser(session);
+        User user = AccountService.getInstance().getLoggedUser(session);
         // пользователь не залогинен
         if (user == null) {
             req.getSession().setAttribute("errorMessage", "Нужно войти");

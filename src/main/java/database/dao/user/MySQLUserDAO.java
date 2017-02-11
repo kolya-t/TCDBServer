@@ -74,13 +74,13 @@ public class MySQLUserDAO implements UserDAO {
         String sql = "SELECT * FROM `user` WHERE `id` = " + id;
         return SQLExecutor.executeQuery(sql, Connector.getConnection(), resultSet -> {
             if (resultSet.next()) {
-                User user = new User();
-                user.setId(resultSet.getLong("id"));
-                user.setLogin(resultSet.getString("login"));
-                user.setPassword(resultSet.getString("password"));
-                user.setEmail(resultSet.getString("email"));
-                user.setRole(resultSet.getString("role"));
-                return user;
+                return new User(
+                        resultSet.getLong("id"),
+                        resultSet.getString("login"),
+                        resultSet.getString("password"),
+                        resultSet.getString("email"),
+                        resultSet.getString("role")
+                );
             }
             return null;
         });
@@ -97,13 +97,13 @@ public class MySQLUserDAO implements UserDAO {
             List<User> userList = new LinkedList<>();
 
             while (resultSet.next()) {
-                User user = new User();
-                user.setId(resultSet.getLong("id"));
-                user.setLogin(resultSet.getString("login"));
-                user.setPassword(resultSet.getString("password"));
-                user.setEmail(resultSet.getString("email"));
-                user.setRole(resultSet.getString("role"));
-                userList.add(user);
+                userList.add(new User(
+                        resultSet.getLong("id"),
+                        resultSet.getString("login"),
+                        resultSet.getString("password"),
+                        resultSet.getString("email"),
+                        resultSet.getString("role"))
+                );
             }
 
             return userList;
@@ -125,13 +125,13 @@ public class MySQLUserDAO implements UserDAO {
             List<User> userList = new LinkedList<>();
 
             while (resultSet.next()) {
-                User user = new User();
-                user.setId(resultSet.getLong("id"));
-                user.setLogin(resultSet.getString("login"));
-                user.setPassword(resultSet.getString("password"));
-                user.setEmail(resultSet.getString("email"));
-                user.setRole(resultSet.getString("role"));
-                userList.add(user);
+                userList.add(new User(
+                        resultSet.getLong("id"),
+                        resultSet.getString("login"),
+                        resultSet.getString("password"),
+                        resultSet.getString("email"),
+                        resultSet.getString("role"))
+                );
             }
 
             return userList;
@@ -221,12 +221,37 @@ public class MySQLUserDAO implements UserDAO {
         return SQLExecutor.executeQuery(sql, Connector.getConnection(), resultSet -> {
             User user = null;
             if (resultSet.next()) {
-                user = new User();
-                user.setId(resultSet.getLong("id"));
-                user.setLogin(resultSet.getString("login"));
-                user.setPassword(resultSet.getString("password"));
-                user.setEmail(resultSet.getString("email"));
-                user.setRole(resultSet.getString("role"));
+                user = new User(
+                        resultSet.getLong("id"),
+                        resultSet.getString("login"),
+                        resultSet.getString("password"),
+                        resultSet.getString("email"),
+                        resultSet.getString("role")
+                );
+            }
+            return user;
+        });
+    }
+
+    /**
+     * Ищет в таблице пользователя с указанным email и возвращает его
+     *
+     * @param email email пользователя
+     * @return найденного пользователя или {@code null}, найти пользователя не удалось
+     */
+    @Override
+    public @Nullable User getByEmail(String email) throws SQLException {
+        String sql = String.format("SELECT `id` FROM `user` WHERE `email` = '%s'", email);
+        return SQLExecutor.executeQuery(sql, Connector.getConnection(), resultSet -> {
+            User user = null;
+            if (resultSet.next()) {
+                user = new User(
+                        resultSet.getLong("id"),
+                        resultSet.getString("login"),
+                        resultSet.getString("password"),
+                        resultSet.getString("email"),
+                        resultSet.getString("role")
+                );
             }
             return user;
         });

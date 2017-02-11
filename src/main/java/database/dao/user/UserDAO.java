@@ -114,4 +114,12 @@ public interface UserDAO extends DAO<User> {
      * @return найденного пользователя или {@code null}, найти пользователя не удалось
      */
     @Nullable User getByLogin(String login) throws SQLException;
+
+    /**
+     * Ищет в таблице пользователя с указанным email и возвращает его
+     *
+     * @param email email пользователя
+     * @return найденного пользователя или {@code null}, найти пользователя не удалось
+     */
+    @Nullable User getByEmail(String email) throws SQLException;
 }

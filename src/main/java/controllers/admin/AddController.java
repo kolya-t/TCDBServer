@@ -52,7 +52,7 @@ public class AddController extends HttpServlet {
 
         if (done) {
             req.getSession().setAttribute("successMessage", "Пользователь добавлен");
-            resp.sendRedirect("/admin");
+            resp.sendRedirect(req.getContextPath() + "/admin");
         } else {
             req.setAttribute("errorMessage", "Не удалось добавить пользователя");
             req.setAttribute("user", user);

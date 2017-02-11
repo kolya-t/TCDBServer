@@ -72,7 +72,7 @@
             <%--@elvariable id="offsets" type="java.util.Map<Integer, Integer>"--%>
             <%--@elvariable id="activePage" type="int"--%>
             <c:forEach items="${offsets}" var="offset" varStatus="i">
-                <li><a href="${pageContext.request.contextPath}/user/list?offset=${offset.value}"
+                <li><a href="${pageContext.request.contextPath}/admin?offset=${offset.value}"
                        <c:if test="${activePage == offset.key}">class="active"</c:if>>${offset.key}</a></li>
             </c:forEach>
         </ul>

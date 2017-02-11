@@ -1,6 +1,6 @@
 package database.helper.executor;
 
-import database.DBException;
+import services.UserServiceException;
 import database.helper.Connector;
 
 import java.sql.Connection;
@@ -56,7 +56,7 @@ public final class SQLExecutor {
      * @param <T>         тип результата выполнения транзакции
      * @return результат выполнения команд в транзакции
      */
-    public static <T> T executeTransaction(Callable<T> transaction) throws DBException {
+    public static <T> T executeTransaction(Callable<T> transaction) throws UserServiceException {
         Connection connection = Connector.getConnection();
         try {
             connection.setAutoCommit(false);
@@ -64,7 +64,7 @@ public final class SQLExecutor {
             connection.commit();
             return result;
         } catch (Exception e) {
-            throw new DBException(e);
+            throw new UserServiceException(e);
         } finally {
             try {
                 connection.setAutoCommit(true);
