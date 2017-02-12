@@ -14,7 +14,7 @@ import java.io.IOException;
 
 @WebServlet("/admin/edit")
 public class EditController extends HttpServlet {
-    public static final String VIEW_JSP = "/views/admin/edit.jsp";
+    public static final String EDIT_PAGE_PATH = "/views/admin/edit.jsp";
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -23,7 +23,7 @@ public class EditController extends HttpServlet {
         resp.setContentType("text/html;charset=utf-8");
         req.setCharacterEncoding("UTF-8");
 
-        String forward = VIEW_JSP;
+        String forward = EDIT_PAGE_PATH;
         try {
             long id = Long.parseLong(req.getParameter("id"));
             User user = UserService.getInstance().getUser(id);
@@ -73,7 +73,7 @@ public class EditController extends HttpServlet {
         } else {
             req.setAttribute("user", user);
             req.setAttribute("errorMessage", "Не удалось изменить пользователя");
-            req.getRequestDispatcher(VIEW_JSP).forward(req, resp);
+            req.getRequestDispatcher(EDIT_PAGE_PATH).forward(req, resp);
         }
     }
 }

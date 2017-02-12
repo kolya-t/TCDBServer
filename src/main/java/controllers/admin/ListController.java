@@ -16,7 +16,7 @@ import java.util.Map;
 
 @WebServlet("/admin")
 public class ListController extends HttpServlet {
-    public static final String VIEW_JSP = "/views/admin/list.jsp";
+    public static final String USER_LIST_PAGE_PATH = "/views/admin/list.jsp";
     public static final int PAGE_ROWS_LIMIT = 10; // макс. кол-во записей на страницу
 
     @Override
@@ -46,7 +46,7 @@ public class ListController extends HttpServlet {
             req.setAttribute("activePage", offset / PAGE_ROWS_LIMIT + 1);
 
             // отрисовка страницы
-            req.getServletContext().getRequestDispatcher(VIEW_JSP).forward(req, resp);
+            req.getServletContext().getRequestDispatcher(USER_LIST_PAGE_PATH).forward(req, resp);
         } catch (UserServiceException e) {
             e.printStackTrace();
         }

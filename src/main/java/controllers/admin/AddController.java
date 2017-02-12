@@ -14,14 +14,14 @@ import java.io.IOException;
 
 @WebServlet("/admin/add")
 public class AddController extends HttpServlet {
-    public static final String VIEW_JSP = "/views/admin/add.jsp";
+    public static final String ADD_PAGE_PATH = "/views/admin/add.jsp";
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/html;charset=utf-8");
         req.setCharacterEncoding("UTF-8");
 
-        req.getRequestDispatcher(VIEW_JSP).forward(req, resp);
+        req.getRequestDispatcher(ADD_PAGE_PATH).forward(req, resp);
     }
 
     @Override
@@ -56,7 +56,7 @@ public class AddController extends HttpServlet {
         } else {
             req.setAttribute("errorMessage", "Не удалось добавить пользователя");
             req.setAttribute("user", user);
-            req.getRequestDispatcher(VIEW_JSP).forward(req, resp);
+            req.getRequestDispatcher(ADD_PAGE_PATH).forward(req, resp);
         }
     }
 }
