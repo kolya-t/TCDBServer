@@ -181,6 +181,16 @@ public class HibernateUserDAO implements UserDAO {
         return count;
     }
 
+    @Override
+    public void createTableIfNotExists() throws SQLException {
+        // Hibernate automatically creates table
+    }
+
+    @Override
+    public void dropTableIfExists() throws SQLException {
+        // NOP
+    }
+
     /**
      * Обновляет любое поле пользователя
      *
