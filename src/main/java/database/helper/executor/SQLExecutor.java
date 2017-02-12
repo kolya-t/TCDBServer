@@ -21,11 +21,25 @@ public final class SQLExecutor {
      * @return количество измененных строк
      */
     public static int executeUpdate(String sql, Connection connection) throws SQLException {
-        int updated;
+        int updatedRowsCount;
         try (Statement statement = connection.createStatement()) {
-            updated = statement.executeUpdate(sql);
+            updatedRowsCount = statement.executeUpdate(sql);
         }
-        return updated;
+        return updatedRowsCount;
+    }
+
+    /**
+     * Выполняет SQL команду вставки записи и возвращает номер вставленной записи
+     * @param sql SQL команда вставки записи
+     * @param connection соединение с БД
+     * @return id вставленной строки
+     */
+    public static long executeInsert(String sql, Connection connection) throws SQLException {
+        long insertedId;
+        try (Statement stmt = connection.createStatement()) {
+            insertedId = stmt.executeLargeUpdate(sql, Statement.RETURN_GENERATED_KEYS);
+        }
+        return insertedId;
     }
 
     /**
