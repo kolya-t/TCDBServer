@@ -54,6 +54,7 @@ public class UserService {
      */
     public long addUser(User user) throws UserServiceException {
         try {
+            userDAO.createTableIfNotExists();
             return userDAO.insert(user);
         } catch (SQLException e) {
             throw new UserServiceException(e);
@@ -68,6 +69,7 @@ public class UserService {
      */
     public boolean updateUser(User user) throws UserServiceException {
         try {
+            userDAO.createTableIfNotExists();
             return userDAO.update(user);
         } catch (SQLException e) {
             throw new UserServiceException(e);
@@ -81,6 +83,7 @@ public class UserService {
      */
     public boolean deleteUser(long id) throws UserServiceException {
         try {
+            userDAO.createTableIfNotExists();
             return userDAO.delete(id);
         } catch (SQLException e) {
             throw new UserServiceException(e);
@@ -96,6 +99,7 @@ public class UserService {
      */
     public boolean updateLogin(long id, String login) throws UserServiceException {
         try {
+            userDAO.createTableIfNotExists();
             return userDAO.updateLogin(id, login);
         } catch (SQLException e) {
             throw new UserServiceException(e);
@@ -111,6 +115,7 @@ public class UserService {
      */
     public boolean updateRole(long id, String role) throws UserServiceException {
         try {
+            userDAO.createTableIfNotExists();
             return userDAO.updateRole(id, role);
         } catch (SQLException e) {
             throw new UserServiceException(e);
@@ -126,6 +131,7 @@ public class UserService {
      */
     public boolean updatePassword(long id, String password) throws UserServiceException {
         try {
+            userDAO.createTableIfNotExists();
             return userDAO.updatePassword(id, password);
         } catch (SQLException e) {
             throw new UserServiceException(e);
@@ -141,6 +147,7 @@ public class UserService {
      */
     public boolean updateEmail(long id, String email) throws UserServiceException {
         try {
+            userDAO.createTableIfNotExists();
             return userDAO.updateEmail(id, email);
         } catch (SQLException e) {
             throw new UserServiceException(e);
@@ -168,6 +175,7 @@ public class UserService {
      */
     public List<User> getUserList() throws UserServiceException {
         try {
+            userDAO.createTableIfNotExists();
             return userDAO.getList();
         } catch (SQLException e) {
             throw new UserServiceException(e);
@@ -184,6 +192,7 @@ public class UserService {
      */
     public List<User> getUserList(int offset, int limit) throws UserServiceException {
         try {
+            userDAO.createTableIfNotExists();
             return userDAO.getList(offset, limit);
         } catch (SQLException e) {
             throw new UserServiceException(e);
@@ -195,6 +204,7 @@ public class UserService {
      */
     public int getUserCount() throws UserServiceException {
         try {
+            userDAO.createTableIfNotExists();
             return userDAO.getCount();
         } catch (SQLException e) {
             throw new UserServiceException(e);
@@ -210,6 +220,20 @@ public class UserService {
     public @Nullable User getUserByLogin(String login) throws UserServiceException {
         try {
             return userDAO.getByLogin(login);
+        } catch (SQLException e) {
+            throw new UserServiceException(e);
+        }
+    }
+
+    /**
+     * Ищет в таблице пользователя с указанным email и возвращает его
+     *
+     * @param email email пользователя
+     * @return найденного пользователя или {@code null}, найти пользователя не удалось
+     */
+    public @Nullable User getUserByEmail(String email) throws UserServiceException {
+        try {
+            return userDAO.getByEmail(email);
         } catch (SQLException e) {
             throw new UserServiceException(e);
         }
