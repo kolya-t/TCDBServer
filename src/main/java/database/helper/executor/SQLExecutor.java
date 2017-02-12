@@ -68,7 +68,7 @@ public final class SQLExecutor {
      * @param <T>             тип результата выполнения транзакции
      * @return результат выполнения команд в транзакции
      */
-    public static <T> T executeTransaction(TransactionBody<T> transactionBody) throws SQLException {
+    public static <T> T executeTransaction(SQLTransactionBody<T> transactionBody) throws SQLException {
         Connection connection = Connector.getConnection();
         try {
             connection.setAutoCommit(false);
