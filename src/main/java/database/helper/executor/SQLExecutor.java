@@ -1,13 +1,11 @@
 package database.helper.executor;
 
-import services.UserServiceException;
 import database.helper.Connector;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.concurrent.Callable;
 
 /**
  * Класс, выполняющий переданные в параметрах методов SQL команды к базе данных,
@@ -52,19 +50,23 @@ public final class SQLExecutor {
     /**
      * Метод выполняющий транзакцию с соблюдением всех свойств транзакций.
      *
-     * @param transaction транзакция
-     * @param <T>         тип результата выполнения транзакции
+     * @param transactionBody транзакция
+     * @param <T>             тип результата выполнения транзакции
      * @return результат выполнения команд в транзакции
      */
-    public static <T> T executeTransaction(Callable<T> transaction) throws UserServiceException {
+    public static <T> T executeTransaction(TransactionBody<T> transactionBody) throws SQLException {
         Connection connection = Connector.getConnection();
         try {
             connection.setAutoCommit(false);
-            T result = transaction.call();
+            T result = transactionBody.call();
             connection.commit();
             return result;
-        } catch (Exception e) {
-            throw new UserServiceException(e);
+        } catch (SQLException e) {
+            try {
+                connection.rollback();
+            } catch (SQLException ignored) {
+            }
+            throw e;
         } finally {
             try {
                 connection.setAutoCommit(true);
