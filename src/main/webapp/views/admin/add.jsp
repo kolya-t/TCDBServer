@@ -13,7 +13,7 @@
 </head>
 <body>
 <jsp:include page="../_header.jsp"/>
-<div class="container" style="margin-top: 100px;">
+<div class="container" style="margin-top: 70px;">
     <div class="row">
         <div class="col-md-4 col-md-offset-4">
             <div class="panel panel-primary">
