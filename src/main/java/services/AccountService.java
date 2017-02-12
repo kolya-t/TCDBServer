@@ -1,7 +1,7 @@
 package services;
 
 import database.pojo.User;
-import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -11,22 +11,48 @@ import java.util.HashMap;
 import java.util.Map;
 
 
+/**
+ * Сервис для выполнения операций, связаных с авторизацией пользователей
+ */
 public class AccountService {
-    public static final String LOGGED_USER = "loggedUser";
-    private static final String SESSION_ID = "session_id";
-    private int cookieMaxAge = 365 * 24 * 60 * 60; // неделя по-умолчанию
-    private static AccountService instance;
-    private Map<String, User> sessionIdToUserMap;
 
-    private AccountService() {
-        sessionIdToUserMap = new HashMap<>();
-    }
+    /**
+     * Имя аттрибут пользователя в сессии
+     */
+    public static final String LOGGED_USER_ATTR = "loggedUser";
 
-    public static AccountService getInstance() {
-        if (instance == null) {
-            instance = new AccountService();
-        }
-        return instance;
+    /**
+     * Имя cookie, в которой хранится идентификатор сессии сохраненного пользователя
+     */
+    private static final String SESSION_ID_COOKIE = "session_id";
+
+    /**
+     * Время жизни cookie хранящей идентификатор сессии сохраненного пользователя
+     */
+    private static final int COOKIE_MAX_AGE = 60 * 60 * 24 * 365;
+
+    /**
+     * Здесь только пользователи, отметившие "запомнить меня"
+     */
+    private static Map<String, User> sessionIdToUserMap = new HashMap<>();
+
+    /**
+     * Пара Request-Response
+     */
+    private HttpServletRequest req;
+    private HttpServletResponse resp;
+
+    /**
+     * Конструктор с параметрами парой Request-Response.
+     * Новый объект нужно создавать каждый раз для выполнения операции,
+     * связанной с системой авторизации пользователей
+     *
+     * @param req  Request
+     * @param resp Response
+     */
+    public AccountService(HttpServletRequest req, HttpServletResponse resp) {
+        this.req = req;
+        this.resp = resp;
     }
 
     /**
@@ -37,127 +63,101 @@ public class AccountService {
      * @param email    введенный email
      * @return удалось ли зарегистрировать пользователя с такими данными
      */
-    public boolean register(String login, String password, String email)
+    public boolean register(@NotNull String login, @NotNull String email, @NotNull String password)
             throws AccountServiceException {
-        boolean result = false;
+        User userToRegister = new User(login, password, email, "user");
         try {
-            if ((login != null) && (password != null) && (email != null)) {
-                User user = new User(null, login, password, email, "user");
-                long id = UserService.getInstance().addUser(user);
-                result = id != -1;
-            }
+            long id = UserService.getInstance().addUser(userToRegister);
+            return id != -1;
         } catch (UserServiceException e) {
-            e.printStackTrace();
             throw new AccountServiceException(e);
         }
-        return result;
     }
 
     /**
      * Сравнивает пару логин-пароль с записями из базы.
      * Если данные совпали, сохраняет пользователя как аттрибут сессии.
-     * Сохраняет sessionId в куках.
-     * Если стоит флаг remember, то также сохраняет пару sessionID-User в словарь sessionIdToUserMap.
+     * Если стоит флаг remember, то также сохраняет пару sessionID-User в словарь sessionIdToUserMap,
+     * а sessionId в куках.
      *
-     * @param session  сессия пользователя
      * @param login    введенный логин
-     * @param password введенный логин
-     * @param remember нужно ли запомнить данные пользователя в куках
+     * @param password введенный логинх
      * @return удалось ли авторизоваться с такими данными
      */
-    public boolean login(HttpSession session, HttpServletResponse resp, String login, String password, boolean remember)
-            throws AccountServiceException {
-        boolean result = false;
+    public boolean login(@NotNull String login, @NotNull String password, boolean remember) throws AccountServiceException {
+        boolean logged = false;
         try {
             User user = UserService.getInstance().getUserByLogin(login);
+            if ((user != null) && (user.getPassword().equals(password))) {
+                HttpSession session = req.getSession();
+                session.setAttribute(LOGGED_USER_ATTR, user);
 
-            if (user != null && user.getPassword().equals(password)) {
-                session.setAttribute(LOGGED_USER, user);
+                if (remember) {
+                    Cookie sessionIdCookie = new Cookie(SESSION_ID_COOKIE, session.getId());
+                    sessionIdCookie.setMaxAge(COOKIE_MAX_AGE);
+                    resp.addCookie(sessionIdCookie);
 
-                String sessionId = session.getId();
-                sessionIdToUserMap.put(sessionId, user);
+                    sessionIdToUserMap.put(session.getId(), user);
+                }
 
-                Cookie cookie = new Cookie(SESSION_ID, sessionId);
-                cookie.setMaxAge(remember ? cookieMaxAge : -1);
-                resp.addCookie(cookie);
-
-                result = true;
+                logged = true;
             }
         } catch (UserServiceException e) {
-            e.printStackTrace();
             throw new AccountServiceException(e);
         }
-
-        return result;
+        return logged;
     }
 
     /**
-     * Ищет в карте залогиненых пользователей пользователя с sessionId таким же,
-     * как сохранен в куках (не обязательно id текущей сессии).
-     * Если в куках сохранен sessionId и пользователь по этому sessionId найден,
-     * сохраняет пользователя как аттрибут сессии и возвращает {@code true}
+     * Проверка, залогинен ли пользователь. Сначала идет поиск в аттрибутах сессии.
+     * Еси в сессии пользователь не найден, то, если пользователь выбирал "запомнить меня",
+     * из cookies достается идентификатор сессии, в которой он выполнял вход.
+     * Выполняется поиск пользователя по идентификатору сессии в sessionIdToUserMap,
+     * и в случае совпадения пользователь сохраняется в текущую сессию.
+     * Если хоть где-то (в сессии или в sessionIdToUserMap по sessionId) пользователь был найден,
+     * то возвращает {@code true}.
      *
-     * @param req запрос
-     * @return был ли пользователь залогинен
+     * @return залогинен ли пользователь
      */
-    public boolean checkLogged(HttpServletRequest req) {
-        Cookie[] cookies = req.getCookies();
-        if (cookies != null) {
-            for (Cookie cookie : cookies) {
-                if (cookie.getName().equals(SESSION_ID)) {
-
-                    String sessionId = cookie.getValue();
-                    if (sessionIdToUserMap.containsKey(sessionId)) {
-
-                        User user = sessionIdToUserMap.get(sessionId);
-                        req.getSession().setAttribute(LOGGED_USER, user);
-                        return true;
+    public boolean isLoggedIn() {
+        boolean logged = false;
+        // 1. Поиск пользователя в сессии
+        User user = (User) req.getSession().getAttribute(LOGGED_USER_ATTR);
+        if (user != null) {
+            logged = true;
+        } else {
+            Cookie[] cookies = req.getCookies();
+            if (cookies != null) {
+                for (Cookie cookie : cookies) {
+                    // 2.1. Проверка, есть ли запись session_id в куках
+                    if (cookie.getName().equals(SESSION_ID_COOKIE)) {
+                        // 2.2. Поиск пользователя с таким session_id в мапе
+                        user = sessionIdToUserMap.get(cookie.getValue());
+                        break;
                     }
                 }
             }
+            if (user != null) {
+                // 2.3. Если такой пользователь найден - записать его в сессию
+                req.getSession().setAttribute(LOGGED_USER_ATTR, user);
+                logged = true;
+            }
         }
-        return false;
+        return logged;
     }
-
-    public @Nullable User getLoggedUser(HttpSession session) {
-        return (User) session.getAttribute(LOGGED_USER);
-    }
-
 
     /**
-     * Выход из системы
-     *
-     * @param req  запрос
-     * @param resp ответ
+     * Выход пользователя из системы. Удаление сохраненного пользователя из сессии,
+     * удаление cookie с идентификатором сессии, удаление сохраненного пользователя из sessionIdToUserMap.
      */
-    public void logout(HttpServletRequest req, HttpServletResponse resp) {
-        Cookie[] cookies = req.getCookies();
-        if (cookies != null) {
-            for (Cookie cookie : cookies) {
-                if (cookie.getName().equals(SESSION_ID)) {
+    public void logout() {
+        Cookie sessionIdCookie = new Cookie(SESSION_ID_COOKIE, null);
+        sessionIdCookie.setMaxAge(0);
+        resp.addCookie(sessionIdCookie);
 
-                    String sessionId = cookie.getValue();
-                    if (sessionIdToUserMap.containsKey(sessionId)) {
-                        sessionIdToUserMap.remove(sessionId);
-                    }
+        HttpSession session = req.getSession();
+        sessionIdToUserMap.remove(session.getId());
 
-                    // протестить, мб можно заменить на cookie.setMaxAge(0)
-                    Cookie sessionIdCookie = new Cookie(SESSION_ID, null);
-                    sessionIdCookie.setMaxAge(0);
-                    resp.addCookie(sessionIdCookie);
-                    break;
-                }
-            }
-        }
-
-        req.getSession().invalidate();
-    }
-
-    public int getCookieMaxAge() {
-        return cookieMaxAge;
-    }
-
-    public void setCookieMaxAge(int cookieMaxAge) {
-        this.cookieMaxAge = cookieMaxAge;
+        session.invalidate();
     }
 }
