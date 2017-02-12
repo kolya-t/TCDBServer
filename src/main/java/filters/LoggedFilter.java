@@ -10,7 +10,7 @@ import java.io.IOException;
 
 
 @WebFilter("/*")
-public class LoginFilter extends AbstractFilter {
+public class LoggedFilter extends AbstractFilter {
 
     @Override
     public void doFilter(HttpServletRequest req, HttpServletResponse resp, FilterChain chain) throws IOException, ServletException {
