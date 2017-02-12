@@ -17,7 +17,6 @@ import java.util.Map;
 @WebServlet("/admin")
 public class ListController extends HttpServlet {
     public static final String USER_LIST_PAGE_PATH = "/views/admin/list.jsp";
-    public static final int PAGE_ROWS_LIMIT = 10; // макс. кол-во записей на страницу
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
