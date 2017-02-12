@@ -8,36 +8,42 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>База данных пользователей</title>
     <!-- Bootstrap -->
-    <link href="../../css/bootstrap.min.css" rel="stylesheet">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
 </head>
 <body>
 <jsp:include page="../_header.jsp"/>
-<div class="container-fluid" style="margin-top:100px">
+<div class="container-fluid" style="margin-top:70px">
     <div class="row">
-        <div class="col-xs-12 col-sm-12 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
-            <div class="table-responsive">
+        <div class="col-xs-12 col-sm-12 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2" id="list-container">
+            <div class="input-group">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
+                <input type="text" id="search-field" class="form-control" placeholder="Search">
+            </div>
+            <div class="table-responsive" id="table-id">
                 <table class="table table-condensed table-striped table-bordered">
                     <thead>
                     <tr>
-                        <th class="text-right">id</th>
-                        <th class="text-center">login</th>
-                        <th class="text-center">password</th>
-                        <th class="text-center">e-mail</th>
-                        <th class="text-center">role</th>
+                        <th class="sort text-right" data-sort="id">id</th>
+                        <th class="sort text-center" data-sort="login">login</th>
+                        <th class="sort text-center" data-sort="password">password</th>
+                        <th class="sort text-center" data-sort="email">e-mail</th>
+                        <th class="sort text-center" data-sort="role">role</th>
                         <th class="text-center">Действие</th>
                     </tr>
                     </thead>
-                    <tbody>
+                    <tbody class="list">
                     <%--@elvariable id="userList" type="java.util.List<database.pojo.User>"--%>
                     <c:if test="${userList != null}">
                         <c:forEach items="${userList}" var="user">
                             <tr>
-                                <td class="text-right">${user.id}</td>
-                                <td>${user.login}</td>
-                                <td>${user.password}</td>
-                                <td>${user.email}</td>
-                                <td>${user.role}</td>
-                                <td class="text-center">
+                                <td class="id text-right">${user.id}</td>
+                                <td class="login">${user.login}</td>
+                                <td class="password">${user.password}</td>
+                                <td class="email">${user.email}</td>
+                                <td class="role">${user.role}</td>
+                                <td class="action text-center">
                                     <a href="${pageContext.request.contextPath}/admin/edit?id=${user.id}" role="button"
                                        class="btn btn-warning btn-sm">
                                         <span class="glyphicon glyphicon-pencil"></span> Изменить
@@ -62,24 +68,31 @@
                     </tfoot>
                 </table>
             </div>
+            <div class="text-center">
+                <ul class="pagination"></ul>
+            </div>
             <jsp:include page="../alerts/success.jsp"/>
             <jsp:include page="../alerts/error.jsp"/>
         </div>
     </div>
-
-    <div class="container text-center">
-        <ul class="pagination">
-            <%--@elvariable id="offsets" type="java.util.Map<Integer, Integer>"--%>
-            <%--@elvariable id="activePage" type="int"--%>
-            <c:forEach items="${offsets}" var="offset" varStatus="i">
-                <li><a href="${pageContext.request.contextPath}/admin?offset=${offset.value}"
-                       <c:if test="${activePage == offset.key}">class="active"</c:if>>${offset.key}</a></li>
-            </c:forEach>
-        </ul>
-    </div>
-
 </div>
 <script src="http://code.jquery.com/jquery-latest.js"></script>
-<script src="../../js/bootstrap.min.js"></script>
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/list.js/1.5.0/list.min.js"></script>
+<script>
+    var userList = new List('list-container', {
+        valueNames: ['id', 'login', 'password', 'email', 'role', 'action'],
+        page: 10,
+        pagination: {
+            innerWindow: 1,
+            outerWindow: 1
+        }
+    });
+
+    $('#search-field').on('keyup', function() {
+        var searchString = $(this).val();
+        userList.search(searchString);
+    });
+</script>
 </body>
 </html>
