@@ -81,7 +81,7 @@ public class AccountService {
      * а sessionId в куках.
      *
      * @param login    введенный логин
-     * @param password введенный логинх
+     * @param password введенный пароль
      * @return удалось ли авторизоваться с такими данными
      */
     public boolean login(@NotNull String login, @NotNull String password, boolean remember) throws AccountServiceException {
