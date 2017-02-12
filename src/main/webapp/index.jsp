@@ -9,8 +9,9 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>База данных пользователей</title>
     <!-- Bootstrap -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="http://bootstrap-3.ru/examples/cover/cover.css" rel="stylesheet">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="http://bootstrap-3.ru/examples/cover/cover.css">
 </head>
 <body>
 <jsp:include page="/views/_header.jsp"/>
@@ -43,6 +44,6 @@
     </div>
 </div>
 <script src="http://code.jquery.com/jquery-latest.js"></script>
-<script src="js/bootstrap.min.js"></script>
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </body>
 </html>
