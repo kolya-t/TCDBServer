@@ -1,13 +1,13 @@
 package database.dao.user;
 
 import database.helper.HibernateSessionFactory;
+import database.helper.executor.HibernateTransactionBody;
 import database.pojo.User;
 import org.hibernate.Session;
 import org.jetbrains.annotations.Nullable;
 
 import java.sql.SQLException;
 import java.text.MessageFormat;
-import java.util.LinkedList;
 import java.util.List;
 
 
@@ -15,6 +15,30 @@ import java.util.List;
  * Реализация UserDAO под Hibernate
  */
 public class HibernateUserDAO implements UserDAO {
+
+    /**
+     * Метод, выполняющий Hibernate странзакцию и её фиксацию. В случае неудачи выполняется откат.
+     * После выполнения транзакции сессия закрывается в методе
+     *
+     * @param transactionBody тело странзакции
+     * @param <T>             тип значения, возвращаемого транзакцией
+     * @return результат транзакции
+     */
+    private <T> T executeTransaction(Session session, HibernateTransactionBody<T> transactionBody) throws SQLException {
+        T value;
+        try {
+            session.beginTransaction();
+            value = transactionBody.apply(session);
+            session.flush();
+            session.getTransaction().commit();
+        } catch (RuntimeException e) {
+            session.getTransaction().rollback();
+            throw new SQLException(e);
+        } finally {
+            session.close();
+        }
+        return value;
+    }
 
     /**
      * Добавляет нового пользователя в таблицу users.
@@ -25,20 +49,9 @@ public class HibernateUserDAO implements UserDAO {
      */
     @Override
     public long insert(User user) throws SQLException {
-        long id = -1;
-        Session session = HibernateSessionFactory.getSessionFactory().openSession();
-        try {
-            session.beginTransaction();
-            id = (long) session.save(user);
-            session.flush();
-            session.getTransaction().commit();
-        } catch (RuntimeException e) {
-            e.printStackTrace();
-            session.getTransaction().rollback();
-        } finally {
-            session.close();
-        }
-        return id;
+        return executeTransaction(HibernateSessionFactory.getSessionFactory().openSession(), session ->
+                (Long) session.save(user)
+        );
     }
 
     /**
@@ -49,22 +62,11 @@ public class HibernateUserDAO implements UserDAO {
      */
     @Override
     public boolean delete(long id) throws SQLException {
-        boolean result = false;
-        Session session = HibernateSessionFactory.getSessionFactory().openSession();
-        try {
-            session.beginTransaction();
+        return executeTransaction(HibernateSessionFactory.getSessionFactory().openSession(), session -> {
             User user = session.load(User.class, id);
             session.delete(user);
-            session.flush();
-            session.getTransaction().commit();
-            result = true;
-        } catch (RuntimeException e) {
-            e.printStackTrace();
-            session.getTransaction().rollback();
-        } finally {
-            session.close();
-        }
-        return result;
+            return true;
+        });
     }
 
     /**
@@ -74,22 +76,11 @@ public class HibernateUserDAO implements UserDAO {
      * @return {@code true} если обновление прошло успешно и {@code false} если обновить пользователя не удалось
      */
     @Override
-    public boolean update(User user) {
-        boolean result = false;
-        Session session = HibernateSessionFactory.getSessionFactory().openSession();
-        try {
-            session.beginTransaction();
+    public boolean update(User user) throws SQLException {
+        return executeTransaction(HibernateSessionFactory.getSessionFactory().openSession(), session -> {
             session.update(user);
-            session.flush();
-            session.getTransaction().commit();
-            result = true;
-        } catch (RuntimeException e) {
-            e.printStackTrace();
-            session.getTransaction().rollback();
-        } finally {
-            session.close();
-        }
-        return result;
+            return true;
+        });
     }
 
     /**
@@ -100,18 +91,9 @@ public class HibernateUserDAO implements UserDAO {
      */
     @Override
     public @Nullable User get(long id) throws SQLException {
-        User user = null;
-        Session session = HibernateSessionFactory.getSessionFactory().openSession();
-        try {
-            session.beginTransaction();
-            user = session.get(User.class, id);
-        } catch (RuntimeException e) {
-            e.printStackTrace();
-        } finally {
-            session.flush();
-            session.close();
-        }
-        return user;
+        return executeTransaction(HibernateSessionFactory.getSessionFactory().openSession(), session ->
+                session.get(User.class, id)
+        );
     }
 
     /**
@@ -119,18 +101,9 @@ public class HibernateUserDAO implements UserDAO {
      */
     @Override
     public List<User> getList() throws SQLException {
-        List<User> users = new LinkedList<>();
-        Session session = HibernateSessionFactory.getSessionFactory().openSession();
-        try {
-            session.beginTransaction();
-            users = session.createQuery("FROM User", User.class).list();
-        } catch (RuntimeException e) {
-            e.printStackTrace();
-        } finally {
-            session.flush();
-            session.close();
-        }
-        return users;
+        return executeTransaction(HibernateSessionFactory.getSessionFactory().openSession(), session ->
+                session.createQuery("FROM User", User.class).list()
+        );
     }
 
     /**
@@ -143,21 +116,12 @@ public class HibernateUserDAO implements UserDAO {
      */
     @Override
     public List<User> getList(int offset, int limit) throws SQLException {
-        List<User> users = new LinkedList<>();
-        Session session = HibernateSessionFactory.getSessionFactory().openSession();
-        try {
-            session.beginTransaction();
-            users = session.createQuery("FROM User", User.class)
-                    .setFirstResult(offset)
-                    .setMaxResults(limit)
-                    .list();
-        } catch (RuntimeException e) {
-            e.printStackTrace();
-        } finally {
-            session.flush();
-            session.close();
-        }
-        return users;
+        return executeTransaction(HibernateSessionFactory.getSessionFactory().openSession(), session ->
+                session.createQuery("FROM User", User.class)
+                        .setFirstResult(offset)
+                        .setMaxResults(limit)
+                        .list()
+        );
     }
 
     /**
@@ -165,20 +129,11 @@ public class HibernateUserDAO implements UserDAO {
      */
     @Override
     public int getCount() throws SQLException {
-        int count = 0;
-        Session session = HibernateSessionFactory.getSessionFactory().openSession();
-        try {
-            session.beginTransaction();
-            count = session.createQuery("SELECT COUNT(id) FROM User", Number.class)
-                    .uniqueResult()
-                    .intValue();
-        } catch (RuntimeException e) {
-            e.printStackTrace();
-        } finally {
-            session.flush();
-            session.close();
-        }
-        return count;
+        return executeTransaction(HibernateSessionFactory.getSessionFactory().openSession(), session ->
+                session.createQuery("SELECT COUNT(id) FROM User", Number.class)
+                        .uniqueResult()
+                        .intValue()
+        );
     }
 
     @Override
@@ -202,25 +157,12 @@ public class HibernateUserDAO implements UserDAO {
      */
     private <T> boolean updateUserField(long id, String fieldName, T fieldValue) throws SQLException {
         String hql = MessageFormat.format("UPDATE User u SET u.{0} = :{0} WHERE u.id = :id", fieldName);
-        boolean result = false;
-        Session session = HibernateSessionFactory.getSessionFactory().openSession();
-        try {
-            session.beginTransaction();
-            int updatedEntities = session
-                    .createQuery(hql)
-                    .setParameter("id", id)
-                    .setParameter(fieldName, fieldValue)
-                    .executeUpdate();
-            result = updatedEntities != 0;
-            session.flush();
-            session.getTransaction().commit();
-        } catch (RuntimeException e) {
-            e.printStackTrace();
-            session.getTransaction().rollback();
-        } finally {
-            session.close();
-        }
-        return result;
+        return executeTransaction(HibernateSessionFactory.getSessionFactory().openSession(), session ->
+                session.createQuery(hql)
+                .setParameter("id", id)
+                .setParameter(fieldName, fieldValue)
+                .executeUpdate() != 0
+        );
     }
 
     /**
@@ -280,20 +222,11 @@ public class HibernateUserDAO implements UserDAO {
     @Override
     public @Nullable User getByLogin(String login) throws SQLException {
         String hql = "FROM User WHERE login = :login";
-        User user = null;
-        Session session = HibernateSessionFactory.getSessionFactory().openSession();
-        try {
-            session.beginTransaction();
-            user = session.createQuery(hql, User.class)
-                    .setParameter("login", login)
-                    .uniqueResult();
-        } catch (RuntimeException e) {
-            e.printStackTrace();
-        } finally {
-            session.flush();
-            session.close();
-        }
-        return user;
+        return executeTransaction(HibernateSessionFactory.getSessionFactory().openSession(), session ->
+                session.createQuery(hql, User.class)
+                .setParameter("login", login)
+                .uniqueResult()
+        );
     }
 
     /**
@@ -305,22 +238,10 @@ public class HibernateUserDAO implements UserDAO {
     @Override
     public User getByEmail(String email) throws SQLException {
         String hql = "FROM User WHERE email = :email";
-        User user = null;
-        Session session = HibernateSessionFactory.getSessionFactory().openSession();
-
-        try {
-            session.beginTransaction();
-
-            user = session.createQuery(hql, User.class)
-                    .setParameter("email", email)
-                    .uniqueResult();
-        } catch (RuntimeException e) {
-            e.printStackTrace();
-        } finally {
-            session.flush();
-            session.close();
-        }
-
-        return user;
+        return executeTransaction(HibernateSessionFactory.getSessionFactory().openSession(), session ->
+                session.createQuery(hql, User.class)
+                .setParameter("email", email)
+                .uniqueResult()
+        );
     }
 }
