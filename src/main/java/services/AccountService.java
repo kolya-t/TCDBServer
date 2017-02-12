@@ -160,4 +160,11 @@ public class AccountService {
 
         session.invalidate();
     }
+
+    /**
+     * @return пользователь, сохраненный в сессии или {@code null}
+     */
+    public User getLoggedUser() {
+        return (User) req.getSession().getAttribute(LOGGED_USER_ATTR);
+    }
 }

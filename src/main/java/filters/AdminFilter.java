@@ -1,46 +1,29 @@
 package filters;
 
-import database.pojo.User;
-import controllers.LoginController;
 import services.AccountService;
 
-import javax.servlet.*;
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 @WebFilter("/admin/*")
-public class AdminFilter implements Filter {
-    @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
-    }
+public class AdminFilter extends AbstractFilter {
 
     @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        HttpServletRequest req = (HttpServletRequest) request;
-        HttpServletResponse resp = (HttpServletResponse) response;
-        HttpSession session = req.getSession();
-
-        User user = AccountService.getInstance().getLoggedUser(session);
-        // пользователь не залогинен
-        if (user == null) {
+    public void doFilter(HttpServletRequest req, HttpServletResponse resp, FilterChain chain) throws IOException, ServletException {
+        AccountService accountService = new AccountService(req, resp);
+        if (!accountService.isLoggedIn()) {
             req.getSession().setAttribute("errorMessage", "Нужно войти");
-            resp.sendRedirect("/login");
-        }
-        // залогинен, НЕ админ
-        else if (!user.getRole().equals("admin")) {
+            resp.sendRedirect(req.getContextPath() + "/login");
+        } else if (!accountService.getLoggedUser().getRole().equals("admin")) {
             req.getSession().setAttribute("errorMessage", "Вы не администратор");
-            resp.sendRedirect("/");
+            resp.sendRedirect(req.getContextPath() + "/");
+        } else {
+            chain.doFilter(req, resp);
         }
-        // залогинен, админ
-        else {
-            chain.doFilter(request, response);
-        }
-    }
 
-    @Override
-    public void destroy() {
     }
 }
