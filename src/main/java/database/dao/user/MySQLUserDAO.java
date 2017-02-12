@@ -219,9 +219,8 @@ public class MySQLUserDAO implements UserDAO {
     public @Nullable User getByLogin(String login) throws SQLException {
         String sql = String.format("SELECT `id` FROM `user` WHERE `login` = '%s'", login);
         return SQLExecutor.executeQuery(sql, Connector.getConnection(), resultSet -> {
-            User user = null;
             if (resultSet.next()) {
-                user = new User(
+                return new User(
                         resultSet.getLong("id"),
                         resultSet.getString("login"),
                         resultSet.getString("password"),
@@ -229,7 +228,7 @@ public class MySQLUserDAO implements UserDAO {
                         resultSet.getString("role")
                 );
             }
-            return user;
+            return null;
         });
     }
 
@@ -243,9 +242,8 @@ public class MySQLUserDAO implements UserDAO {
     public @Nullable User getByEmail(String email) throws SQLException {
         String sql = String.format("SELECT `id` FROM `user` WHERE `email` = '%s'", email);
         return SQLExecutor.executeQuery(sql, Connector.getConnection(), resultSet -> {
-            User user = null;
             if (resultSet.next()) {
-                user = new User(
+                return new User(
                         resultSet.getLong("id"),
                         resultSet.getString("login"),
                         resultSet.getString("password"),
@@ -253,7 +251,7 @@ public class MySQLUserDAO implements UserDAO {
                         resultSet.getString("role")
                 );
             }
-            return user;
+            return null;
         });
     }
 
