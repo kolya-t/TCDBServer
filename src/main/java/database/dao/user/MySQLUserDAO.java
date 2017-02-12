@@ -18,6 +18,7 @@ public class MySQLUserDAO implements UserDAO {
     /**
      * Добавляет нового пользователя в таблицу users.
      * Данные пользователя берутся из user. id в user может быть произвольным.
+     * Метод изменяет id параметра user на новый.
      *
      * @param user данные пользователя, которые будут добавлены в таблицу
      * @return номер пользователя в таблице (id) или -1 если добавить не удалось
@@ -30,9 +31,11 @@ public class MySQLUserDAO implements UserDAO {
                 user.getPassword(),
                 user.getEmail(),
                 user.getRole());
-        SQLExecutor.executeUpdate(sql, Connector.getConnection());
-        User addedUser = getByLogin(user.getLogin());
-        return addedUser != null ? addedUser.getId() : -1;
+
+        return SQLExecutor.executeTransaction(() -> {
+            user.setId(SQLExecutor.executeInsert(sql, Connector.getConnection()));
+            return user.getId();
+        });
     }
 
     /**
@@ -44,8 +47,8 @@ public class MySQLUserDAO implements UserDAO {
     @Override
     public boolean delete(long id) throws SQLException {
         String sql = "DELETE FROM `user` WHERE `id` = " + id;
-        int result = SQLExecutor.executeUpdate(sql, Connector.getConnection());
-        return result != 0;
+        return SQLExecutor.executeTransaction(() ->
+                SQLExecutor.executeUpdate(sql, Connector.getConnection()) != 0);
     }
 
     /**
@@ -59,8 +62,8 @@ public class MySQLUserDAO implements UserDAO {
         String sql = String.format("UPDATE `user` " +
                         "SET `login` = '%s', `password` = '%s', `email` = '%s', `role` = '%s' WHERE `id` = %d",
                 user.getLogin(), user.getPassword(), user.getEmail(), user.getRole(), user.getId());
-        int result = SQLExecutor.executeUpdate(sql, Connector.getConnection());
-        return result != 0;
+        return SQLExecutor.executeTransaction(() ->
+                SQLExecutor.executeUpdate(sql, Connector.getConnection()) != 0);
     }
 
     /**
@@ -72,18 +75,20 @@ public class MySQLUserDAO implements UserDAO {
     @Override
     public @Nullable User get(long id) throws SQLException {
         String sql = "SELECT * FROM `user` WHERE `id` = " + id;
-        return SQLExecutor.executeQuery(sql, Connector.getConnection(), resultSet -> {
-            if (resultSet.next()) {
-                return new User(
-                        resultSet.getLong("id"),
-                        resultSet.getString("login"),
-                        resultSet.getString("password"),
-                        resultSet.getString("email"),
-                        resultSet.getString("role")
-                );
-            }
-            return null;
-        });
+        return SQLExecutor.executeTransaction(() ->
+                SQLExecutor.executeQuery(sql, Connector.getConnection(), resultSet -> {
+                    if (resultSet.next()) {
+                        return new User(
+                                resultSet.getLong("id"),
+                                resultSet.getString("login"),
+                                resultSet.getString("password"),
+                                resultSet.getString("email"),
+                                resultSet.getString("role")
+                        );
+                    }
+                    return null;
+                })
+        );
 
     }
 
@@ -93,21 +98,23 @@ public class MySQLUserDAO implements UserDAO {
     @Override
     public List<User> getList() throws SQLException {
         String sql = "SELECT * FROM `user`";
-        return SQLExecutor.executeQuery(sql, Connector.getConnection(), resultSet -> {
-            List<User> userList = new LinkedList<>();
+        return SQLExecutor.executeTransaction(() ->
+                SQLExecutor.executeQuery(sql, Connector.getConnection(), resultSet -> {
+                    List<User> userList = new LinkedList<>();
 
-            while (resultSet.next()) {
-                userList.add(new User(
-                        resultSet.getLong("id"),
-                        resultSet.getString("login"),
-                        resultSet.getString("password"),
-                        resultSet.getString("email"),
-                        resultSet.getString("role"))
-                );
-            }
+                    while (resultSet.next()) {
+                        userList.add(new User(
+                                resultSet.getLong("id"),
+                                resultSet.getString("login"),
+                                resultSet.getString("password"),
+                                resultSet.getString("email"),
+                                resultSet.getString("role"))
+                        );
+                    }
 
-            return userList;
-        });
+                    return userList;
+                })
+        );
     }
 
     /**
@@ -121,21 +128,23 @@ public class MySQLUserDAO implements UserDAO {
     @Override
     public List<User> getList(int offset, int limit) throws SQLException {
         String sql = String.format("SELECT * FROM `user` LIMIT %d, %d", offset, limit);
-        return SQLExecutor.executeQuery(sql, Connector.getConnection(), resultSet -> {
-            List<User> userList = new LinkedList<>();
+        return SQLExecutor.executeTransaction(() ->
+                SQLExecutor.executeQuery(sql, Connector.getConnection(), resultSet -> {
+                    List<User> userList = new LinkedList<>();
 
-            while (resultSet.next()) {
-                userList.add(new User(
-                        resultSet.getLong("id"),
-                        resultSet.getString("login"),
-                        resultSet.getString("password"),
-                        resultSet.getString("email"),
-                        resultSet.getString("role"))
-                );
-            }
+                    while (resultSet.next()) {
+                        userList.add(new User(
+                                resultSet.getLong("id"),
+                                resultSet.getString("login"),
+                                resultSet.getString("password"),
+                                resultSet.getString("email"),
+                                resultSet.getString("role"))
+                        );
+                    }
 
-            return userList;
-        });
+                    return userList;
+                })
+        );
     }
 
     /**
@@ -144,13 +153,15 @@ public class MySQLUserDAO implements UserDAO {
     @Override
     public int getCount() throws SQLException {
         String sql = "SELECT count(*) FROM `user`";
-        return SQLExecutor.executeQuery(sql, Connector.getConnection(), resultSet -> {
-            int count = 0;
-            if (resultSet.next()) {
-                count = resultSet.getInt(1);
-            }
-            return count;
-        });
+        return SQLExecutor.executeTransaction(() ->
+                SQLExecutor.executeQuery(sql, Connector.getConnection(), resultSet -> {
+                    int count = 0;
+                    if (resultSet.next()) {
+                        count = resultSet.getInt(1);
+                    }
+                    return count;
+                })
+        );
     }
 
     /**
@@ -163,8 +174,8 @@ public class MySQLUserDAO implements UserDAO {
     @Override
     public boolean updateLogin(long id, String login) throws SQLException {
         String sql = String.format("UPDATE `user` SET `login` = '%s' WHERE `id` = %d", login, id);
-        int result = SQLExecutor.executeUpdate(sql, Connector.getConnection());
-        return result != 0;
+        return SQLExecutor.executeTransaction(() ->
+                SQLExecutor.executeUpdate(sql, Connector.getConnection()) != 0);
     }
 
     /**
@@ -177,8 +188,8 @@ public class MySQLUserDAO implements UserDAO {
     @Override
     public boolean updateRole(long id, String role) throws SQLException {
         String sql = String.format("UPDATE `user` SET `role` = '%s' WHERE `id` = %d", role, id);
-        int result = SQLExecutor.executeUpdate(sql, Connector.getConnection());
-        return result != 0;
+        return SQLExecutor.executeTransaction(() ->
+                SQLExecutor.executeUpdate(sql, Connector.getConnection()) != 0);
     }
 
     /**
@@ -191,8 +202,8 @@ public class MySQLUserDAO implements UserDAO {
     @Override
     public boolean updatePassword(long id, String password) throws SQLException {
         String sql = String.format("UPDATE `user` SET `password` = '%s' WHERE `id` = %d", password, id);
-        int result = SQLExecutor.executeUpdate(sql, Connector.getConnection());
-        return result != 0;
+        return SQLExecutor.executeTransaction(() ->
+                SQLExecutor.executeUpdate(sql, Connector.getConnection()) != 0);
     }
 
     /**
@@ -205,8 +216,8 @@ public class MySQLUserDAO implements UserDAO {
     @Override
     public boolean updateEmail(long id, String email) throws SQLException {
         String sql = String.format("UPDATE `user` SET `email` = '%s' WHERE `id` = %d", email, id);
-        int result = SQLExecutor.executeUpdate(sql, Connector.getConnection());
-        return result != 0;
+        return SQLExecutor.executeTransaction(() ->
+                SQLExecutor.executeUpdate(sql, Connector.getConnection()) != 0);
     }
 
     /**
@@ -218,21 +229,23 @@ public class MySQLUserDAO implements UserDAO {
     @Override
     public @Nullable User getByLogin(String login) throws SQLException {
         String sql = String.format("SELECT * FROM `user` WHERE `login` = '%s'", login);
-        return SQLExecutor.executeQuery(sql, Connector.getConnection(), resultSet -> {
-            if (resultSet.next()) {
-                System.out.println(resultSet.getLong(1));
-                System.out.println(resultSet.getString(2));
-                System.out.println(resultSet.getString(3));
-                return new User(
-                        resultSet.getLong("id"),
-                        resultSet.getString("login"),
-                        resultSet.getString("password"),
-                        resultSet.getString("email"),
-                        resultSet.getString("role")
-                );
-            }
-            return null;
-        });
+        return SQLExecutor.executeTransaction(() ->
+                SQLExecutor.executeQuery(sql, Connector.getConnection(), resultSet -> {
+                    if (resultSet.next()) {
+                        System.out.println(resultSet.getLong(1));
+                        System.out.println(resultSet.getString(2));
+                        System.out.println(resultSet.getString(3));
+                        return new User(
+                                resultSet.getLong("id"),
+                                resultSet.getString("login"),
+                                resultSet.getString("password"),
+                                resultSet.getString("email"),
+                                resultSet.getString("role")
+                        );
+                    }
+                    return null;
+                })
+        );
     }
 
     /**
@@ -244,18 +257,20 @@ public class MySQLUserDAO implements UserDAO {
     @Override
     public @Nullable User getByEmail(String email) throws SQLException {
         String sql = String.format("SELECT * FROM `user` WHERE `email` = '%s'", email);
-        return SQLExecutor.executeQuery(sql, Connector.getConnection(), resultSet -> {
-            if (resultSet.next()) {
-                return new User(
-                        resultSet.getLong("id"),
-                        resultSet.getString("login"),
-                        resultSet.getString("password"),
-                        resultSet.getString("email"),
-                        resultSet.getString("role")
-                );
-            }
-            return null;
-        });
+        return SQLExecutor.executeTransaction(() ->
+                SQLExecutor.executeQuery(sql, Connector.getConnection(), resultSet -> {
+                    if (resultSet.next()) {
+                        return new User(
+                                resultSet.getLong("id"),
+                                resultSet.getString("login"),
+                                resultSet.getString("password"),
+                                resultSet.getString("email"),
+                                resultSet.getString("role")
+                        );
+                    }
+                    return null;
+                })
+        );
     }
 
     /**
@@ -275,7 +290,8 @@ public class MySQLUserDAO implements UserDAO {
                         "  UNIQUE INDEX `email_UNIQUE` (`email` ASC))\n" +
                         "ENGINE = InnoDB\n" +
                         "DEFAULT CHARACTER SET = utf8;\n";
-        SQLExecutor.executeUpdate(sql, Connector.getConnection());
+        SQLExecutor.executeTransaction(() ->
+                SQLExecutor.executeUpdate(sql, Connector.getConnection()));
     }
 
     /**
@@ -284,6 +300,7 @@ public class MySQLUserDAO implements UserDAO {
     @Override
     public void dropTableIfExists() throws SQLException {
         String sql = "DROP TABLE IF EXISTS `user`";
-        SQLExecutor.executeUpdate(sql, Connector.getConnection());
+        SQLExecutor.executeTransaction(() ->
+                SQLExecutor.executeUpdate(sql, Connector.getConnection()));
     }
 }
