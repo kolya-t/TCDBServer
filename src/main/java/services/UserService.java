@@ -153,8 +153,7 @@ public class UserService {
      * @param id идентификатор пользователя, которого нужно найти
      * @return найденного пользователя или {@code null} если пользователь с таким id не найден
      */
-    @Nullable
-    public User getUser(long id) throws UserServiceException {
+    public @Nullable User getUser(long id) throws UserServiceException {
         try {
             return userDAO.get(id);
         } catch (SQLException e) {
@@ -208,7 +207,7 @@ public class UserService {
      * @param login логин пользователя
      * @return найденного пользователя или {@code null}, найти пользователя не удалось
      */
-    public User getUserByLogin(String login) throws UserServiceException {
+    public @Nullable User getUserByLogin(String login) throws UserServiceException {
         try {
             return userDAO.getByLogin(login);
         } catch (SQLException e) {
