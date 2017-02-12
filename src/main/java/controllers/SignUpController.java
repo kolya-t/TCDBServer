@@ -1,9 +1,8 @@
 package controllers;
 
+import database.pojo.User;
 import services.AccountService;
 import services.AccountServiceException;
-import services.UserService;
-import services.UserServiceException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -16,7 +15,7 @@ import java.io.IOException;
 @WebServlet("/signup")
 public class SignUpController extends HttpServlet {
 
-    public static final String VIEW_JSP = "/views/signup.jsp";
+    public static final String SIGNUP_PAGE_PATH = "/views/signup.jsp";
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -24,13 +23,13 @@ public class SignUpController extends HttpServlet {
         req.setCharacterEncoding("UTF-8");
 
         // уже зарегистрирован и залогинен
-        if (req.getSession().getAttribute("loggedUser") != null) {
+        if (new AccountService(req, resp).isLoggedIn()) {
             req.getSession().setAttribute("errorMessage", "Вы уже зарегистрированы");
             resp.sendRedirect(req.getContextPath() + "/");
             return;
         }
         // отрисовка вьюхи
-        req.getRequestDispatcher(VIEW_JSP).forward(req, resp);
+        req.getRequestDispatcher(SIGNUP_PAGE_PATH).forward(req, resp);
     }
 
     @Override
@@ -42,18 +41,23 @@ public class SignUpController extends HttpServlet {
         String password = req.getParameter("password");
         String email = req.getParameter("email");
 
-        try {
-            if (AccountService.getInstance().register(login, password, email)) {
-                req.getSession().setAttribute("user", UserService.getInstance().getUserByLogin(login));
-                resp.sendRedirect(req.getContextPath() + "/login");
-                return;
+        if ((login != null) && (password != null) && (email != null)
+                && !login.isEmpty() && !password.isEmpty() && !email.isEmpty()) {
+            AccountService accountService = new AccountService(req, resp);
+            try {
+                if (accountService.register(login, email, password)) {
+                    // В случае успешной регистрации - редирект на /login
+                    req.getSession().setAttribute("user", new User(login, password, null, null));
+                    resp.sendRedirect(req.getContextPath() + "/login");
+                    return;
+                }
+            } catch (AccountServiceException e) {
+                e.printStackTrace();
             }
-        } catch (AccountServiceException | UserServiceException e) {
-            e.printStackTrace();
         }
 
         // что-то пошло не так
         req.getSession().setAttribute("errorMessage", "Не удалось зарегистрироваться");
-        req.getRequestDispatcher(VIEW_JSP).forward(req, resp);
+        req.getRequestDispatcher(SIGNUP_PAGE_PATH).forward(req, resp);
     }
 }
