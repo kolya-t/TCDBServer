@@ -31,4 +31,14 @@ public final class HibernateExecutor {
         }
         return value;
     }
+
+    /**
+     * Функциональный интерфейс, содержащий тело Hibernate транзакции
+     *
+     * @param <T> тип возвращаемого транзакцией значения
+     */
+    @FunctionalInterface
+    public interface HibernateTransactionBody<T> {
+        T apply(Session session) throws SQLException;
+    }
 }
