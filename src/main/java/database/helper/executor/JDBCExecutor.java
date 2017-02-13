@@ -6,6 +6,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.concurrent.Callable;
 
 /**
  * Класс, выполняющий переданные в параметрах методов SQL команды к базе данных,
@@ -87,5 +88,15 @@ public final class JDBCExecutor {
             } catch (SQLException ignored) {
             }
         }
+    }
+
+    /**
+     * Функциональный интерфейс, содержащий тело JDBC транзакции
+     *
+     * @param <T> тип возвращаемого транзакцией значения
+     */
+    public interface JDBCTransactionBody<T> extends Callable<T> {
+        @Override
+        T call() throws SQLException;
     }
 }
