@@ -11,7 +11,7 @@ import java.sql.Statement;
  * Класс, выполняющий переданные в параметрах методов SQL команды к базе данных,
  * соединение к которой также передано в параметрах.
  */
-public final class SQLExecutor {
+public final class JDBCExecutor {
 
     /**
      * Метод выполняет SQL команду обновления базы (не возвращает результат в виде множеста).
@@ -68,7 +68,7 @@ public final class SQLExecutor {
      * @param <T>             тип результата выполнения транзакции
      * @return результат выполнения команд в транзакции
      */
-    public static <T> T executeTransaction(SQLTransactionBody<T> transactionBody) throws SQLException {
+    public static <T> T executeTransaction(JDBCTransactionBody<T> transactionBody) throws SQLException {
         Connection connection = Connector.getConnection();
         try {
             connection.setAutoCommit(false);
