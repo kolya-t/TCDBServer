@@ -1,45 +1,19 @@
 package database.dao.user;
 
-import database.helper.HibernateSessionFactory;
-import database.helper.executor.HibernateTransactionBody;
 import database.pojo.User;
-import org.hibernate.Session;
 import org.jetbrains.annotations.Nullable;
 
 import java.sql.SQLException;
 import java.text.MessageFormat;
 import java.util.List;
 
+import static database.helper.executor.HibernateExecutor.executeTransaction;
+
 
 /**
  * Реализация UserDAO под Hibernate
  */
 public class HibernateUserDAO implements UserDAO {
-
-    /**
-     * Метод, выполняющий Hibernate странзакцию и её фиксацию. В случае неудачи выполняется откат.
-     * После выполнения транзакции сессия закрывается в методе
-     *
-     * @param transactionBody тело странзакции
-     * @param <T>             тип значения, возвращаемого транзакцией
-     * @return результат транзакции
-     */
-    private <T> T executeTransaction(HibernateTransactionBody<T> transactionBody) throws SQLException {
-        T value;
-        Session session = HibernateSessionFactory.getSessionFactory().openSession();
-        try {
-            session.beginTransaction();
-            value = transactionBody.apply(session);
-            session.flush();
-            session.getTransaction().commit();
-        } catch (RuntimeException e) {
-            session.getTransaction().rollback();
-            throw new SQLException(e);
-        } finally {
-            session.close();
-        }
-        return value;
-    }
 
     /**
      * Добавляет нового пользователя в таблицу users.
