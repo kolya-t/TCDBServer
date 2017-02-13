@@ -24,8 +24,9 @@ public class HibernateUserDAO implements UserDAO {
      * @param <T>             тип значения, возвращаемого транзакцией
      * @return результат транзакции
      */
-    private <T> T executeTransaction(Session session, HibernateTransactionBody<T> transactionBody) throws SQLException {
+    private <T> T executeTransaction(HibernateTransactionBody<T> transactionBody) throws SQLException {
         T value;
+        Session session = HibernateSessionFactory.getSessionFactory().openSession();
         try {
             session.beginTransaction();
             value = transactionBody.apply(session);
@@ -49,7 +50,7 @@ public class HibernateUserDAO implements UserDAO {
      */
     @Override
     public long insert(User user) throws SQLException {
-        return executeTransaction(HibernateSessionFactory.getSessionFactory().openSession(), session ->
+        return executeTransaction(session ->
                 (Long) session.save(user)
         );
     }
@@ -62,7 +63,7 @@ public class HibernateUserDAO implements UserDAO {
      */
     @Override
     public boolean delete(long id) throws SQLException {
-        return executeTransaction(HibernateSessionFactory.getSessionFactory().openSession(), session -> {
+        return executeTransaction(session -> {
             User user = session.load(User.class, id);
             session.delete(user);
             return true;
@@ -77,7 +78,7 @@ public class HibernateUserDAO implements UserDAO {
      */
     @Override
     public boolean update(User user) throws SQLException {
-        return executeTransaction(HibernateSessionFactory.getSessionFactory().openSession(), session -> {
+        return executeTransaction(session -> {
             session.update(user);
             return true;
         });
@@ -91,7 +92,7 @@ public class HibernateUserDAO implements UserDAO {
      */
     @Override
     public @Nullable User get(long id) throws SQLException {
-        return executeTransaction(HibernateSessionFactory.getSessionFactory().openSession(), session ->
+        return executeTransaction(session ->
                 session.get(User.class, id)
         );
     }
@@ -101,7 +102,7 @@ public class HibernateUserDAO implements UserDAO {
      */
     @Override
     public List<User> getList() throws SQLException {
-        return executeTransaction(HibernateSessionFactory.getSessionFactory().openSession(), session ->
+        return executeTransaction(session ->
                 session.createQuery("FROM User", User.class).list()
         );
     }
@@ -116,7 +117,7 @@ public class HibernateUserDAO implements UserDAO {
      */
     @Override
     public List<User> getList(int offset, int limit) throws SQLException {
-        return executeTransaction(HibernateSessionFactory.getSessionFactory().openSession(), session ->
+        return executeTransaction(session ->
                 session.createQuery("FROM User", User.class)
                         .setFirstResult(offset)
                         .setMaxResults(limit)
@@ -129,7 +130,7 @@ public class HibernateUserDAO implements UserDAO {
      */
     @Override
     public int getCount() throws SQLException {
-        return executeTransaction(HibernateSessionFactory.getSessionFactory().openSession(), session ->
+        return executeTransaction(session ->
                 session.createQuery("SELECT COUNT(id) FROM User", Number.class)
                         .uniqueResult()
                         .intValue()
@@ -157,7 +158,7 @@ public class HibernateUserDAO implements UserDAO {
      */
     private <T> boolean updateUserField(long id, String fieldName, T fieldValue) throws SQLException {
         String hql = MessageFormat.format("UPDATE User u SET u.{0} = :{0} WHERE u.id = :id", fieldName);
-        return executeTransaction(HibernateSessionFactory.getSessionFactory().openSession(), session ->
+        return executeTransaction(session ->
                 session.createQuery(hql)
                 .setParameter("id", id)
                 .setParameter(fieldName, fieldValue)
@@ -222,7 +223,7 @@ public class HibernateUserDAO implements UserDAO {
     @Override
     public @Nullable User getByLogin(String login) throws SQLException {
         String hql = "FROM User WHERE login = :login";
-        return executeTransaction(HibernateSessionFactory.getSessionFactory().openSession(), session ->
+        return executeTransaction(session ->
                 session.createQuery(hql, User.class)
                 .setParameter("login", login)
                 .uniqueResult()
@@ -238,7 +239,7 @@ public class HibernateUserDAO implements UserDAO {
     @Override
     public User getByEmail(String email) throws SQLException {
         String hql = "FROM User WHERE email = :email";
-        return executeTransaction(HibernateSessionFactory.getSessionFactory().openSession(), session ->
+        return executeTransaction(session ->
                 session.createQuery(hql, User.class)
                 .setParameter("email", email)
                 .uniqueResult()
