@@ -2,6 +2,7 @@ package database.pojo;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Arrays;
 
 
 /**
@@ -29,22 +30,27 @@ public class User implements Serializable {
     @Column(name = "role", nullable = false, length = 45)
     private String role;
 
+    @Column(name = "token", nullable = false, length = 16)
+    private byte[] token;
+
     public User() {
     }
 
-    public User(Long id, String login, String password, String email, String role) {
+    public User(Long id, String login, String password, String email, String role, byte[] token) {
         this.id = id;
         this.login = login;
         this.password = password;
         this.email = email;
         this.role = role;
+        this.token = token;
     }
 
-    public User(String login, String password, String email, String role) {
+    public User(String login, String password, String email, String role, byte[] token) {
         this.login = login;
         this.password = password;
         this.email = email;
         this.role = role;
+        this.token = token;
     }
 
     public Long getId() {
@@ -87,6 +93,14 @@ public class User implements Serializable {
         this.role = role;
     }
 
+    public byte[] getToken() {
+        return token;
+    }
+
+    public void setToken(byte[] token) {
+        this.token = token;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -94,20 +108,22 @@ public class User implements Serializable {
 
         User user = (User) o;
 
-        if (!id.equals(user.id)) return false;
-        if (!login.equals(user.login)) return false;
-        if (!password.equals(user.password)) return false;
-        if (!email.equals(user.email)) return false;
-        return role.equals(user.role);
+        if (id != null ? !id.equals(user.id) : user.id != null) return false;
+        if (login != null ? !login.equals(user.login) : user.login != null) return false;
+        if (password != null ? !password.equals(user.password) : user.password != null) return false;
+        if (email != null ? !email.equals(user.email) : user.email != null) return false;
+        if (role != null ? !role.equals(user.role) : user.role != null) return false;
+        return Arrays.equals(token, user.token);
     }
 
     @Override
     public int hashCode() {
-        int result = id.hashCode();
-        result = 31 * result + login.hashCode();
-        result = 31 * result + password.hashCode();
-        result = 31 * result + email.hashCode();
-        result = 31 * result + role.hashCode();
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (login != null ? login.hashCode() : 0);
+        result = 31 * result + (password != null ? password.hashCode() : 0);
+        result = 31 * result + (email != null ? email.hashCode() : 0);
+        result = 31 * result + (role != null ? role.hashCode() : 0);
+        result = 31 * result + Arrays.hashCode(token);
         return result;
     }
 
@@ -119,6 +135,7 @@ public class User implements Serializable {
                 ", password='" + password + '\'' +
                 ", email='" + email + '\'' +
                 ", role='" + role + '\'' +
+                ", token=" + Arrays.toString(token) +
                 '}';
     }
 }
