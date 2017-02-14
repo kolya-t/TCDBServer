@@ -17,9 +17,6 @@ public class LoginController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.setContentType("text/html;charset=utf-8");
-        req.setCharacterEncoding("UTF-8");
-
         // уже залогинен
         if (new AccountService(req, resp).isLoggedIn()) {
             req.getSession().setAttribute("errorMessage", "Вы уже залогинены");
@@ -32,9 +29,6 @@ public class LoginController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.setContentType("text/html;charset=utf-8");
-        req.setCharacterEncoding("UTF-8");
-
         String login = req.getParameter("login");
         String password = req.getParameter("password");
         boolean remember = req.getParameter("remember") != null;

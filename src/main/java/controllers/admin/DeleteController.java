@@ -16,9 +16,6 @@ public class DeleteController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.setContentType("text/html;charset=utf-8");
-        req.setCharacterEncoding("UTF-8");
-
         boolean done = false;
         try {
             long id = Long.parseLong(req.getParameter("id"));
@@ -28,7 +25,6 @@ public class DeleteController extends HttpServlet {
         }
 
         if (done) {
-            // TODO: добавить сообщения
             resp.sendRedirect(req.getContextPath() + "/admin");
         }
     }

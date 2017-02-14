@@ -20,9 +20,6 @@ public class EditController extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         final String ERROR_PAGE = "/admin";
 
-        resp.setContentType("text/html;charset=utf-8");
-        req.setCharacterEncoding("UTF-8");
-
         String forward = EDIT_PAGE_PATH;
         try {
             long id = Long.parseLong(req.getParameter("id"));
@@ -42,9 +39,6 @@ public class EditController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.setContentType("text/html;charset=utf-8");
-        req.setCharacterEncoding("UTF-8");
-
         String idStr = req.getParameter("id");
         String login = req.getParameter("login");
         String password = req.getParameter("password");

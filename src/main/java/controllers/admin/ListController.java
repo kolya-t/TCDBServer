@@ -10,8 +10,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 
 @WebServlet("/admin")
@@ -20,9 +18,6 @@ public class ListController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.setContentType("text/html;charset=utf-8");
-        req.setCharacterEncoding("UTF-8");
-
         try {
             req.setAttribute("userList", UserService.getInstance().getUserList());
             req.getServletContext().getRequestDispatcher(USER_LIST_PAGE_PATH).forward(req, resp);
