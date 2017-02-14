@@ -9,6 +9,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+
+/**
+ * Филтр, проверяющий, авторизовался ли пользователь как администратор
+ */
 @WebFilter("/admin/*")
 public class AdminFilter extends AbstractFilter {
 

@@ -5,6 +5,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+
+/**
+ * Абстрактный класс фильтра, преобразующий ServletRequest к HttpServletRequest
+ * и ServletResponse к HttpServletResponse в методе doFilter. А методы init и destroy, которые редко используются,
+ * реализуются в этом классе, чтобы не пришлось реализовывать их потом
+ */
 public abstract class AbstractFilter implements Filter {
 
     @Override

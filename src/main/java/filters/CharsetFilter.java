@@ -8,6 +8,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 
+/**
+ * Фильтр, устаналивающий кодировку UTF-8 для пары запроса-ответа
+ */
 @WebFilter("/*")
 public class CharsetFilter extends AbstractFilter {
     @Override

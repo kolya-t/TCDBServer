@@ -9,6 +9,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 
+/**
+ * Фильтр проверяет, есть ли данные об авторизации пользователя в сессии и,
+ * если нет, но пользователь просил его запомнить, то загружает эти данные в сессию
+ */
 @WebFilter("/*")
 public class LoggedFilter extends AbstractFilter {
 
