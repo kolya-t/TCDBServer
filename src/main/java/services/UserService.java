@@ -21,12 +21,12 @@ public class UserService {
     private static UserService instance;
 
     /**
-     * DAO для работы с пользователями
+     * Dao для работы с пользователями
      */
     private final UserDao userDao;
 
     /**
-     * Конструктор создает объекты реализаций всех необходимых DAO
+     * Конструктор создает объекты реализаций всех необходимых Dao
      */
     private UserService() throws UserServiceException {
         try {
