@@ -1,6 +1,6 @@
 package database.dao.factory;
 
-import database.dao.user.UserDAO;
+import database.dao.user.UserDao;
 
 /**
  * Класс содержит единственный метод, который создает экземпляр класса реализации DAO.
@@ -8,7 +8,7 @@ import database.dao.user.UserDAO;
 @SuppressWarnings("UnusedDeclaration")
 public abstract class DAOFactory {
 
-    protected UserDAO userDAO;
+    protected UserDao userDao;
 
     /**
      * Создает объект класса реализации DAO, имя которого передано в качестве параметра
@@ -23,9 +23,9 @@ public abstract class DAOFactory {
     }
 
     /**
-     * Создает реализацию UserDAO в кдинственном экземпляре и возвращает ее
+     * Создает реализацию UserDao в кдинственном экземпляре и возвращает ее
      *
-     * @return созданный объект реализации UserDAO под конкретно используемую базу данных
+     * @return созданный объект реализации UserDao под конкретно используемую базу данных
      */
-    public abstract UserDAO getUserDAO();
+    public abstract UserDao getUserDao();
 }

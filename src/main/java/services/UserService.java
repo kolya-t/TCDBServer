@@ -1,7 +1,7 @@
 package services;
 
 import database.dao.factory.DAOFactory;
-import database.dao.user.UserDAO;
+import database.dao.user.UserDao;
 import database.helper.PropertyService;
 import database.pojo.User;
 import org.jetbrains.annotations.Nullable;
@@ -23,7 +23,7 @@ public class UserService {
     /**
      * DAO для работы с пользователями
      */
-    private final UserDAO userDAO;
+    private final UserDao userDao;
 
     /**
      * Конструктор создает объекты реализаций всех необходимых DAO
@@ -33,7 +33,7 @@ public class UserService {
             DAOFactory daoFactory = DAOFactory.getDAOFactory(
                     PropertyService.getInstance().getDAOFactoryImplementationClassName()
             );
-            userDAO = daoFactory.getUserDAO();
+            userDao = daoFactory.getUserDao();
         } catch (Exception e) {
             throw new UserServiceException(e);
         }
@@ -54,8 +54,8 @@ public class UserService {
      */
     public long addUser(User user) throws UserServiceException {
         try {
-            userDAO.createTableIfNotExists();
-            return userDAO.insert(user);
+            userDao.createTableIfNotExists();
+            return userDao.insert(user);
         } catch (SQLException e) {
             throw new UserServiceException(e);
         }
@@ -69,8 +69,8 @@ public class UserService {
      */
     public boolean updateUser(User user) throws UserServiceException {
         try {
-            userDAO.createTableIfNotExists();
-            return userDAO.update(user);
+            userDao.createTableIfNotExists();
+            return userDao.update(user);
         } catch (SQLException e) {
             throw new UserServiceException(e);
         }
@@ -83,8 +83,8 @@ public class UserService {
      */
     public boolean deleteUser(long id) throws UserServiceException {
         try {
-            userDAO.createTableIfNotExists();
-            return userDAO.delete(id);
+            userDao.createTableIfNotExists();
+            return userDao.delete(id);
         } catch (SQLException e) {
             throw new UserServiceException(e);
         }
@@ -99,8 +99,8 @@ public class UserService {
      */
     public boolean updateLogin(long id, String login) throws UserServiceException {
         try {
-            userDAO.createTableIfNotExists();
-            return userDAO.updateLogin(id, login);
+            userDao.createTableIfNotExists();
+            return userDao.updateLogin(id, login);
         } catch (SQLException e) {
             throw new UserServiceException(e);
         }
@@ -115,8 +115,8 @@ public class UserService {
      */
     public boolean updateRole(long id, String role) throws UserServiceException {
         try {
-            userDAO.createTableIfNotExists();
-            return userDAO.updateRole(id, role);
+            userDao.createTableIfNotExists();
+            return userDao.updateRole(id, role);
         } catch (SQLException e) {
             throw new UserServiceException(e);
         }
@@ -131,8 +131,8 @@ public class UserService {
      */
     public boolean updatePassword(long id, String password) throws UserServiceException {
         try {
-            userDAO.createTableIfNotExists();
-            return userDAO.updatePassword(id, password);
+            userDao.createTableIfNotExists();
+            return userDao.updatePassword(id, password);
         } catch (SQLException e) {
             throw new UserServiceException(e);
         }
@@ -147,8 +147,8 @@ public class UserService {
      */
     public boolean updateEmail(long id, String email) throws UserServiceException {
         try {
-            userDAO.createTableIfNotExists();
-            return userDAO.updateEmail(id, email);
+            userDao.createTableIfNotExists();
+            return userDao.updateEmail(id, email);
         } catch (SQLException e) {
             throw new UserServiceException(e);
         }
@@ -162,7 +162,7 @@ public class UserService {
      */
     public @Nullable User getUser(long id) throws UserServiceException {
         try {
-            return userDAO.get(id);
+            return userDao.get(id);
         } catch (SQLException e) {
             throw new UserServiceException(e);
         }
@@ -175,8 +175,8 @@ public class UserService {
      */
     public List<User> getUserList() throws UserServiceException {
         try {
-            userDAO.createTableIfNotExists();
-            return userDAO.getList();
+            userDao.createTableIfNotExists();
+            return userDao.getList();
         } catch (SQLException e) {
             throw new UserServiceException(e);
         }
@@ -192,8 +192,8 @@ public class UserService {
      */
     public List<User> getUserList(int offset, int limit) throws UserServiceException {
         try {
-            userDAO.createTableIfNotExists();
-            return userDAO.getList(offset, limit);
+            userDao.createTableIfNotExists();
+            return userDao.getList(offset, limit);
         } catch (SQLException e) {
             throw new UserServiceException(e);
         }
@@ -204,8 +204,8 @@ public class UserService {
      */
     public int getUserCount() throws UserServiceException {
         try {
-            userDAO.createTableIfNotExists();
-            return userDAO.getCount();
+            userDao.createTableIfNotExists();
+            return userDao.getCount();
         } catch (SQLException e) {
             throw new UserServiceException(e);
         }
@@ -219,7 +219,7 @@ public class UserService {
      */
     public @Nullable User getUserByLogin(String login) throws UserServiceException {
         try {
-            return userDAO.getByLogin(login);
+            return userDao.getByLogin(login);
         } catch (SQLException e) {
             throw new UserServiceException(e);
         }
@@ -233,7 +233,7 @@ public class UserService {
      */
     public @Nullable User getUserByEmail(String email) throws UserServiceException {
         try {
-            return userDAO.getByEmail(email);
+            return userDao.getByEmail(email);
         } catch (SQLException e) {
             throw new UserServiceException(e);
         }

@@ -9,7 +9,7 @@ import java.util.List;
 
 
 @SuppressWarnings("UnusedDeclaration")
-public interface UserDAO extends DAO<User> {
+public interface UserDao extends DAO<User> {
 
     /**
      * Добавляет нового пользователя в таблицу users.

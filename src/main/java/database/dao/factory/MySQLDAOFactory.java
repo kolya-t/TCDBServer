@@ -1,7 +1,7 @@
 package database.dao.factory;
 
 import database.dao.user.MySqlUserDao;
-import database.dao.user.UserDAO;
+import database.dao.user.UserDao;
 
 /**
  * Реализации DAOFactory под СУБД MySQL
@@ -10,15 +10,15 @@ import database.dao.user.UserDAO;
 public class MySQLDAOFactory extends DAOFactory {
 
     /**
-     * Создает реализацию UserDAO в кдинственном экземпляре и возвращает ее
+     * Создает реализацию UserDao в кдинственном экземпляре и возвращает ее
      *
-     * @return созданный объект реализации UserDAO под конкретно используемую базу данных
+     * @return созданный объект реализации UserDao под конкретно используемую базу данных
      */
     @Override
-    public UserDAO getUserDAO() {
-        if (userDAO == null) {
-            userDAO = new MySqlUserDao();
+    public UserDao getUserDao() {
+        if (userDao == null) {
+            userDao = new MySqlUserDao();
         }
-        return userDAO;
+        return userDao;
     }
 }
