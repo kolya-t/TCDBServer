@@ -7,7 +7,7 @@ import database.dao.user.UserDao;
  * Реализации DAOFactory под Hibernate
  */
 @SuppressWarnings("UnusedDeclaration")
-public class HibernateDAOFactory extends DAOFactory {
+public class HibernateDaoFactory extends DAOFactory {
 
     /**
      * Создает реализацию UserDao в кдинственном экземпляре и возвращает ее
