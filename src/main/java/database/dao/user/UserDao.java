@@ -1,6 +1,6 @@
 package database.dao.user;
 
-import database.dao.DAO;
+import database.dao.Dao;
 import database.pojo.User;
 import org.jetbrains.annotations.Nullable;
 
@@ -9,7 +9,7 @@ import java.util.List;
 
 
 @SuppressWarnings("UnusedDeclaration")
-public interface UserDao extends DAO<User> {
+public interface UserDao extends Dao<User> {
 
     /**
      * Добавляет нового пользователя в таблицу users.

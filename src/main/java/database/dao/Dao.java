@@ -11,7 +11,7 @@ import java.util.List;
  * @param <T> тип объекта, с котороым работает DAO
  */
 @SuppressWarnings("UnusedDeclaration")
-public interface DAO<T> {
+public interface Dao<T> {
     /**
      * Операция добавления объекта в БД
      *
