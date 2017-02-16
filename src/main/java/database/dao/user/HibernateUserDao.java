@@ -13,7 +13,7 @@ import static database.helper.executor.HibernateExecutor.executeTransaction;
 /**
  * Реализация UserDAO под Hibernate
  */
-public class HibernateUserDAO implements UserDAO {
+public class HibernateUserDao implements UserDAO {
 
     /**
      * Добавляет нового пользователя в таблицу users.

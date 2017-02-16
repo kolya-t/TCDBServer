@@ -1,6 +1,6 @@
 package database.dao.factory;
 
-import database.dao.user.HibernateUserDAO;
+import database.dao.user.HibernateUserDao;
 import database.dao.user.UserDAO;
 
 /**
@@ -17,7 +17,7 @@ public class HibernateDAOFactory extends DAOFactory {
     @Override
     public UserDAO getUserDAO() {
         if (userDAO == null) {
-            userDAO = new HibernateUserDAO();
+            userDAO = new HibernateUserDao();
         }
         return userDAO;
     }
