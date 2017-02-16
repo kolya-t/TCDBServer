@@ -6,7 +6,7 @@ import database.dao.user.UserDao;
  * Класс содержит единственный метод, который создает экземпляр класса реализации DAO.
  */
 @SuppressWarnings("UnusedDeclaration")
-public abstract class DAOFactory {
+public abstract class DaoFactory {
 
     protected UserDao userDao;
 
@@ -17,7 +17,7 @@ public abstract class DAOFactory {
      * @param <T>                 класс реализации DAO
      * @return новый объект типа T, созданный конструктором по-умолчанию
      */
-    public static <T extends DAOFactory> T getDAOFactory(String daoFactoryClassName)
+    public static <T extends DaoFactory> T getDAOFactory(String daoFactoryClassName)
             throws Exception {
         return (T) Class.forName(daoFactoryClassName).newInstance();
     }

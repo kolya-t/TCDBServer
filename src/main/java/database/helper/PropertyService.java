@@ -65,7 +65,7 @@ public final class PropertyService {
     }
 
     /**
-     * @return полное имя класса класса реализации DAOFactory
+     * @return полное имя класса класса реализации DaoFactory
      */
     public String getDAOFactoryImplementationClassName() {
         return properties.getProperty("DAOFactoryImplementationClassName");

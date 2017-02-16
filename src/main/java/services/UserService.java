@@ -1,6 +1,6 @@
 package services;
 
-import database.dao.factory.DAOFactory;
+import database.dao.factory.DaoFactory;
 import database.dao.user.UserDao;
 import database.helper.PropertyService;
 import database.pojo.User;
@@ -30,7 +30,7 @@ public class UserService {
      */
     private UserService() throws UserServiceException {
         try {
-            DAOFactory daoFactory = DAOFactory.getDAOFactory(
+            DaoFactory daoFactory = DaoFactory.getDAOFactory(
                     PropertyService.getInstance().getDAOFactoryImplementationClassName()
             );
             userDao = daoFactory.getUserDao();
