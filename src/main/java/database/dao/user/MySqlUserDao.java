@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * Реализация UserDAO под СУБД MySQL
  */
-public class MySQLUserDAO implements UserDAO {
+public class MySqlUserDao implements UserDAO {
 
     /**
      * Добавляет нового пользователя в таблицу users.

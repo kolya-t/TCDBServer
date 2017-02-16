@@ -1,6 +1,6 @@
 package database.dao.factory;
 
-import database.dao.user.MySQLUserDAO;
+import database.dao.user.MySqlUserDao;
 import database.dao.user.UserDAO;
 
 /**
@@ -17,7 +17,7 @@ public class MySQLDAOFactory extends DAOFactory {
     @Override
     public UserDAO getUserDAO() {
         if (userDAO == null) {
-            userDAO = new MySQLUserDAO();
+            userDAO = new MySqlUserDao();
         }
         return userDAO;
     }
