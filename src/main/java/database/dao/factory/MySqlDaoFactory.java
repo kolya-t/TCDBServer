@@ -7,7 +7,7 @@ import database.dao.user.UserDao;
  * Реализации DAOFactory под СУБД MySQL
  */
 @SuppressWarnings("UnusedDeclaration")
-public class MySQLDAOFactory extends DAOFactory {
+public class MySqlDaoFactory extends DAOFactory {
 
     /**
      * Создает реализацию UserDao в кдинственном экземпляре и возвращает ее
