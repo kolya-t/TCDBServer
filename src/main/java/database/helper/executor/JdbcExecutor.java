@@ -12,7 +12,7 @@ import java.util.concurrent.Callable;
  * Класс, выполняющий переданные в параметрах методов SQL команды к базе данных,
  * соединение к которой также передано в параметрах.
  */
-public final class JDBCExecutor {
+public final class JdbcExecutor {
 
     /**
      * Метод выполняет SQL команду обновления базы (не возвращает результат в виде множеста).
