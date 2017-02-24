@@ -14,13 +14,12 @@
 
 0. (Не обязательно) Выбрать тип используемой технологии доступа к базе данных - JDBC или Hibernate (по-умолчанию используется Hibernate)
 	* Hibernate: приступить к пункту 2
-  * JDBC: в конфигурационном файле `TCDBServer\src\main\db.properties` изменить 
-	параметр `DAOFactoryImplementationClassName` на `database.dao.factory.JdbcDaoFactory`
+  * JDBC: в конфигурационном файле `TCDBServer\src\main\db.properties` изменить параметр `DAOFactoryImplementationClassName` на `database.dao.factory.JdbcDaoFactory`
 0. Указать путь к базе пользователей, имя и пароль в параметре `ConnectionURL` файла конфигурации `TCDBServer\src\main\db.properties` 
 (при использовании JDBC) или параметрах `hibernate.connection.url`, `hibernate.connection.username`, `hibernate.connection.password` 
 файла `TCDBServer\src\main\hibernate.cfg.xml` (при использовании hibernate)
-0. Выполнить цель `mvn install`. В итоге будет собран war архив.
-0. Развернуть архив на сервере. Я использовал Tomcat 8.5.
+0. Выполнить цель `mvn install`. В итоге будет собран war архив
+0. Развернуть архив на сервере. Я использовал Tomcat 8.5
 
 ### Подробнее о запуске приложения на сервере Tomcat 8.5 из IntelliJIDEA
 
@@ -41,7 +40,7 @@ IntelliJIDEA
 	- Просматривать список всех пользователей и их данные по адресу `/admin` либо кликнув на навигационной панели соответствующиё 
 	пункт меню
 	- Создавать новых пользователей (в том числе и новых администраторов) по адресу `/admin/add`
-	- Изменять данные существующих пользователей по адресу `/admin/edit?id={id}`, где {id} это id измеяняемого пользователя
+	- Изменять данные существующих пользователей по адресу `/admin/edit?id={id}`, где {id} это id изменяемого пользователя
 	- Удалять пользователей - `/admin/delete?id={id}`, {id} - id удаляемого пользователя
 	
 ## Возможность использования других СУБД
