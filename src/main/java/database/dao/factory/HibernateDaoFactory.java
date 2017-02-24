@@ -10,7 +10,7 @@ import database.dao.user.UserDao;
 public class HibernateDaoFactory extends DaoFactory {
 
     /**
-     * Создает реализацию UserDao в кдинственном экземпляре и возвращает ее
+     * Создает реализацию UserDao в единственном экземпляре и возвращает ее
      *
      * @return созданный объект реализации UserDao под конкретно используемую базу данных
      */
